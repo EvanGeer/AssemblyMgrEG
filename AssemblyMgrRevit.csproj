@@ -64,13 +64,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AssemblyManagerVM_Revit.cs" />
-    <Compile Include="GUI\IFormData.cs" />
     <Compile Include="Revit\AssemblySheetFactory.cs" />
     <Compile Include="Revit\AssemblyMgrBomField.cs" />
     <Compile Include="Revit\AssemblyMgrSheet.cs" />
-    <Compile Include="Revit\FormData.cs" />
     <Compile Include="Revit\IExternalCommand_CreateAssembly.cs" />
-    <Compile Include="Revit\Interface1.cs" />
+    <Compile Include="Revit\IDevCommand.cs" />
     <Compile Include="Revit\RevitCommandHelper.cs" />
     <Compile Include="Revit\Tests\TestBOMGeneration.cs" />
     <Compile Include="Revit\Tests\TestDimensions.cs" />
@@ -96,6 +94,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="AssemblyMgr.addin" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

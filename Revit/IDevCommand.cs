@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace AssemblyMgrRevit.Revit
 {
+    /// <summary>Interface for custom Revit Dev Environment</summary>
     public interface IDevCommand
     {
         Result ExecuteDev(UIApplication uiApp);
