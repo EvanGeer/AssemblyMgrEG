@@ -121,5 +121,12 @@
   <ItemGroup>
     <Folder Include="Forge\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AssemblyManagerUI\AssemblyMgrUI.csproj">
+      <Project>{1079f884-8455-4762-bb65-b9bed40c16bf}</Project>
+      <Name>AssemblyMgrUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

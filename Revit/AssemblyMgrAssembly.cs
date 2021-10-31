@@ -14,7 +14,7 @@ namespace AssemblyMgrEG.Revit
     /// Assembly wrapper class for Assembly Manager Add-In.
     /// Contains data and methods required to create manipulate assemblies
     /// </summary>
-    public class AssemblyMgrAssembly
+    public class AssemblyMgrAssembly : IAssemblyDefinition
     {
         /// <summary>
         /// Helper Class that simplifies interaction with API

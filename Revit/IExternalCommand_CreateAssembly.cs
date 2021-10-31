@@ -23,17 +23,14 @@ namespace AssemblyMgrEG.Revit
     {
         Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            //initialize helper
             var rch = new RevitCommandHelper(commandData);
-
-            //Create Assembly
             var assembly = new AssemblyMgrAssembly(rch);
 
             if (null == assembly.Instance) 
                 return Result.Cancelled;
 
             //Prepare Assembly Data for GUI Interface
-            var form = new GUI.MainWindow(assembly.FormData);
+            var form = new AssemblyManagerUI.MainWindow(assembly.FormData);
             form.ShowDialog();
 
             //Cancelled form implies cancelled app

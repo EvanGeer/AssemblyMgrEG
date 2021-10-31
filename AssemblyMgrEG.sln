@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrRevit", "AssemblyMgrRevit.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{69B8E052-B336-4FDE-87D9-8683A634DBBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{69B8E052-B336-4FDE-87D9-8683A634DBBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrUI", "..\AssemblyManagerUI\AssemblyMgrUI.csproj", "{1079F884-8455-4762-BB65-B9BED40C16BF}"
 EndProject
@@ -16,6 +16,7 @@ Global
 		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{02a4d81a-372f-4be2-9d80-9e166ffbbb7c}*SharedItemsImports = 13
 		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{1079f884-8455-4762-bb65-b9bed40c16bf}*SharedItemsImports = 4
 		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{69b8e052-b336-4fde-87d9-8683a634dbbc}*SharedItemsImports = 5
+		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{7a3c0404-4a7a-4e8c-80c8-677a304fef4f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
