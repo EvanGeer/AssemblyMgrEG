@@ -62,6 +62,7 @@ namespace AssemblyMgrEG.Revit
 
             //Create new sheet
             var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
+            uiApp.ActiveUIDocument.ActiveView = sheet.Sheet;
 
             return Result.Succeeded;            
         }
