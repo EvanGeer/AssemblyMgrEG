@@ -15,10 +15,10 @@ namespace AssemblyMgrEG.Revit.Tests
             var rch = new RevitCommandHelper(commandData);
 
 
-            var assembly = new AssemblyMgrAssembly(rch);
+            var assembly = new AssemblySheetFactory(rch);
 
             //var formData = new FormData(rch, assembly);
-            assembly.FormData.SelectedTitleBlock = "FabPro_CutSheet_11x17";
+            //assembly.FormData.SelectedTitleBlock = "FabPro_CutSheet_11x17";
 
 
 

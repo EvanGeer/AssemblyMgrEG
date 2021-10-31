@@ -15,7 +15,7 @@ namespace AssemblyMgrEG.Revit.Tests
             var rch = new RevitCommandHelper(commandData);
             var doc = rch.ActiveDoc;
 
-            var assembly = new AssemblyMgrAssembly(rch);
+            var assembly = new AssemblySheetFactory(rch);
             assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
             var view = assembly.Views[0];
             assembly.DimensionAllElements(view as ViewSection);

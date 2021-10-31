@@ -6,6 +6,9 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
+using AssemblyManagerUI.DataModel;
+using AssemblyMgrRevit.Data;
+using AssemblyMgrRevit.Revit;
 
 namespace AssemblyMgrEG.Revit
 {
@@ -19,32 +22,39 @@ namespace AssemblyMgrEG.Revit
     /// readability. 
     /// </remarks>
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
-    class IExternalCommand_CreateAssembly : IExternalCommand
+    class IExternalCommand_CreateAssembly : IExternalCommand, IDevCommand
     {
-        Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            var rch = new RevitCommandHelper(commandData);
-            var assembly = new AssemblyMgrAssembly(rch);
+        public string ProductPrefix { get; }
+        public string Product { get; }
+        public string SubGroup { get; }
+        public string Name { get; } = "Assembly Manager";
+        public string ModelName { get; }
+        public string ModelYear { get; }
 
-            if (null == assembly.Instance) 
+        public Result ExecuteDev(UIApplication uiApp)
+        {
+            var rch = new RevitCommandHelper(uiApp);
+            var assembly = new AssemblySheetFactory(rch);
+
+            if (null == assembly.AssemblyInstance) 
                 return Result.Cancelled;
 
             //Prepare Assembly Data for GUI Interface
-            var form = new AssemblyManagerUI.MainWindow(assembly.FormData);
+            var form = new AssemblyManagerUI.AssemblyMgrForm(assembly.FormData);
             form.ShowDialog();
 
             //Cancelled form implies cancelled app
-            if (assembly.FormData.Cancelled)
-                return Result.Cancelled;
+            //if (assembly.FormData.Cancelled)
+            //    return Result.Cancelled;
 
             //Build out views
-            if (assembly.FormData.Ortho)
+            if (assembly.FormData.SpoolSheetDefinition.PlaceOrthoView)
                 assembly.Create3DView();
 
-            if (assembly.FormData.TopView)
+            if (assembly.FormData.SpoolSheetDefinition.PlaceTopView)
                 assembly.Create2DView(AssemblyDetailViewOrientation.ElevationTop);
 
-            if (assembly.FormData.FrontView)
+            if (assembly.FormData.SpoolSheetDefinition.PlaceFrontView)
                 assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
 
             //To-Do add some more optionality in form
@@ -53,7 +63,11 @@ namespace AssemblyMgrEG.Revit
             //Create new sheet
             var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
 
-            return Result.Succeeded;
+            return Result.Succeeded;            
         }
+
+        Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+            => ExecuteDev(commandData.Application);
+
     }
 }

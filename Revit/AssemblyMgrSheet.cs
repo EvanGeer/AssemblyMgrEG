@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AssemblyMgrRevit.Data;
 using Autodesk.Revit.DB;
 
 namespace AssemblyMgrEG.Revit
@@ -17,10 +18,10 @@ namespace AssemblyMgrEG.Revit
 
         private RevitCommandHelper rch;
 
-        private FormData formData;
-        private AssemblyMgrAssembly assembly;
+        private AssemblyManagerDataModel formData;
+        private AssemblySheetFactory assembly;
         
-        public AssemblyMgrSheet(RevitCommandHelper Helper, FormData FormData, AssemblyMgrAssembly Assembly )
+        public AssemblyMgrSheet(RevitCommandHelper Helper, AssemblyManagerDataModel FormData, AssemblySheetFactory Assembly )
         {
             rch = Helper;
             formData = FormData;
@@ -33,8 +34,8 @@ namespace AssemblyMgrEG.Revit
             using (Transaction t = new Transaction(rch.ActiveDoc, "Assembly Manager: Create Sheet"))
             {
                 t.Start();
-                sheet = AssemblyViewUtils.CreateSheet(rch.ActiveDoc, assembly.Instance.Id, formData.SelectedTitleBlockId);
-                sheet.Name = assembly.Instance.Name;
+                sheet = AssemblyViewUtils.CreateSheet(rch.ActiveDoc, assembly.AssemblyInstance.Id, formData.SelectedTitleBlockId);
+                sheet.Name = assembly.AssemblyInstance.Name;
                 sheet.LookupParameter("Drawn By").Set(rch.userName);
 
                 //To-Do parameterize sheet sizing
@@ -44,7 +45,7 @@ namespace AssemblyMgrEG.Revit
                 if (null != assembly.BillOfMaterials)
                 {
                     var bom = ScheduleSheetInstance.Create(rch.ActiveDoc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
-                    var len = assembly.FormData.BomFields.Sum(x => x.columnWidth);
+                    var len = assembly.FormData.SpoolSheetDefinition.BOMFields.Sum(x => x.columnWidth);
                     var bomX = 17.0 / 12.0 - len - spacing;
                     var bomY = 11.0 / 12.0 - spacing;
                     var bomZ = 0;

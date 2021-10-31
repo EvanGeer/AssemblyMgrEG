@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>AssemblyMgrRevit</RootNamespace>
-    <AssemblyName>AssemblyMgrRevit</AssemblyName>
+    <ProjectGuid>{1079F884-8455-4762-BB65-B9BED40C16BF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AssemblyManagerUI</RootNamespace>
+    <AssemblyName>AssemblyManagerUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,18 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -63,22 +51,26 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\AssemblyManagerVM_Revit.cs" />
-    <Compile Include="GUI\IFormData.cs" />
-    <Compile Include="Revit\AssemblySheetFactory.cs" />
-    <Compile Include="Revit\AssemblyMgrBomField.cs" />
-    <Compile Include="Revit\AssemblyMgrSheet.cs" />
-    <Compile Include="Revit\FormData.cs" />
-    <Compile Include="Revit\IExternalCommand_CreateAssembly.cs" />
-    <Compile Include="Revit\Interface1.cs" />
-    <Compile Include="Revit\RevitCommandHelper.cs" />
-    <Compile Include="Revit\Tests\TestBOMGeneration.cs" />
-    <Compile Include="Revit\Tests\TestDimensions.cs" />
-    <Compile Include="Revit\Tests\TestSchedulePlacement.cs" />
-    <Compile Include="Revit\Tests\TestSheetBuildOut.cs" />
-    <Compile Include="Revit\Tests\TestView3DGeneration.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataModel\AssemblyViewDefinition.cs" />
+    <Compile Include="DataModel\AssemblyViewType.cs" />
+    <Compile Include="DataModel\AssemblyViewViewModel.cs" />
+    <Compile Include="DataModel\ISpoolSheetDefinition.cs" />
+    <Compile Include="TestData\SpoolSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\AssemblyMgrVM.cs" />
+    <Compile Include="DataModel\BOMFieldDefinition.cs" />
+    <Compile Include="AssemblyMgrForm.xaml.cs">
+      <DependentUpon>AssemblyMgrForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,18 +94,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forge\" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="AssemblyManagerUI\AssemblyMgrUI.csproj">
-      <Project>{1079f884-8455-4762-bb65-b9bed40c16bf}</Project>
-      <Name>AssemblyMgrUI</Name>
-    </ProjectReference>
+    <Page Include="AssemblyMgrForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
+  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>@echo
-C:\windows\system32\robocopy $(ProjectDir)bin\Debug %25ProgramData%25\Autodesk\Revit\Addins\2021\AssemblyManager /is /it
-Copy $(ProjectDir)AssemblyMgr.addin %25ProgramData%25\Autodesk\Revit\Addins\2021\AssemblyMgr.addin /Y</PostBuildEvent>
-  </PropertyGroup>
 </Project>

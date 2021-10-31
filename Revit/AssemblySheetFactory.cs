@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AssemblyManagerUI.DataModel;
+using AssemblyManagerUI.TestData;
+using AssemblyMgrRevit.Data;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-
-
 
 namespace AssemblyMgrEG.Revit
 {
@@ -14,13 +12,15 @@ namespace AssemblyMgrEG.Revit
     /// Assembly wrapper class for Assembly Manager Add-In.
     /// Contains data and methods required to create manipulate assemblies
     /// </summary>
-    public class AssemblyMgrAssembly : IAssemblyDefinition
+    public class AssemblySheetFactory
     {
         /// <summary>
         /// Helper Class that simplifies interaction with API
         /// My Team and I based this class of Jeremy Tammik's example for best practices
         /// </summary>
         private RevitCommandHelper rch;
+
+        public SpoolSheetDefinition SpoolSheetDefinition { get; }
 
         /// <summary>
         /// Current Revit Document Object
@@ -31,7 +31,7 @@ namespace AssemblyMgrEG.Revit
         /// <summary>
         /// Revit Assembly object
         /// </summary>
-        public AssemblyInstance Instance { get; private set; }
+        public AssemblyInstance AssemblyInstance { get; private set; }
 
         /// <summary>
         /// Output list of Assembly View objects created by this tool
@@ -46,7 +46,7 @@ namespace AssemblyMgrEG.Revit
         /// <summary>
         /// Form interface implementation
         /// </summary>
-        public FormData FormData { get; set; }
+        public AssemblyManagerDataModel FormData { get; set; }
 
         /// <summary>
         /// List of SchedulableField objects pertaining to a single category schedule.
@@ -59,69 +59,60 @@ namespace AssemblyMgrEG.Revit
         /// <summary>
         /// Main Constructor - Builds new assembly from selected geometry
         /// </summary>
-        /// <param name="Helper">Simple helper class to keep API references cleaner</param>
+        /// <param name="helper">Simple helper class to keep API references cleaner</param>
         /// <param name="BomFields">In case we want to customize the defaults at app startup</param>
-        public AssemblyMgrAssembly(RevitCommandHelper Helper, BomFieldCollection BomFields = null)
+        public AssemblySheetFactory(RevitCommandHelper helper)
         {
-            rch = Helper;
-            FormData = new FormData(Helper);
-            Instance = GetAssemblyInstance();
-            if (Instance != null)
+            rch = helper;
+            AssemblyInstance = GetAssemblyInstance();
+            SpoolSheetDefinition = new SpoolSheetDefinition()
             {
-                FormData.BomFields = BomFields ?? getDefaultBomFieldList();
-                FormData.AssemblyName = Instance.Name;
-                getBomSchedulableFields();
-            }
+                AssemblyName = AssemblyInstance?.Name
+            };
+            FormData = new AssemblyManagerDataModel(SpoolSheetDefinition, helper.ActiveDoc);
+            bomSchedulableFields = getBomSchedulableFields();
+
+            FormData.BOMFields_All = bomSchedulableFields
+                .Select(x => new BOMFieldDefinition(x.GetName(doc)))
+                .ToList();
         }
 
-        /// <summary>
-        /// Builds out default list of fields, headers and widths
-        /// </summary>
-        /// <returns>ObservableCollection of ParameterName,Header,Width </returns>
-        private BomFieldCollection getDefaultBomFieldList()
-        {
-            return FormData.BomFields = new BomFieldCollection()
-            {
-                new AssemblyMgrBomField("Mark", "Tag", 0.5/12.0),
-                new AssemblyMgrBomField("Count","Qty",0.5/12.0),
-                new AssemblyMgrBomField("Size","Size",1/12.0),
-                new AssemblyMgrBomField("Product Short Description","Description",3/12.0), //looks like this is what's in the example as opposed to family - type
-                new AssemblyMgrBomField("Part Material","Material",3/12.0),
-                new AssemblyMgrBomField("Length","Length",1.5/12.0)
-            };
-        }
+
 
         /// <summary>
         /// Creates a temporary Bill of Materials (i.e. single category sched) so that we can get 
         /// a list of schedulable fields particular to that schedule. 
         /// </summary>
-        private void getBomSchedulableFields()
+        private List<SchedulableField> getBomSchedulableFields()
         {
-            BomFieldCollection fields = new BomFieldCollection();
+            List<SchedulableField> _return = null;
+            //BomFieldCollection fields = new BomFieldCollection();
 
-            var categoryId = doc.GetElement(Instance.GetMemberIds().First()).Category.Id;
+            var categoryId = doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
 
             using (Transaction t = new Transaction(doc, "Assembly Manager: Create Bill of Materials"))
             {
                 t.Start();
                 ViewSchedule billOfMaterials = AssemblyViewUtils
-                    .CreateSingleCategorySchedule(rch.ActiveDoc, Instance.Id, categoryId);
+                    .CreateSingleCategorySchedule(rch.ActiveDoc, AssemblyInstance.Id, categoryId);
 
-                bomSchedulableFields = billOfMaterials.Definition.GetSchedulableFields()
+                _return = billOfMaterials.Definition.GetSchedulableFields()
                     .Select(x => x)
                     .Where(x => x.ParameterId.IntegerValue < 0) //handles shared and projectParams (typically not shown in UI)
                     .ToList();
 
-                var availFields = bomSchedulableFields
-                    .Where(x => !FormData.BomFields.Select(f => f.parameterName).Contains(x.GetName(doc)));
-
-                foreach (var field in availFields)
-                {
-                    fields.Add(new AssemblyMgrBomField(field.GetName(doc), field.GetName(doc), 0.5));
-                }
-                FormData.AvailableBomFields = fields;
                 t.RollBack();
+                //var availFields = bomSchedulableFields
+                //    .Where(x => !FormData.BomFields.Select(f => f.parameterName).Contains(x.GetName(doc)));
+
+                //foreach (var field in availFields)
+                //{
+                //    fields.Add(new AssemblyMgrBomField(field.GetName(doc), field.GetName(doc), 0.5));
+                //}
+                //FormData.AvailableBomFields = fields;
             }
+
+            return _return;
         }
 
         /// <summary>
@@ -134,7 +125,7 @@ namespace AssemblyMgrEG.Revit
             using (Transaction t = new Transaction(doc, "Assembly Manager: Create 3D View"))
             {
                 t.Start();
-                view = AssemblyViewUtils.Create3DOrthographic(rch.ActiveDoc, Instance.Id);
+                view = AssemblyViewUtils.Create3DOrthographic(rch.ActiveDoc, AssemblyInstance.Id);
                 view.SaveOrientationAndLock();
 
                 Views.Add(view);
@@ -153,7 +144,7 @@ namespace AssemblyMgrEG.Revit
         /// <param name="tagOffset">Tag off set if using leaders. Will be 0 if leaders are not used.</param>
         public void TagAllPipeElements(View3D view, double tagOffset = 1.5)
         {
-            if (FormData.TagLeaders == false)
+            if (FormData.SpoolSheetDefinition.TagLeaders == false)
                 tagOffset = 0;
             
             //get all elems in view via filtered element collector
@@ -162,7 +153,7 @@ namespace AssemblyMgrEG.Revit
 
             //pair these down to just the stuff we're interested in
             IEnumerable<Element> elements;
-            if (FormData.IgnoreWelds)
+            if (FormData.SpoolSheetDefinition.IgnoreWelds)
             {
                 elements = fec
                     .Where(x => null != x.LookupParameter("Product Short Description"))
@@ -205,7 +196,7 @@ namespace AssemblyMgrEG.Revit
         public void CreateBillOfMaterials()
         {
             //assume that all elements are the same category for now
-            var categoryId = doc.GetElement(Instance.GetMemberIds().First()).Category.Id;
+            var categoryId = doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
 
             using (Transaction t = new Transaction(doc, "Assembly Manager: Create Bill of Materials"))
             {
@@ -213,9 +204,9 @@ namespace AssemblyMgrEG.Revit
                 
                 //Create the schedul using the built-in API util
                 ViewSchedule billOfMaterials = AssemblyViewUtils
-                    .CreateSingleCategorySchedule(rch.ActiveDoc, Instance.Id, categoryId);
+                    .CreateSingleCategorySchedule(rch.ActiveDoc, AssemblyInstance.Id, categoryId);
 
-                billOfMaterials.Name = Instance.Name + " - Bill of Materials";
+                billOfMaterials.Name = AssemblyInstance.Name + " - Bill of Materials";
 
                 #region Handle custom fields and filter
                 //clear out default fields
@@ -228,12 +219,12 @@ namespace AssemblyMgrEG.Revit
                 //get an enumerable SchedulableField object based on user selection
                 var selectedBomFields = billOfMaterials.Definition.GetSchedulableFields()
                     .Select(x => x)
-                    .Where(x => FormData.BomFields.Select(f => f.parameterName).Contains(x.GetName(doc))
+                    .Where(x => FormData.SpoolSheetDefinition.BOMFields.Select(f => f.parameterName).Contains(x.GetName(doc))
                         && x.ParameterId.IntegerValue < 0) //handles shared and projectParams (typically not shown in UI)
                     .ToList();
 
                 //add user fields to schedule with custom headers and widths
-                foreach (var fieldDef in FormData.BomFields) // extra work to grab param, but will preserve users' ordering
+                foreach (var fieldDef in FormData.SpoolSheetDefinition.BOMFields) // extra work to grab param, but will preserve users' ordering
                 {
                     var field = selectedBomFields.Where(x => x.GetName(doc) == fieldDef.parameterName).FirstOrDefault();
                     if (field == null)
@@ -250,7 +241,7 @@ namespace AssemblyMgrEG.Revit
                 }
 
                 //setup filter if required
-                if (FormData.IgnoreWelds)
+                if (FormData.SpoolSheetDefinition.IgnoreWelds)
                 {
                     //add hidden filter field if the user didn't select it
                     if (null == filterField)
@@ -281,7 +272,7 @@ namespace AssemblyMgrEG.Revit
             using (Transaction t = new Transaction(doc, tranactionName))
             {
                 t.Start();
-                view = AssemblyViewUtils.CreateDetailSection(rch.ActiveDoc, Instance.Id, orientation);
+                view = AssemblyViewUtils.CreateDetailSection(rch.ActiveDoc, AssemblyInstance.Id, orientation);
                 Views.Add(view);
 
                 t.Commit();
