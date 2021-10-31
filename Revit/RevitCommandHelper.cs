@@ -19,7 +19,7 @@ namespace AssemblyMgrEG.Revit
         /// <summary>
         /// The CommandData passed from Revit.
         /// </summary>
-        private ExternalCommandData _cmd;
+        private UIApplication UIApp;
 
         /// <summary>
         /// This field isn't used anywhere.
@@ -60,10 +60,11 @@ namespace AssemblyMgrEG.Revit
         /// Constructor
         /// </summary>
         /// <param name="cmd"></param>
-        public RevitCommandHelper(ExternalCommandData cmd)
+        public RevitCommandHelper(ExternalCommandData cmd) : this(cmd.Application) { }
+        public RevitCommandHelper(UIApplication uiApp)
         {
             //Widen Scope
-            _cmd = cmd;
+            UIApp = uiApp;
             try
             {
                 userName = App.Username;
@@ -78,7 +79,7 @@ namespace AssemblyMgrEG.Revit
                 {
                     filePath = ActiveDoc.PathName;
                     projectNumber = ActiveDoc.ProjectInformation.Number;
-                    packageNumber = ActiveDoc.ProjectInformation.LookupParameter("Package Number").AsString();
+                    packageNumber = ActiveDoc.ProjectInformation.LookupParameter("Package Number")?.AsString();
                 }
                 catch
                 { }
@@ -100,7 +101,7 @@ namespace AssemblyMgrEG.Revit
                     projectNumber = ActiveDoc.ProjectInformation.Number;
                     modelName = ActiveDoc.Title;
                     filePath = ActiveDoc.PathName;
-                    packageNumber = ActiveDoc.ProjectInformation.LookupParameter("Package Number").AsString();
+                    packageNumber = ActiveDoc.ProjectInformation.LookupParameter("Package Number")?.AsString();
                 }
                 catch
                 {
@@ -122,7 +123,7 @@ namespace AssemblyMgrEG.Revit
             {
                 try
                 {
-                    return _cmd.Application;
+                    return UIApp;
                 }
                 catch { }
                 return null;
@@ -138,7 +139,7 @@ namespace AssemblyMgrEG.Revit
             {
                 try
                 {
-                    return _cmd.Application.Application;
+                    return UIApp.Application;
                 }
                 catch { }
                 return null;
@@ -154,7 +155,7 @@ namespace AssemblyMgrEG.Revit
             {
                 try
                 {
-                    return _cmd.Application.ActiveUIDocument;
+                    return UIApp.ActiveUIDocument;
                 }
                 catch { }
                 return null;

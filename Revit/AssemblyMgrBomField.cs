@@ -19,5 +19,4 @@ namespace AssemblyMgrEG.Revit
             columnWidth = Width;
         }
     }
-
 }

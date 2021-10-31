@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}</ProjectGuid>
+    <ProjectGuid>{1079F884-8455-4762-BB65-B9BED40C16BF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>AssemblyMgrEG</RootNamespace>
-    <AssemblyName>AssemblyMgrEG</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>AssemblyManagerUI</RootNamespace>
+    <AssemblyName>AssemblyManagerUI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -35,14 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -59,36 +51,26 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="GUI\App.xaml">
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GUI\IFormData.cs" />
-    <Compile Include="Revit\AssemblyMgrAssembly.cs" />
-    <Compile Include="Revit\AssemblyMgrBomField.cs" />
-    <Compile Include="Revit\AssemblyMgrSheet.cs" />
-    <Compile Include="Revit\FormData.cs" />
-    <Compile Include="Revit\IExternalCommand_CreateAssembly.cs" />
-    <Compile Include="Revit\RevitCommandHelper.cs" />
-    <Compile Include="Revit\Tests\TestBOMGeneration.cs" />
-    <Compile Include="Revit\Tests\TestDimensions.cs" />
-    <Compile Include="Revit\Tests\TestSchedulePlacement.cs" />
-    <Compile Include="Revit\Tests\TestSheetBuildOut.cs" />
-    <Compile Include="Revit\Tests\TestView3DGeneration.cs" />
-    <Page Include="GUI\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="GUI\App.xaml.cs">
+    <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="DataModel\AssemblyViewDefinition.cs" />
+    <Compile Include="DataModel\AssemblyViewType.cs" />
+    <Compile Include="DataModel\AssemblyViewViewModel.cs" />
+    <Compile Include="DataModel\ISpoolSheetDefinition.cs" />
+    <Compile Include="TestData\SpoolSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\AssemblyMgrVM.cs" />
+    <Compile Include="DataModel\BOMFieldDefinition.cs" />
+    <Compile Include="AssemblyMgrForm.xaml.cs">
+      <DependentUpon>AssemblyMgrForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,10 +94,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GUI\App.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forge\" />
+    <Page Include="AssemblyMgrForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
+  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

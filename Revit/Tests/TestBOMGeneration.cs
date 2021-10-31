@@ -16,7 +16,7 @@ namespace AssemblyMgrEG.Revit.Tests
             var rch = new RevitCommandHelper(commandData);
             var doc = rch.ActiveDoc;
 
-            var assembly = new AssemblyMgrAssembly(rch);
+            var assembly = new AssemblySheetFactory(rch);
             assembly.CreateBillOfMaterials();
 
             return Result.Succeeded;

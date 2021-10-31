@@ -44,13 +44,13 @@ namespace AssemblyMgrEG.Revit
         private ElementId getTitbleBlockId()
         {
             return titleBlockFEC.FirstOrDefault(x => x.Name == SelectedTitleBlock).Id;
-        }
-        private List<string> getTitleBlockData()
+        }        private List<string> getTitleBlockData()
         {
             titleBlockFEC = new FilteredElementCollector(rch.ActiveDoc);
             titleBlockFEC.OfCategory(BuiltInCategory.OST_TitleBlocks);
 
             return titleBlockFEC.Select(x => x.Name).Distinct().ToList();
         }
+
     }
 }
