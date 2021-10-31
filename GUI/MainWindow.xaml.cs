@@ -21,14 +21,11 @@ namespace AssemblyMgrEG.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        /// <summary>
-        /// Form interface
-        /// </summary>
-        private IFormData assemblyData;
+        public IFormData AssemblyData { get; set; }
         /// <summary>
         /// Observable collection of the names of available schedulable fields, i.e. those not already in the schedule. 
         /// </summary>
-        private ObservableCollection<string> availFields;
+        public ObservableCollection<string> AvailFields { get; set; }
         /// <summary>
         /// Constructor for form
         /// Not the cleanest MVVM pattern, but for the sake of time, this works
@@ -37,32 +34,34 @@ namespace AssemblyMgrEG.GUI
         public MainWindow(IFormData AssemblyData)
         {
             //setup bindings and ipmort any data from interface
-            assemblyData = AssemblyData;
-            assemblyData.Cancelled = true; //forces cancel unless user hits okay.
+            this.AssemblyData = AssemblyData;
+            this.AssemblyData.Cancelled = true; //forces cancel unless user hits okay.
 
 
-            availFields = new ObservableCollection<string>();
-            foreach (var item in assemblyData.AvailableBomFields)
-                availFields.Add(item.parameterName);
+            AvailFields = new ObservableCollection<string>();
+            foreach (var item in this.AssemblyData.AvailableBomFields)
+                AvailFields.Add(item.parameterName);
 
             InitializeComponent();
-            this.Title = "Assembly Manager: " + assemblyData.AssemblyName;
+            this.Title = "Assembly Manager: " + this.AssemblyData.AssemblyName;
 
-            TitleBlockListBox.ItemsSource = assemblyData.TitleBlocks;
-            bomDataGrid.ItemsSource = assemblyData.BomFields;
-            Available.ItemsSource = availFields;
+            TitleBlockListBox.ItemsSource = this.AssemblyData.TitleBlocks;
+            bomDataGrid.ItemsSource = this.AssemblyData.BomFields;
+            Available.ItemsSource = AvailFields;
 
             //initialize values - ToDo: use bindings instead
-            Ortho.IsChecked = assemblyData.Ortho;
-            Top.IsChecked = assemblyData.TopView;
-            Front.IsChecked = assemblyData.FrontView;
-            TagLeders.IsChecked = assemblyData.TagLeaders;
+            Ortho.IsChecked = this.AssemblyData.Ortho;
+            Top.IsChecked = this.AssemblyData.TopView;
+            Front.IsChecked = this.AssemblyData.FrontView;
+            TagLeders.IsChecked = this.AssemblyData.TagLeaders;
         }
 
         private void TitleBlockListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            assemblyData.SelectedTitleBlock = ((ListBox)sender).SelectedItem as string;
+            AssemblyData.SelectedTitleBlock = ((ListBox)sender).SelectedItem as string;
         }
+
+
 
         private void Go_Click(object sender, RoutedEventArgs e)
         {
@@ -70,12 +69,12 @@ namespace AssemblyMgrEG.GUI
                 MessageBox.Show("Please choose a TitleBlock for sheet creation.");
             else
             {
-                assemblyData.Ortho = Ortho.IsChecked ?? false ;
-                assemblyData.TopView = Top.IsChecked ?? false;
-                assemblyData.FrontView = Front.IsChecked ?? false;
-                assemblyData.TagLeaders = TagLeders.IsChecked ?? false;
-                assemblyData.IgnoreWelds = IgnoreWelds.IsChecked ?? false;
-                assemblyData.Cancelled = false;
+                AssemblyData.Ortho = Ortho.IsChecked ?? false ;
+                AssemblyData.TopView = Top.IsChecked ?? false;
+                AssemblyData.FrontView = Front.IsChecked ?? false;
+                AssemblyData.TagLeaders = TagLeders.IsChecked ?? false;
+                AssemblyData.IgnoreWelds = IgnoreWelds.IsChecked ?? false;
+                AssemblyData.Cancelled = false;
                 this.Close();
             }
         }
@@ -88,17 +87,17 @@ namespace AssemblyMgrEG.GUI
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             string param = (string)Available.SelectedItem;
-            availFields.Remove((string)Available.SelectedItem);
-            assemblyData.BomFields.Add(new Revit.AssemblyMgrBomField(param, param, 1.5/12));
+            AvailFields.Remove((string)Available.SelectedItem);
+            AssemblyData.BomFields.Add(new Revit.AssemblyMgrBomField(param, param, 1.5/12));
 
         }
 
         private void Rem_Click(object sender, RoutedEventArgs e)
         {
             var param = (Revit.AssemblyMgrBomField)bomDataGrid.SelectedItem;
-            availFields.Add(param.parameterName);
-            availFields.OrderBy(x => x);
-            assemblyData.BomFields.Remove(param);
+            AvailFields.Add(param.parameterName);
+            AvailFields.OrderBy(x => x);
+            AssemblyData.BomFields.Remove(param);
         }
     }
 }

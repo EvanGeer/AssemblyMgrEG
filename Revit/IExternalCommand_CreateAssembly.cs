@@ -29,36 +29,34 @@ namespace AssemblyMgrEG.Revit
             //Create Assembly
             var assembly = new AssemblyMgrAssembly(rch);
 
-            if (null != assembly.Instance)
-            {
-                //Prepare Assembly Data for GUI Interface
-                var form = new GUI.MainWindow(assembly.FormData);
-                form.ShowDialog();
-
-                //Cancelled form implies cancelled app
-                if (assembly.FormData.Cancelled)
-                    return Result.Cancelled;
-
-                //Build out views
-                if (assembly.FormData.Ortho)
-                    assembly.Create3DView();
-
-                if (assembly.FormData.TopView)
-                    assembly.Create2DView(AssemblyDetailViewOrientation.ElevationTop);
-
-                if (assembly.FormData.FrontView)
-                    assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
-
-                //To-Do add some more optionality in form
-                assembly.CreateBillOfMaterials();
-
-                //Create new sheet
-                var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
-
-                return Result.Succeeded;
-            }
-            else
+            if (null == assembly.Instance) 
                 return Result.Cancelled;
+
+            //Prepare Assembly Data for GUI Interface
+            var form = new GUI.MainWindow(assembly.FormData);
+            form.ShowDialog();
+
+            //Cancelled form implies cancelled app
+            if (assembly.FormData.Cancelled)
+                return Result.Cancelled;
+
+            //Build out views
+            if (assembly.FormData.Ortho)
+                assembly.Create3DView();
+
+            if (assembly.FormData.TopView)
+                assembly.Create2DView(AssemblyDetailViewOrientation.ElevationTop);
+
+            if (assembly.FormData.FrontView)
+                assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
+
+            //To-Do add some more optionality in form
+            assembly.CreateBillOfMaterials();
+
+            //Create new sheet
+            var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
+
+            return Result.Succeeded;
         }
     }
 }

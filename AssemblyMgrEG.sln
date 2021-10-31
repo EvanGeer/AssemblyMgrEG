@@ -3,9 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrEG", "AssemblyMgrEG.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrRevit", "AssemblyMgrRevit.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{69B8E052-B336-4FDE-87D9-8683A634DBBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrUI", "..\AssemblyManagerUI\AssemblyMgrUI.csproj", "{1079F884-8455-4762-BB65-B9BED40C16BF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AssemblyMgrShared", "..\AssemblyManagerBusinessLogic\AssemblyMgrShared.shproj", "{02A4D81A-372F-4BE2-9D80-9E166FFBBB7C}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{02a4d81a-372f-4be2-9d80-9e166ffbbb7c}*SharedItemsImports = 13
+		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{1079f884-8455-4762-bb65-b9bed40c16bf}*SharedItemsImports = 4
+		..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{69b8e052-b336-4fde-87d9-8683a634dbbc}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -15,6 +26,14 @@ Global
 		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69B8E052-B336-4FDE-87D9-8683A634DBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B8E052-B336-4FDE-87D9-8683A634DBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B8E052-B336-4FDE-87D9-8683A634DBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B8E052-B336-4FDE-87D9-8683A634DBBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
