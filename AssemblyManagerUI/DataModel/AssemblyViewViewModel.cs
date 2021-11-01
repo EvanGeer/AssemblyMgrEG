@@ -1,4 +1,4 @@
-﻿using AssemblyMgrShared.UI;
+﻿using AssemblyMgrCore.UI;
 using System.ComponentModel;
 
 namespace AssemblyManagerUI.DataModel

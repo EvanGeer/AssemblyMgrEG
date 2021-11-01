@@ -63,15 +63,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\AssemblyManagerVM_Revit.cs" />
-    <Compile Include="GUI\IFormData.cs" />
-    <Compile Include="Revit\AssemblySheetFactory.cs" />
+    <Compile Include="Revit\AssemblyInstanceFactory.cs" />
+    <Compile Include="Data\AssemblyMgrDataModel.cs" />
+    <Compile Include="Data\RevitAssemblyScheduleDataModel.cs" />
+    <Compile Include="Data\RevitFieldDefintion.cs" />
+    <Compile Include="Revit\ViewFactory.cs" />
     <Compile Include="Revit\AssemblyMgrBomField.cs" />
     <Compile Include="Revit\AssemblyMgrSheet.cs" />
-    <Compile Include="Revit\FormData.cs" />
-    <Compile Include="Revit\IExternalCommand_CreateAssembly.cs" />
-    <Compile Include="Revit\Interface1.cs" />
-    <Compile Include="Revit\RevitCommandHelper.cs" />
+    <Compile Include="AssemblyMgrCmd.cs" />
+    <Compile Include="Revit\ExternalCommandBase.cs" />
     <Compile Include="Revit\Tests\TestBOMGeneration.cs" />
     <Compile Include="Revit\Tests\TestDimensions.cs" />
     <Compile Include="Revit\Tests\TestSchedulePlacement.cs" />
@@ -96,6 +96,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="AssemblyMgr.addin" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,6 +106,10 @@
     <Folder Include="Forge\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssemblyManagerCore\AssemblyMgrCore.csproj">
+      <Project>{df7f45a1-bfe4-4e65-98e5-4a03bd6df6b2}</Project>
+      <Name>AssemblyMgrCore</Name>
+    </ProjectReference>
     <ProjectReference Include="AssemblyManagerUI\AssemblyMgrUI.csproj">
       <Project>{1079f884-8455-4762-bb65-b9bed40c16bf}</Project>
       <Name>AssemblyMgrUI</Name>

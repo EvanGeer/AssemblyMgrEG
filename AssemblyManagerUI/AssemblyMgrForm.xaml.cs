@@ -10,7 +10,8 @@ namespace AssemblyManagerUI
     public partial class AssemblyMgrForm : Window
     {
         public AssemblyMgrVM AssemblyData { get; set; }
-        
+        public bool Run { get; set; } = false;
+
         public AssemblyMgrForm(AssemblyMgrVM assemblyData)
         {
             DataContext = assemblyData;
@@ -29,6 +30,7 @@ namespace AssemblyManagerUI
                 return;
             }
 
+            Run = true;
             Close();
         }
 
