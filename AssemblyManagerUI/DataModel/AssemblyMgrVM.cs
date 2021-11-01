@@ -1,4 +1,4 @@
-﻿using AssemblyMgrShared.UI;
+﻿using AssemblyMgrCore.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +12,13 @@ namespace AssemblyManagerUI.DataModel
         public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
         public List<string> TitleBlocks { get; set; }
 
-        public List<BOMFieldDefinition> BOMFields_All { get; set; }
+        public List<BOMFieldDefinition> ModelBOMFields { get; set; }
+         = new List<BOMFieldDefinition>();
         public BOMFieldDefinition CurrnetSelectedBOMField { get; set; }
         public BOMFieldDefinition CurrnetAvailableBOMField { get; set; }
         public IEnumerable<BOMFieldDefinition> BOMFields_Available
-            => BOMFields_All.Where(x => x.PassesSearch(BOMFieldSearch)
-                                     && SpoolSheetDefinition?.BOMFields?.Contains(x) != true);
+            => ModelBOMFields.Where(x => x.PassesSearch(BOMFieldSearch)
+                                      && SpoolSheetDefinition?.BOMFields?.Contains(x) != true);
         public string _bomFieldSearch;
         public string BOMFieldSearch
         {

@@ -18,10 +18,10 @@ namespace AssemblyMgrEG.Revit
 
         private RevitCommandHelper rch;
 
-        private AssemblyManagerDataModel formData;
+        private AssemblyMgrDataModel formData;
         private AssemblySheetFactory assembly;
         
-        public AssemblyMgrSheet(RevitCommandHelper Helper, AssemblyManagerDataModel FormData, AssemblySheetFactory Assembly )
+        public AssemblyMgrSheet(RevitCommandHelper Helper, AssemblyMgrDataModel FormData, AssemblySheetFactory Assembly )
         {
             rch = Helper;
             formData = FormData;
@@ -45,7 +45,7 @@ namespace AssemblyMgrEG.Revit
                 if (null != assembly.BillOfMaterials)
                 {
                     var bom = ScheduleSheetInstance.Create(rch.ActiveDoc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
-                    var len = assembly.FormData.SpoolSheetDefinition.BOMFields.Sum(x => x.columnWidth);
+                    var len = assembly.AssemblyDataModel.SpoolSheetDefinition.BOMFields.Sum(x => x.ColumnWidth);
                     var bomX = 17.0 / 12.0 - len - spacing;
                     var bomY = 11.0 / 12.0 - spacing;
                     var bomZ = 0;

@@ -138,11 +138,11 @@
                           AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Parameter"
-                                            Binding="{Binding parameterName}" />
+                                            Binding="{Binding ParameterName}" />
                         <DataGridTextColumn Header="Schedule Header"
-                                            Binding="{Binding columnHeader}" />
+                                            Binding="{Binding ColumnHeader}" />
                         <DataGridTextColumn Header="Column Width"
-                                            Binding="{Binding columnWidth}" 
+                                            Binding="{Binding ColumnWidth}" 
                                             Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>

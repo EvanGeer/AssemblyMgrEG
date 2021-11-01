@@ -28,7 +28,7 @@ namespace AssemblyMgrEG.Revit.Tests
             assembly.CreateBillOfMaterials();
 
 
-            var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
+            var sheet = new AssemblyMgrSheet(rch, assembly.AssemblyDataModel, assembly);
 
             return Result.Succeeded;
         }

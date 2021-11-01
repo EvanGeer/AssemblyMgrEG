@@ -14,11 +14,7 @@ namespace AssemblyMgrEG.Revit
     /// </summary>
     public class AssemblySheetFactory
     {
-        /// <summary>
-        /// Helper Class that simplifies interaction with API
-        /// My Team and I based this class of Jeremy Tammik's example for best practices
-        /// </summary>
-        private RevitCommandHelper rch;
+        private RevitCommandHelper rch { get; set; }
 
         public SpoolSheetDefinition SpoolSheetDefinition { get; }
 
@@ -46,15 +42,7 @@ namespace AssemblyMgrEG.Revit
         /// <summary>
         /// Form interface implementation
         /// </summary>
-        public AssemblyManagerDataModel FormData { get; set; }
-
-        /// <summary>
-        /// List of SchedulableField objects pertaining to a single category schedule.
-        /// Created at initialization to populate form data so that users 
-        /// may select from a list of valid schedulable fields. This object is also hand for iterations 
-        /// in various methods.
-        /// </summary>
-        private List<SchedulableField> bomSchedulableFields { get; set; }
+        public AssemblyMgrDataModel AssemblyDataModel { get; set; }
 
         /// <summary>
         /// Main Constructor - Builds new assembly from selected geometry
@@ -69,51 +57,10 @@ namespace AssemblyMgrEG.Revit
             {
                 AssemblyName = AssemblyInstance?.Name
             };
-            FormData = new AssemblyManagerDataModel(SpoolSheetDefinition, helper.ActiveDoc);
-            bomSchedulableFields = getBomSchedulableFields();
-
-            FormData.BOMFields_All = bomSchedulableFields
-                .Select(x => new BOMFieldDefinition(x.GetName(doc)))
-                .ToList();
+            AssemblyDataModel = new AssemblyMgrDataModel(SpoolSheetDefinition, AssemblyInstance);
         }
 
 
-
-        /// <summary>
-        /// Creates a temporary Bill of Materials (i.e. single category sched) so that we can get 
-        /// a list of schedulable fields particular to that schedule. 
-        /// </summary>
-        private List<SchedulableField> getBomSchedulableFields()
-        {
-            List<SchedulableField> _return = null;
-            //BomFieldCollection fields = new BomFieldCollection();
-
-            var categoryId = doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
-
-            using (Transaction t = new Transaction(doc, "Assembly Manager: Create Bill of Materials"))
-            {
-                t.Start();
-                ViewSchedule billOfMaterials = AssemblyViewUtils
-                    .CreateSingleCategorySchedule(rch.ActiveDoc, AssemblyInstance.Id, categoryId);
-
-                _return = billOfMaterials.Definition.GetSchedulableFields()
-                    .Select(x => x)
-                    .Where(x => x.ParameterId.IntegerValue < 0) //handles shared and projectParams (typically not shown in UI)
-                    .ToList();
-
-                t.RollBack();
-                //var availFields = bomSchedulableFields
-                //    .Where(x => !FormData.BomFields.Select(f => f.parameterName).Contains(x.GetName(doc)));
-
-                //foreach (var field in availFields)
-                //{
-                //    fields.Add(new AssemblyMgrBomField(field.GetName(doc), field.GetName(doc), 0.5));
-                //}
-                //FormData.AvailableBomFields = fields;
-            }
-
-            return _return;
-        }
 
         /// <summary>
         /// Creates and commits 3D view
@@ -144,7 +91,7 @@ namespace AssemblyMgrEG.Revit
         /// <param name="tagOffset">Tag off set if using leaders. Will be 0 if leaders are not used.</param>
         public void TagAllPipeElements(View3D view, double tagOffset = 1.5)
         {
-            if (FormData.SpoolSheetDefinition.TagLeaders == false)
+            if (AssemblyDataModel.SpoolSheetDefinition.TagLeaders == false)
                 tagOffset = 0;
             
             //get all elems in view via filtered element collector
@@ -153,7 +100,7 @@ namespace AssemblyMgrEG.Revit
 
             //pair these down to just the stuff we're interested in
             IEnumerable<Element> elements;
-            if (FormData.SpoolSheetDefinition.IgnoreWelds)
+            if (AssemblyDataModel.SpoolSheetDefinition.IgnoreWelds)
             {
                 elements = fec
                     .Where(x => null != x.LookupParameter("Product Short Description"))
@@ -201,66 +148,78 @@ namespace AssemblyMgrEG.Revit
             using (Transaction t = new Transaction(doc, "Assembly Manager: Create Bill of Materials"))
             {
                 t.Start();
-                
+
                 //Create the schedul using the built-in API util
                 ViewSchedule billOfMaterials = AssemblyViewUtils
                     .CreateSingleCategorySchedule(rch.ActiveDoc, AssemblyInstance.Id, categoryId);
 
                 billOfMaterials.Name = AssemblyInstance.Name + " - Bill of Materials";
-
-                #region Handle custom fields and filter
-                //clear out default fields
                 billOfMaterials.Definition.ClearFields();
 
-                //setup empty filter field
-                ScheduleField filterField = null;
-                string filterFieldNmae = "Product Short Description"; // there may be a better parameter to use. This could be added to the form as well.
+                AddColumnsToSchedule(billOfMaterials);
 
-                //get an enumerable SchedulableField object based on user selection
-                var selectedBomFields = billOfMaterials.Definition.GetSchedulableFields()
-                    .Select(x => x)
-                    .Where(x => FormData.SpoolSheetDefinition.BOMFields.Select(f => f.parameterName).Contains(x.GetName(doc))
-                        && x.ParameterId.IntegerValue < 0) //handles shared and projectParams (typically not shown in UI)
-                    .ToList();
-
-                //add user fields to schedule with custom headers and widths
-                foreach (var fieldDef in FormData.SpoolSheetDefinition.BOMFields) // extra work to grab param, but will preserve users' ordering
-                {
-                    var field = selectedBomFields.Where(x => x.GetName(doc) == fieldDef.parameterName).FirstOrDefault();
-                    if (field == null)
-                        continue;
-                    else
-                    {
-                        var newField = billOfMaterials.Definition.AddField(field);
-                        newField.ColumnHeading = fieldDef.columnHeader;
-                        newField.SheetColumnWidth = fieldDef.columnWidth;
-                        newField.GridColumnWidth = fieldDef.columnWidth;
-                        if (fieldDef.parameterName == filterFieldNmae)
-                            filterField = newField;
-                    }
-                }
-
-                //setup filter if required
-                if (FormData.SpoolSheetDefinition.IgnoreWelds)
-                {
-                    //add hidden filter field if the user didn't select it
-                    if (null == filterField)
-                    {
-                        var newFilterField = bomSchedulableFields.Where(x => x.GetName(doc) == filterFieldNmae).FirstOrDefault();
-                        filterField = billOfMaterials.Definition.AddField(newFilterField);
-                        filterField.IsHidden = true;
-                    }
-                    
-                    //apply filter
-                    ScheduleFilter weldFilter = new ScheduleFilter(filterField.FieldId, ScheduleFilterType.NotContains, "Weld");
-                    billOfMaterials.Definition.AddFilter(weldFilter);
-                }
-                #endregion
+                if (AssemblyDataModel.SpoolSheetDefinition.IgnoreWelds)
+                    AddScheduleWeldFilter(billOfMaterials);
 
                 BillOfMaterials = billOfMaterials;
                 t.Commit();
             }
         }
+
+        private void AddColumnsToSchedule(ViewSchedule billOfMaterials)
+        {
+            //add user fields to schedule with custom headers and widths
+            foreach (var fieldDef in AssemblyDataModel.SpoolSheetDefinition.BOMFields.OfType<RevitFieldDefintion>()) // extra work to grab param, but will preserve users' ordering
+            {
+                var field = fieldDef.SchedulableField;
+
+                if (field == null) continue;
+
+                var newField = billOfMaterials.Definition.AddField(field);
+                newField.ColumnHeading = fieldDef.ColumnHeader;
+                newField.SheetColumnWidth = fieldDef.ColumnWidth;
+                newField.GridColumnWidth = fieldDef.ColumnWidth;
+            }
+        }
+
+        private void AddScheduleWeldFilter(ViewSchedule billOfMaterials)
+        {
+            string filterFieldName = "Product Short Description"; // there may be a better parameter to use. This could be added to the form as well.
+
+            //add hidden filter field if the user didn't select it
+            var filterField =
+                GetFieldFromSchedule(billOfMaterials, filterFieldName)
+                ?? AddHiddenField(billOfMaterials, filterFieldName);
+
+            //apply filter
+            var weldFilter = new ScheduleFilter(filterField.FieldId, ScheduleFilterType.NotContains, "Weld");
+            billOfMaterials.Definition.AddFilter(weldFilter);
+        }
+
+        private ScheduleField GetFieldFromSchedule(ViewSchedule billOfMaterials, string filterFieldName)
+        {
+            for (int i = 0; i < billOfMaterials.Definition.GetFieldCount(); i++)
+            {
+                var curnetField = billOfMaterials.Definition.GetField(i);
+                if (curnetField.GetName() == filterFieldName) return curnetField;
+            }
+
+            return null; // fail case
+        }
+
+        private ScheduleField AddHiddenField(ViewSchedule billOfMaterials, string filterFieldName)
+        {
+            ScheduleField filterField;
+            var newFilterField = AssemblyDataModel
+                .BomDefintion
+                .SchedulableFields
+                .FirstOrDefault(x => x.GetName(doc) == filterFieldName);
+
+            filterField = billOfMaterials.Definition.AddField(newFilterField);
+            filterField.IsHidden = true;
+            return filterField;
+        }
+
         /// <summary>
         /// Creates 2D view of selected orientation and commits to model.
         /// </summary>

@@ -1,5 +1,5 @@
-﻿using AssemblyMgrShared.Extensions;
-using AssemblyMgrShared.UI;
+﻿using AssemblyMgrCore.Extensions;
+using AssemblyMgrCore.UI;
 using System;
 using System.Collections.Generic;
 
@@ -7,39 +7,40 @@ namespace AssemblyManagerUI.DataModel
 {
     public class BOMFieldDefinition : IStringSearchable
     {
-        public string parameterName { get; set; }
-        public string columnHeader { get; set; }
-        public double columnWidth { get; set; }
+        public string ParameterName { get; set; }
+        public string ColumnHeader { get; set; }
+        public double ColumnWidth { get; set; }
+        public int Id { get; set; }
 
-        public BOMFieldDefinition(string ParameterName) : this(ParameterName, ParameterName, 0.5) { }
-        public BOMFieldDefinition(string ParameterName, string Header, double Width)
+        public BOMFieldDefinition(string parameterName) : this(parameterName, parameterName, 0.5) { }
+        public BOMFieldDefinition(string parameterName, string header, double width)
         {
-            parameterName = ParameterName;
-            columnHeader = Header;
-            columnWidth = Width;
+            ParameterName = parameterName;
+            ColumnHeader = header;
+            ColumnWidth = width;
         }
 
         public override bool Equals(object obj)
         {
             return obj is BOMFieldDefinition definition &&
-                   parameterName == definition.parameterName;
+                   ParameterName == definition.ParameterName;
         }
 
         public override int GetHashCode()
         {
-            return 908318635 + EqualityComparer<string>.Default.GetHashCode(parameterName);
+            return 908318635 + EqualityComparer<string>.Default.GetHashCode(ParameterName);
         }
 
         public bool PassesSearch(string queryString)
         {
             return string.IsNullOrEmpty(queryString)
-                || parameterName.Contains(queryString, StringComparison.InvariantCultureIgnoreCase);
+                || ParameterName.Contains(queryString, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override string ToString() => parameterName;
+        public override string ToString() => ParameterName;
 
-        public static implicit operator BOMFieldDefinition((string paramName, string header, double width) tuple) 
-            => new BOMFieldDefinition(tuple.paramName, tuple.header, tuple.width);
+        //public static implicit operator BOMFieldDefinition((string paramName, string header, double width) tuple) 
+        //    => new BOMFieldDefinition(tuple.paramName, tuple.header, tuple.width);
 
         public static implicit operator BOMFieldDefinition(string paramName)
             => new BOMFieldDefinition(paramName);

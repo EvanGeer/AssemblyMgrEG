@@ -22,7 +22,7 @@ namespace AssemblyMgrEG.Revit
     /// readability. 
     /// </remarks>
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
-    class IExternalCommand_CreateAssembly : IExternalCommand, IDevCommand
+    class AssemblyMgrCmd : IExternalCommand, IDevCommand
     {
         public string ProductPrefix { get; }
         public string Product { get; }
@@ -40,7 +40,7 @@ namespace AssemblyMgrEG.Revit
                 return Result.Cancelled;
 
             //Prepare Assembly Data for GUI Interface
-            var form = new AssemblyManagerUI.AssemblyMgrForm(assembly.FormData);
+            var form = new AssemblyManagerUI.AssemblyMgrForm(assembly.AssemblyDataModel);
             form.ShowDialog();
 
             //Cancelled form implies cancelled app
@@ -48,20 +48,20 @@ namespace AssemblyMgrEG.Revit
             //    return Result.Cancelled;
 
             //Build out views
-            if (assembly.FormData.SpoolSheetDefinition.PlaceOrthoView)
+            if (assembly.AssemblyDataModel.SpoolSheetDefinition.PlaceOrthoView)
                 assembly.Create3DView();
 
-            if (assembly.FormData.SpoolSheetDefinition.PlaceTopView)
+            if (assembly.AssemblyDataModel.SpoolSheetDefinition.PlaceTopView)
                 assembly.Create2DView(AssemblyDetailViewOrientation.ElevationTop);
 
-            if (assembly.FormData.SpoolSheetDefinition.PlaceFrontView)
+            if (assembly.AssemblyDataModel.SpoolSheetDefinition.PlaceFrontView)
                 assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
 
             //To-Do add some more optionality in form
             assembly.CreateBillOfMaterials();
 
             //Create new sheet
-            var sheet = new AssemblyMgrSheet(rch, assembly.FormData, assembly);
+            var sheet = new AssemblyMgrSheet(rch, assembly.AssemblyDataModel, assembly);
             uiApp.ActiveUIDocument.ActiveView = sheet.Sheet;
 
             return Result.Succeeded;            

@@ -1,4 +1,4 @@
-﻿namespace AssemblyMgrShared.UI
+﻿namespace AssemblyMgrCore.UI
 {
     public interface IStringSearchable
     {

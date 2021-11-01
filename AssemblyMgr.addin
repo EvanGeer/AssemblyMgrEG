@@ -4,7 +4,7 @@
     <Text>AssemblyMgrEG</Text>
     <Assembly>.\AssemblyManager\AssemblyMgrRevit.dll</Assembly>
     <ClientId>0c5d127b-54d1-4b38-aa9f-189ac80f7d02</ClientId>
-    <FullClassName>AssemblyMgrEG.Revit.IExternalCommand_CreateAssembly</FullClassName>
+    <FullClassName>AssemblyMgrEG.Revit.AssemblyMgrCmd</FullClassName>
     <VendorId>EGeer</VendorId>
     <VendorDescription>Evan Geer</VendorDescription>
     <VisibilityMode>AlwaysVisible</VisibilityMode>

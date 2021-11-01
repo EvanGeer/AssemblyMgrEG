@@ -22,7 +22,7 @@ namespace AssemblyManagerUI
             var testVM = new AssemblyMgrVM(testSpoolSheetDef)
             {
                 TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },
-                BOMFields_All = new List<BOMFieldDefinition>
+                ModelBOMFields = new List<BOMFieldDefinition>
                 {
                     new BOMFieldDefinition("Tag"),
                     new BOMFieldDefinition("Description"),
