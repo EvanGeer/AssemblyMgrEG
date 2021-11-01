@@ -8,35 +8,31 @@ using Autodesk.Revit.DB;
 
 namespace AssemblyMgrEG.Revit
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    class AssemblyMgrSheet
+    public class AssemblyMgrSheet
     {
         public ViewSheet Sheet { get => sheet; }
         private ViewSheet sheet { get; set; }
 
-        private RevitCommandHelper rch;
-
         private AssemblyMgrDataModel formData;
-        private AssemblySheetFactory assembly;
+        private ViewFactory assembly;
+        private Document Doc;
         
-        public AssemblyMgrSheet(RevitCommandHelper Helper, AssemblyMgrDataModel FormData, AssemblySheetFactory Assembly )
+        public AssemblyMgrSheet(ViewFactory Assembly)
         {
-            rch = Helper;
-            formData = FormData;
+            Doc = Assembly.AssemblyDataModel.Doc;
+            formData = Assembly.AssemblyDataModel;
             assembly = Assembly;
             CreateSheet();
         }
 
         private void CreateSheet()
         {
-            using (Transaction t = new Transaction(rch.ActiveDoc, "Assembly Manager: Create Sheet"))
+            using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Sheet"))
             {
                 t.Start();
-                sheet = AssemblyViewUtils.CreateSheet(rch.ActiveDoc, assembly.AssemblyInstance.Id, formData.SelectedTitleBlockId);
+                sheet = AssemblyViewUtils.CreateSheet(Doc, assembly.AssemblyInstance.Id, formData.SelectedTitleBlockId);
                 sheet.Name = assembly.AssemblyInstance.Name;
-                sheet.LookupParameter("Drawn By").Set(rch.userName);
+                //sheet.LookupParameter("Drawn By")?.Set(rch.userName);
 
                 //To-Do parameterize sheet sizing
                 //assume sheet is 11x17
@@ -44,7 +40,7 @@ namespace AssemblyMgrEG.Revit
 
                 if (null != assembly.BillOfMaterials)
                 {
-                    var bom = ScheduleSheetInstance.Create(rch.ActiveDoc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
+                    var bom = ScheduleSheetInstance.Create(Doc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
                     var len = assembly.AssemblyDataModel.SpoolSheetDefinition.BOMFields.Sum(x => x.ColumnWidth);
                     var bomX = 17.0 / 12.0 - len - spacing;
                     var bomY = 11.0 / 12.0 - spacing;
@@ -62,7 +58,7 @@ namespace AssemblyMgrEG.Revit
                 foreach (var view in assembly.Views)
                 {
                     view.Scale = 48; //could be parameterized
-                    Viewport vp = Viewport.Create(rch.ActiveDoc, sheet.Id, view.Id, new XYZ(centerX, centerY, centerZ));
+                    Viewport vp = Viewport.Create(Doc, sheet.Id, view.Id, new XYZ(centerX, centerY, centerZ));
                     double lenX = vp.GetBoxOutline().MaximumPoint.X - vp.GetBoxOutline().MinimumPoint.X;
                     centerX = lastX + lenX / 2 + spacing;
                     vp.SetBoxCenter(new XYZ(centerX, centerY, centerZ));

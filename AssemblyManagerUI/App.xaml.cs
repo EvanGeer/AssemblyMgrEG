@@ -18,7 +18,7 @@ namespace AssemblyManagerUI
         {
             base.OnStartup(e);
 
-            var testSpoolSheetDef = new TestData.SpoolSheetDefinition();
+            var testSpoolSheetDef = new DataModel.SpoolSheetDefinition();
             var testVM = new AssemblyMgrVM(testSpoolSheetDef)
             {
                 TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },

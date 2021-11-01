@@ -33,15 +33,18 @@ namespace AssemblyMgrRevit.Data
         }
 
         private ObservableCollection<BOMFieldDefinition> getDefaultBomFieldList()
-            => new ObservableCollection<BOMFieldDefinition>(
-                new List<BOMFieldDefinition> {
-                    Get("Mark", "Tag", 0.5/12.0),
-                    Get("Count","Qty",0.5/12.0),
-                    Get("Size","Size",1/12.0),
-                    Get("Product Short Description","Description",3/12.0),
-                    Get("Part Material","Material",3/12.0),
-                    Get("Length","Length",1.5/12.0)
-            }.Where(x => x != null));
+        {
+            var defaultFields = new [] {
+                Get("Mark", "Tag", 0.5/12.0),
+                Get("Count","Qty",0.5/12.0),
+                Get("Size","Size",1/12.0),
+                Get("Product Short Description","Description",3/12.0),
+                Get("Part Material","Material",3/12.0),
+                Get("Length","Length",1.5/12.0)
+            }.Where(x => x != null);
+
+            return new ObservableCollection<BOMFieldDefinition>(defaultFields);
+        }
 
         public RevitFieldDefintion Get(string fieldName, string header, double width)
         {

@@ -1,7 +1,6 @@
-﻿using AssemblyManagerUI.DataModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace AssemblyManagerUI.TestData
+namespace AssemblyManagerUI.DataModel
 {
     public class SpoolSheetDefinition : ISpoolSheetDefinition
     {
@@ -17,5 +16,11 @@ namespace AssemblyManagerUI.TestData
         public bool IgnoreWelds { get; set; }
         public int Scale { get; set; } = 48;
         public string AssemblyName { get; set; }
+
+        public SpoolSheetDefinition() { }
+        public SpoolSheetDefinition(string assemblyName)
+        {
+            AssemblyName = assemblyName;
+        }
     }
 }

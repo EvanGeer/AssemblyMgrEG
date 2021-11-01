@@ -3,32 +3,31 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using AssemblyMgrEG.Revit;
+using AssemblyMgrRevit.Data;
+using AssemblyManagerUI.DataModel;
 
 namespace AssemblyMgrEG.Revit.Tests
 {
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
-    class TestSheetBuildOut : IExternalCommand
+    public class TestSheetBuildOut : ExternalCommandBase
     {
-        Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        public override Result Execute()
         {
-            //initialize helper
-            var rch = new RevitCommandHelper(commandData);
+            // build the assembly from the user selection
+            var assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
+            if (null == assemblyInstance)
+                return Result.Cancelled;
 
+            // get input from the user on how to build the assembly sheet
+            var spoolSheetDefinition = new SpoolSheetDefinition(assemblyInstance?.Name);
+            var assemblyDataModel = new AssemblyMgrDataModel(spoolSheetDefinition, assemblyInstance);
 
-            var assembly = new AssemblySheetFactory(rch);
-
-            //var formData = new FormData(rch, assembly);
-            //assembly.FormData.SelectedTitleBlock = "FabPro_CutSheet_11x17";
-
-
-
-            assembly.Create2DView(AssemblyDetailViewOrientation.ElevationTop);
-            assembly.Create2DView(AssemblyDetailViewOrientation.ElevationFront);
+            var assembly = new ViewFactory(assemblyDataModel);
+            assembly.Create2DViews();
             assembly.Create3DView();
             assembly.CreateBillOfMaterials();
 
-
-            var sheet = new AssemblyMgrSheet(rch, assembly.AssemblyDataModel, assembly);
+            var sheet = new AssemblyMgrSheet(assembly);
 
             return Result.Succeeded;
         }

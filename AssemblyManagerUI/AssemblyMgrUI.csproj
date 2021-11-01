@@ -63,7 +63,7 @@
     <Compile Include="DataModel\AssemblyViewType.cs" />
     <Compile Include="DataModel\AssemblyViewViewModel.cs" />
     <Compile Include="DataModel\ISpoolSheetDefinition.cs" />
-    <Compile Include="TestData\SpoolSheetDefinition.cs" />
+    <Compile Include="DataModel\SpoolSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel\AssemblyMgrVM.cs" />

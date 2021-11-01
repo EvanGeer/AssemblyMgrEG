@@ -63,15 +63,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Revit\AssemblyInstanceFactory.cs" />
     <Compile Include="Data\AssemblyMgrDataModel.cs" />
     <Compile Include="Data\RevitAssemblyScheduleDataModel.cs" />
     <Compile Include="Data\RevitFieldDefintion.cs" />
-    <Compile Include="Revit\AssemblySheetFactory.cs" />
+    <Compile Include="Revit\ViewFactory.cs" />
     <Compile Include="Revit\AssemblyMgrBomField.cs" />
     <Compile Include="Revit\AssemblyMgrSheet.cs" />
-    <Compile Include="Revit\AssemblyMgrCmd.cs" />
-    <Compile Include="Revit\IDevCommand.cs" />
-    <Compile Include="Revit\RevitCommandHelper.cs" />
+    <Compile Include="AssemblyMgrCmd.cs" />
+    <Compile Include="Revit\ExternalCommandBase.cs" />
     <Compile Include="Revit\Tests\TestBOMGeneration.cs" />
     <Compile Include="Revit\Tests\TestDimensions.cs" />
     <Compile Include="Revit\Tests\TestSchedulePlacement.cs" />

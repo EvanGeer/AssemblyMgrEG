@@ -7,22 +7,18 @@ using AssemblyMgrEG.Revit;
 namespace AssemblyMgrEG.Revit.Tests
 {
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
-    class TestSchedulePlacement : IExternalCommand
+    public class TestSchedulePlacement : ExternalCommandBase
     {
-        Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        public override Result Execute()
         {
-            //initialize helper
-            var rch = new RevitCommandHelper(commandData);
+            var sel = UiDoc.Selection.GetElementIds().First();
+            var sched = (ScheduleSheetInstance)Doc.GetElement(sel);
 
-            var sel = rch.UiDoc.Selection.GetElementIds().First();
-            var sched = (ScheduleSheetInstance)rch.ActiveDoc.GetElement(sel);
-
-            using (Transaction t = new Transaction(rch.ActiveDoc, "Test Schedule Placement"))
+            using (Transaction t = new Transaction(Doc, "Test Schedule Placement"))
             {
                 t.Start();
 
-                //sched.Location.Move(new XYZ(1, -.5, 0));
-                var len = sched.get_BoundingBox(rch.UiDoc.ActiveView).Max.X - sched.get_BoundingBox(rch.UiDoc.ActiveView).Min.X;
+                var len = sched.get_BoundingBox(UiDoc.ActiveView).Max.X - sched.get_BoundingBox(UiDoc.ActiveView).Min.X;
                 sched.Point = new XYZ(17.0 / 12.0 - len, 11.0/ 12.0, 0);
 
                 t.Commit();

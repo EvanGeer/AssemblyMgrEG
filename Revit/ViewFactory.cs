@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AssemblyManagerUI.DataModel;
-using AssemblyManagerUI.TestData;
+using AssemblyManagerUI.DataModel;
 using AssemblyMgrRevit.Data;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -12,17 +12,13 @@ namespace AssemblyMgrEG.Revit
     /// Assembly wrapper class for Assembly Manager Add-In.
     /// Contains data and methods required to create manipulate assemblies
     /// </summary>
-    public class AssemblySheetFactory
+    public class ViewFactory
     {
-        private RevitCommandHelper rch { get; set; }
-
-        public SpoolSheetDefinition SpoolSheetDefinition { get; }
-
         /// <summary>
         /// Current Revit Document Object
         /// shorthand, makes for cleaner code and less horizontal scroll
         /// </summary>
-        private Document doc { get => rch.ActiveDoc; }
+        private Document Doc { get; }
 
         /// <summary>
         /// Revit Assembly object
@@ -49,15 +45,11 @@ namespace AssemblyMgrEG.Revit
         /// </summary>
         /// <param name="helper">Simple helper class to keep API references cleaner</param>
         /// <param name="BomFields">In case we want to customize the defaults at app startup</param>
-        public AssemblySheetFactory(RevitCommandHelper helper)
+        public ViewFactory(AssemblyMgrDataModel assemblyDataModel)
         {
-            rch = helper;
-            AssemblyInstance = GetAssemblyInstance();
-            SpoolSheetDefinition = new SpoolSheetDefinition()
-            {
-                AssemblyName = AssemblyInstance?.Name
-            };
-            AssemblyDataModel = new AssemblyMgrDataModel(SpoolSheetDefinition, AssemblyInstance);
+            AssemblyDataModel = assemblyDataModel;
+            AssemblyInstance = assemblyDataModel.Assembly;
+            Doc = assemblyDataModel.Doc;
         }
 
 
@@ -67,12 +59,15 @@ namespace AssemblyMgrEG.Revit
         /// </summary>
         public void Create3DView()
         {
+            if (!AssemblyDataModel.SpoolSheetDefinition.PlaceOrthoView)
+                return;
+
             View3D view;
             bool viewCreated = false;
-            using (Transaction t = new Transaction(doc, "Assembly Manager: Create 3D View"))
+            using (Transaction t = new Transaction(Doc, "Assembly Manager: Create 3D View"))
             {
                 t.Start();
-                view = AssemblyViewUtils.Create3DOrthographic(rch.ActiveDoc, AssemblyInstance.Id);
+                view = AssemblyViewUtils.Create3DOrthographic(Doc, AssemblyInstance.Id);
                 view.SaveOrientationAndLock();
 
                 Views.Add(view);
@@ -95,7 +90,7 @@ namespace AssemblyMgrEG.Revit
                 tagOffset = 0;
             
             //get all elems in view via filtered element collector
-            var fec = new FilteredElementCollector(doc, view.Id);
+            var fec = new FilteredElementCollector(Doc, view.Id);
             fec.OfCategory(BuiltInCategory.OST_FabricationPipework);
 
             //pair these down to just the stuff we're interested in
@@ -112,7 +107,7 @@ namespace AssemblyMgrEG.Revit
                 elements = fec.Select(x => x);
             
             //build out tags
-            using (Transaction t = new Transaction(doc, "Create Tags"))
+            using (Transaction t = new Transaction(Doc, "Create Tags"))
             {
                 t.Start();
 
@@ -130,7 +125,7 @@ namespace AssemblyMgrEG.Revit
                         ((maxXYZ.Y + minXYZ.Y) / 2.0) + (tagOffset),
                         ((maxXYZ.Z + minXYZ.Z) / 2.0) + (tagOffset)
                     );
-                    IndependentTag.Create(doc, view.Id, elemRef, tagOffset != 0, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, tagXYZ);
+                    IndependentTag.Create(Doc, view.Id, elemRef, tagOffset != 0, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, tagXYZ);
                 }
 
                 t.Commit();
@@ -143,15 +138,15 @@ namespace AssemblyMgrEG.Revit
         public void CreateBillOfMaterials()
         {
             //assume that all elements are the same category for now
-            var categoryId = doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
+            var categoryId = Doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
 
-            using (Transaction t = new Transaction(doc, "Assembly Manager: Create Bill of Materials"))
+            using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Bill of Materials"))
             {
                 t.Start();
 
                 //Create the schedul using the built-in API util
                 ViewSchedule billOfMaterials = AssemblyViewUtils
-                    .CreateSingleCategorySchedule(rch.ActiveDoc, AssemblyInstance.Id, categoryId);
+                    .CreateSingleCategorySchedule(Doc, AssemblyInstance.Id, categoryId);
 
                 billOfMaterials.Name = AssemblyInstance.Name + " - Bill of Materials";
                 billOfMaterials.Definition.ClearFields();
@@ -213,7 +208,7 @@ namespace AssemblyMgrEG.Revit
             var newFilterField = AssemblyDataModel
                 .BomDefintion
                 .SchedulableFields
-                .FirstOrDefault(x => x.GetName(doc) == filterFieldName);
+                .FirstOrDefault(x => x.GetName(Doc) == filterFieldName);
 
             filterField = billOfMaterials.Definition.AddField(newFilterField);
             filterField.IsHidden = true;
@@ -224,19 +219,28 @@ namespace AssemblyMgrEG.Revit
         /// Creates 2D view of selected orientation and commits to model.
         /// </summary>
         /// <param name="orientation">Selected orientation of 2D view</param>
-        public void Create2DView(AssemblyDetailViewOrientation orientation)
+        public void Create2DViews()
         {
-            var tranactionName = string.Format("Assembly Manager: Create {0} View", orientation.ToString());
-            ViewSection view;
-            using (Transaction t = new Transaction(doc, tranactionName))
-            {
-                t.Start();
-                view = AssemblyViewUtils.CreateDetailSection(rch.ActiveDoc, AssemblyInstance.Id, orientation);
-                Views.Add(view);
+            var viewsToBuild = new List<AssemblyDetailViewOrientation>();
+            if (AssemblyDataModel.SpoolSheetDefinition.PlaceFrontView)
+                viewsToBuild.Add(AssemblyDetailViewOrientation.ElevationFront);
+            if (AssemblyDataModel.SpoolSheetDefinition.PlaceTopView)
+                viewsToBuild.Add(AssemblyDetailViewOrientation.ElevationTop);
 
-                t.Commit();
+            foreach (var orientation in viewsToBuild)
+            {
+                var tranactionName = string.Format("Assembly Manager: Create {0} View", orientation.ToString());
+                ViewSection view;
+                using (Transaction t = new Transaction(Doc, tranactionName))
+                {
+                    t.Start();
+                    view = AssemblyViewUtils.CreateDetailSection(Doc, AssemblyInstance.Id, orientation);
+                    Views.Add(view);
+
+                    t.Commit();
+                }
+                // DimensionAllElements(view);
             }
-            // DimensionAllElements(view);
         }
 
 
@@ -291,85 +295,6 @@ namespace AssemblyMgrEG.Revit
             //        }
             //        t.Commit();
             //}
-        }
-
-        /// <summary>
-        /// Creates Assembly Instance object for manipulation
-        /// If the selected object is not already an Assembly, an assembly would be created. 
-        /// </summary>
-        /// <remarks>
-        /// This may be a good application for PostCommand. The benefit of using the built-in command here is that
-        /// you would get element validation for "free" as well as the more intuitive interactions for the user.
-        /// My typical approach is to try to disturb the user's typical workflow as little as possible, but the 
-        /// assigned task here asked us to do everything via code, and PostCommand feels a bit like cheating in 
-        /// this particular case. 8-)
-        /// </remarks>
-        /// <returns>AssemblyInstance</returns>
-        private AssemblyInstance GetAssemblyInstance(List<ElementId> elemIds = null)
-        {
-            /// To-Do: 
-            ///     Check valid content
-            ///     If content is already select, don't enact the pick box
-            ///     Right now this will only allow you select multiple items to build out a new assembly
-            ///     if you click before select or if you pick an invalid selection to start.
-            ///     Ideally we would create some better logic and/or simple form controls to figure out 
-            ///     what the user is intending to do. 
-
-            AssemblyInstance assembly;
-            var selection = rch.UiDoc.Selection;
-            elemIds = elemIds ?? selection.GetElementIds().ToList();
-
-            //List<ElementId> elemIds;
-            ElementId categoryId;
-
-            //try
-            //{
-            //if one item is selected and its an assembly, just use that
-            if (elemIds.Count == 1)
-            {
-                var fec = new FilteredElementCollector(doc, elemIds);
-                fec.OfCategory(BuiltInCategory.OST_Assemblies);
-
-                if (fec.Count() == 1)
-                    return (AssemblyInstance)fec.First();
-            }
-
-            //if multiple items are selected and they can be made into an assembly, build an assembly
-            else if (elemIds.Count > 0)
-            {
-                //elemIds = selection.GetElementIds().ToList();
-                categoryId = doc.GetElement(elemIds.FirstOrDefault()).Category.Id;
-                try
-                {
-                    using (Transaction t = new Transaction(doc, "Assembly Manager: Create Assembly"))
-                    {
-                        t.Start();
-                        assembly = AssemblyInstance.Create(doc, elemIds, categoryId);
-                        if (t.Commit() == TransactionStatus.Committed)
-                            return assembly;
-                    }
-                }
-                catch
-                {
-                    TaskDialog.Show("Invalid Selection",
-                        "Invalid Selection. Please select either:" +
-                        "\n\n\t- A single Assembly object" +
-                        "\n\t- A set of valid objects to build and assembly");
-
-                    //To-Do: add better validatation for trying to create an assembly from selection
-                }
-            }
-
-            //else nothing valid is chosen, as the user to select and run then method again.
-            var elems = selection.PickElementsByRectangle();
-            elemIds = elems.Select(x => x.Id).ToList();
-            
-            //if nothing is selected or user cancels, cancel out
-            if (elems.Count == 0)
-                return null;
-
-            //otherwise, try again recursively
-            return GetAssemblyInstance(elemIds);
         }
 
     }
