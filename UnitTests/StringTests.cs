@@ -24,7 +24,7 @@ namespace UnitTests
         [TestCase(simpleString, "this is a testing string", StringComparison.Ordinal, ExpectedResult = false)]
         [TestCase(simpleString, "this is a testing string", StringComparison.InvariantCultureIgnoreCase, ExpectedResult = true)]
         // ToDo: add more cases to capture everything... this is a pretty basic method, but being comprehensive would be good here
-        public bool NotifyPropertyChanged_SingleProp(string stringToSearch, string searchText, StringComparison stringComparison)
+        public bool ContainsComparison(string stringToSearch, string searchText, StringComparison stringComparison)
         {
             return stringToSearch.Contains(searchText, stringComparison);
         }
