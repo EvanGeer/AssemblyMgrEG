@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AssemblyMgrShared.UI
+namespace AssemblyMgrCore.UI
 {
     public static class ViewModelExtensions
     {

@@ -13,10 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AssemblyManagerCore\AssemblyMgrCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-
-  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
 
 </Project>
