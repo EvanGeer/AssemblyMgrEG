@@ -16,7 +16,7 @@ namespace AssemblyMgrEG.Revit
         private AssemblyMgrDataModel formData;
         private ViewFactory assembly;
         private Document Doc;
-        
+
         public AssemblyMgrSheet(ViewFactory Assembly)
         {
             Doc = Assembly.AssemblyDataModel.Doc;
@@ -27,6 +27,9 @@ namespace AssemblyMgrEG.Revit
 
         private void CreateSheet()
         {
+            // To-Do: Clean up layout stuff, probably could parameterize all this and put in form and/or add some intelligence
+            // To-Do: Break this out into the business logic sessoin and cover the functionality with unit tests
+
             using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Sheet"))
             {
                 t.Start();
@@ -34,37 +37,59 @@ namespace AssemblyMgrEG.Revit
                 sheet.Name = assembly.AssemblyInstance.Name;
                 //sheet.LookupParameter("Drawn By")?.Set(rch.userName);
 
-                //To-Do parameterize sheet sizing
-                //assume sheet is 11x17
                 double spacing = 0.01;
 
-                if (null != assembly.BillOfMaterials)
-                {
-                    var bom = ScheduleSheetInstance.Create(Doc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
-                    var len = assembly.AssemblyDataModel.SpoolSheetDefinition.BOMFields.Sum(x => x.ColumnWidth);
-                    var bomX = 17.0 / 12.0 - len - spacing;
-                    var bomY = 11.0 / 12.0 - spacing;
-                    var bomZ = 0;
-                    bom.Point = new XYZ(bomX, bomY, bomZ);
-                }
+                // quadrant 2 - Top Right
+                var bom = ScheduleSheetInstance.Create(Doc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
+                var bomWidth = formData.SpoolSheetDefinition.BOMFields.Sum(x => x.ColumnWidth);
+                var bomX = sheet.Outline.Max.U - bomWidth - spacing;
+                var bomY = sheet.Outline.Max.V - spacing;
+                var bomZ = 0;
+                bom.Point = new XYZ(bomX, bomY, bomZ);
 
-                //To-Do: Clean up layout stuff, probably could parameterize all this and put in form and/or add some intelligence
                 double centerX = 0;
                 double centerY = 0.4;
                 double centerZ = 0;
 
                 double lastX = 0;
+                double sheetWidth = sheet.Outline.Max.U - sheet.Outline.Min.U;
 
-                foreach (var view in assembly.Views)
+                // quadrant 1 - Top Left
+                var q1View = assembly.Views[0];
+                double availableWidth = sheetWidth - bomWidth;
+                double requiredWidth = (q1View.Outline.Max.U - q1View.Outline.Min.U) * q1View.Scale + 2.0 * spacing;
+                int q1Scale = (int)Math.Ceiling(requiredWidth / availableWidth);
+                q1View.Scale = q1Scale;
+
+                Viewport vp1 = Viewport.Create(Doc, sheet.Id, q1View.Id, new XYZ(centerX, centerY, centerZ));
+                var vpOutline1 = vp1.GetBoxOutline();
+                double lenX1 = vpOutline1.MaximumPoint.X
+                             - vpOutline1.MinimumPoint.X;
+                double lenY1 = vpOutline1.MaximumPoint.Y
+                             - vpOutline1.MinimumPoint.Y;
+
+                var centerY1 = sheet.Outline.Max.V - (lenY1 / 2.0);
+                centerX = (lenX1 / 2.0) + spacing;
+                vp1.SetBoxCenter(new XYZ(centerX, centerY1, centerZ));
+                
+                
+                // quadrants 3 and 4 - Bottom
+
+                double totalViewWidth = assembly.Views.Skip(1).Sum(x => (x.Outline.Max.U - x.Outline.Min.U) * x.Scale);
+                int scale = (int)Math.Ceiling(totalViewWidth / sheetWidth);
+
+                foreach (var view in assembly.Views.Skip(1))
                 {
-                    view.Scale = 48; //could be parameterized
+                    view.Scale = scale;
                     Viewport vp = Viewport.Create(Doc, sheet.Id, view.Id, new XYZ(centerX, centerY, centerZ));
-                    double lenX = vp.GetBoxOutline().MaximumPoint.X - vp.GetBoxOutline().MinimumPoint.X;
+                    var vpOutline = vp.GetBoxOutline();
+                    double lenX = vpOutline.MaximumPoint.X
+                                - vpOutline.MinimumPoint.X;
                     centerX = lastX + lenX / 2 + spacing;
                     vp.SetBoxCenter(new XYZ(centerX, centerY, centerZ));
                     lastX = centerX + lenX / 2;
-                    //i++;
                 }
+
 
 
                 t.Commit();

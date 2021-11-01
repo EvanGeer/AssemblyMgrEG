@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AssemblyManagerUI"
-        d:DataContext="{d:DesignInstance Type=local:AssemblyMgrVM}"
+        xmlns:data="clr-namespace:AssemblyManagerUI.DataModel"
+        d:DataContext="{d:DesignInstance Type=data:AssemblyMgrVM}"
         mc:Ignorable="d"
         Title="Assembly Manager"
         Height="450"
@@ -60,14 +61,14 @@
                 <CheckBox x:Name="IgnoreWelds"
                           Content="Ignore Welds"
                           IsChecked="{Binding SpoolSheetDefinition.IgnoreWelds}"/>
-                <DockPanel>
+                <!--<DockPanel>
                     <Label Content="Scale:"
                            Height="25"/>
                     <TextBox x:Name="Scale"
                              Height="23"
                              Text="{Binding Scale}"
                              ToolTip="Enter a whole number, i.e. use 48 instead of 1/4&quot; : 1'" />
-                </DockPanel>
+                </DockPanel>-->
 
             </StackPanel>
             <Grid Margin="5"
