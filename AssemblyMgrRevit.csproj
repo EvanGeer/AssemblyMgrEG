@@ -40,12 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -106,10 +104,6 @@
     <Folder Include="Forge\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AssemblyManagerCore\AssemblyMgrCore.csproj">
-      <Project>{df7f45a1-bfe4-4e65-98e5-4a03bd6df6b2}</Project>
-      <Name>AssemblyMgrCore</Name>
-    </ProjectReference>
     <ProjectReference Include="AssemblyManagerUI\AssemblyMgrUI.csproj">
       <Project>{1079f884-8455-4762-bb65-b9bed40c16bf}</Project>
       <Name>AssemblyMgrUI</Name>
