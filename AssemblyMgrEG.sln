@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrRevit", "AssemblyMgrRevit.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrUI", "AssemblyManagerUI\AssemblyMgrUI.csproj", "{1079F884-8455-4762-BB65-B9BED40C16BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrCore", "..\AssemblyManagerCore\AssemblyMgrCore.csproj", "{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AssemblyMgrShared", "AssemblyManagerBusinessLogic\AssemblyMgrShared.shproj", "{02A4D81A-372F-4BE2-9D80-9E166FFBBB7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,15 +29,16 @@ Global
 		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15671C7D-E152-45EC-B7E3-5335163BC268}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{02a4d81a-372f-4be2-9d80-9e166ffbbb7c}*SharedItemsImports = 13
+		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{1079f884-8455-4762-bb65-b9bed40c16bf}*SharedItemsImports = 4
+		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{32f8ea71-6051-41ae-9aa1-f22ac7758de3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

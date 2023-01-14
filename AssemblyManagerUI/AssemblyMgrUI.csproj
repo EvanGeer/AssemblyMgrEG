@@ -102,11 +102,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AssemblyManagerCore\AssemblyMgrCore.csproj">
-      <Project>{df7f45a1-bfe4-4e65-98e5-4a03bd6df6b2}</Project>
-      <Name>AssemblyMgrCore</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
