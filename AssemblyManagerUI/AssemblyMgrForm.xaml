@@ -18,154 +18,317 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Margin="0,0,0,9"
-              Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical"
-                        Margin="5">
-                <Label Content="Select Title Block:"
-                       FontWeight="Bold" />
-                <ListBox x:Name="TitleBlockListBox"
-                         SelectionMode="Single"
-                         Height="100"
-                         FontWeight="Bold"
-                         ItemsSource="{Binding TitleBlocks}" 
-                         SelectedItem="{Binding SpoolSheetDefinition.TitleBlock}"/>
-                <Label Content="Views to Place"
-                       FontWeight="Bold" />
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox x:Name="Ortho"
-                              Content="Ortho"
-                              IsChecked="{Binding SpoolSheetDefinition.PlaceOrthoView}"/>
-                    <CheckBox x:Name="TagLeders"
-                              Margin="5,0"
-                              Content="Tag Leaders"
-                              IsChecked="{Binding SpoolSheetDefinition.TagLeaders}"
-                              Visibility="{Binding IsChecked,ElementName=Ortho,Converter={StaticResource b2v}}" />
-                </StackPanel>
-                <CheckBox x:Name="Front"
-                          Content="Front" 
-                          IsChecked="{Binding SpoolSheetDefinition.PlaceFrontView}"/>
-                <CheckBox x:Name="Top"
-                          Content="Top"
-                          IsChecked="{Binding SpoolSheetDefinition.PlaceTopView}" />
-                <Label Content="Options"
-                       Height="25"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       Width="101"
-                       FontWeight="Bold" />
-                <CheckBox x:Name="IgnoreWelds"
-                          Content="Ignore Welds"
-                          IsChecked="{Binding SpoolSheetDefinition.IgnoreWelds}"/>
-                <!--<DockPanel>
-                    <Label Content="Scale:"
-                           Height="25"/>
-                    <TextBox x:Name="Scale"
-                             Height="23"
-                             Text="{Binding Scale}"
-                             ToolTip="Enter a whole number, i.e. use 48 instead of 1/4&quot; : 1'" />
-                </DockPanel>-->
+        <TabControl>
+            <TabItem Header="Views">
+                <Grid Margin="0,0,0,9"
+                  Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical"
+                            Margin="5">
+                        <Label Content="Select Title Block:"
+                           FontWeight="Bold" />
+                        <ListBox x:Name="TitleBlockListBox"
+                             SelectionMode="Single"
+                             Height="100"
+                             FontWeight="Bold"
+                             ItemsSource="{Binding TitleBlocks}" 
+                             SelectedItem="{Binding SpoolSheetDefinition.TitleBlock}"/>
+                        <Label Content="Views to Place"
+                           FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="Ortho"
+                                  Content="Ortho"
+                                  IsChecked="{Binding SpoolSheetDefinition.PlaceOrthoView}"/>
+                            <CheckBox x:Name="TagLeders"
+                                  Margin="5,0"
+                                  Content="Tag Leaders"
+                                  IsChecked="{Binding SpoolSheetDefinition.TagLeaders}"
+                                  Visibility="{Binding IsChecked,ElementName=Ortho,Converter={StaticResource b2v}}" />
+                        </StackPanel>
+                        <CheckBox x:Name="Front"
+                              Content="Front" 
+                              IsChecked="{Binding SpoolSheetDefinition.PlaceFrontView}"/>
+                        <CheckBox x:Name="Top"
+                              Content="Top"
+                              IsChecked="{Binding SpoolSheetDefinition.PlaceTopView}" />
+                        <Label Content="Options"
+                           Height="25"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           Width="101"
+                           FontWeight="Bold" />
+                        <CheckBox x:Name="IgnoreWelds"
+                              Content="Ignore Welds"
+                              IsChecked="{Binding SpoolSheetDefinition.IgnoreWelds}"/>
+                        <!--<DockPanel>
+                        <Label Content="Scale:"
+                               Height="25"/>
+                        <TextBox x:Name="Scale"
+                                 Height="23"
+                                 Text="{Binding Scale}"
+                                 ToolTip="Enter a whole number, i.e. use 48 instead of 1/4&quot; : 1'" />
+                    </DockPanel>-->
 
-            </StackPanel>
-            <Grid Margin="5"
-                  Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label Content="Bill Of Materials Column Settings"
-                       FontWeight="Bold" 
-                       Grid.ColumnSpan="3"/>
-                <Border Grid.Row="1"
-                        Margin="0,0.5,.5,2"
-                        BorderBrush="Black"
-                        BorderThickness="0.3">
-                    <DockPanel Margin="2">
-                        <TextBlock FontFamily="Segoe MDL2 Assets"
-                                    Text="&#xE721;"
-                                    VerticalAlignment="Center"
-                                    Margin="0,0,4,0"/>
-                        <TextBox Grid.Column="1"
-                                    BorderThickness="0"
-                                    Text="{Binding BOMFieldSearch, UpdateSourceTrigger=PropertyChanged}" />
-                    </DockPanel>
-                </Border>
-                <ListBox x:Name="ListBox_AvailableBOMFields"
-                         Grid.Row="2"
-                         SelectionMode="Single"
-                         FontWeight="Bold"
-                         ItemsSource="{Binding BOMFields_Available}" 
-                         SelectedItem="{Binding CurrnetAvailableBOMField}"/>
-                <StackPanel Orientation="Vertical"
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            VerticalAlignment="Top">
-                    <Button x:Name="Add"
-                            Margin="2,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Content="&#xE974;"
-                            Height="50"
-                            FontWeight="Bold"
-                            Background="White"
-                            Foreground="LimeGreen"
-                            Click="Add_Click" />
-                    <Button x:Name="Rem"
-                            Margin="2"
-                            FontFamily="Segoe MDL2 Assets"
-                            Content="&#xE973;"
-                            FontWeight="Black"
-                            Height="50"
-                            Background="White"
-                            Foreground="DarkRed"
-                            Click="Rem_Click" />
+                    </StackPanel>
+                    <Grid Grid.Column="2"
+                            MouseDown="Canvas_MouseDown"
+                            MouseMove="Canvas_MouseMove"
+                            MouseUp="Canvas_MouseUp"
+                             Margin="8,16,16,8"
+                          >
 
-                </StackPanel>
-                <DataGrid x:Name="bomDataGrid"
-                          Grid.Row="2"
-                          Grid.Column="2"
-                          ItemsSource="{Binding SpoolSheetDefinition.BOMFields}"
-                          SelectedItem="{Binding CurrnetSelectedBOMField}"
-                          SelectionMode="Single"
-                          AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Parameter"
-                                            Binding="{Binding ParameterName}" />
-                        <DataGridTextColumn Header="Schedule Header"
-                                            Binding="{Binding ColumnHeader}" />
-                        <DataGridTextColumn Header="Column Width"
-                                            Binding="{Binding ColumnWidth}" 
-                                            Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Grid>
+                        <Grid.Effect>
+                            <DropShadowEffect BlurRadius="20" ShadowDepth="2"  Color="Gray" Opacity=".5" />
+                        </Grid.Effect>
+
+                        <Image
+                            Source="C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png"
+                                            Stretch="UniformToFill" />
+
+
+                        <Canvas
+                            x:Name="ActiveCanvase"
+                            MouseDown="Canvas_MouseDown"
+                            MouseMove="Canvas_MouseMove"
+                            MouseUp="Canvas_MouseUp"
+                            SizeChanged="SheetCanvas_SizeChanged"
+                            >
+
+
+
+                            <Rectangle Width="{Binding ViewPorts.Rectangle.Width}" 
+                                       Height="{Binding ViewPorts.Rectangle.Height}"
+                                       Canvas.Bottom="{Binding ViewPorts.Rectangle.Bottom, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Canvas.Left="{Binding ViewPorts.Rectangle.Left, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Stroke="GreenYellow"
+                                       StrokeThickness="4"/>
+
+                            <!--<Rectangle Width="{Binding ViewPorts.Rectangle.Width}" 
+                                       Height="{Binding ViewPorts.Rectangle.Height}"
+                                       Canvas.Bottom="0"
+                                       Canvas.Left="0"
+                                       Stroke="GreenYellow"
+                                       StrokeThickness="4"/>-->
+                        </Canvas>
+
+                        <ItemsControl ItemsSource="{Binding Path=ViewPorts.Rectangles}"
+                                      x:Name="SheetCanvas">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.Left" Value="{Binding PreviewOutline.Left}"/>
+                                    <Setter Property="Canvas.Bottom" Value="{Binding PreviewOutline.Bottom}"/>
+                                    <!--<Setter Property="Width" Value="{Binding Width}" />
+                                    <Setter Property="Height" Value="{Binding Height}" />-->
+                                    <!--<Setter Property="-->
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!--<Rectangle Stroke="YellowGreen" 
+                                               StrokeThickness="4"
+                                               Width="100"
+                                               Height="100"
+                                               Fill="Blue"
+                                               />-->
+                                    <Grid>
+                                        <!--<Grid.Effect>
+                                            <DropShadowEffect BlurRadius="20" ShadowDepth="2"  Color="Gray" Opacity=".5" />
+                                        </Grid.Effect>-->
+
+                                        <Rectangle Stroke="CadetBlue" 
+                                               StrokeThickness="2"
+                                               Width="{Binding PreviewOutline.Width}"
+                                               Height="{Binding PreviewOutline.Height}"
+                                               Fill="LightBlue"
+                                                   Opacity=".25"
+                                                   
+                                               >
+
+                                        </Rectangle>
+                                        <Grid Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition  />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+
+
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Content="Name" />
+                                            <TextBox Grid.Column="1" Text="HI" />
+                                            <Label Content="Type"
+                                                   Grid.Row="1"/>
+                                            <TextBox Grid.Column="1"
+                                                         Grid.Row="1"
+                                                         Text="Yo" />
+                                            <Label Content="Annotations"
+                                                       Grid.Row="2"/>
+                                            <Grid Grid.Column="1"
+                                                      Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ToggleButton Content="Tags"
+                                                              Grid.Column="0"
+                                                              Margin="2"
+                                                              >
+                                                    <ToggleButton.Resources>
+
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </ToggleButton.Resources>
+                                                </ToggleButton>
+                                                <ToggleButton Content="Dimensions" 
+                                                              Grid.Column="1"
+                                                              Margin="2"
+                                                              >
+                                                    <ToggleButton.Resources>
+
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </ToggleButton.Resources>
+                                                </ToggleButton>
+                                                <ToggleButton Content="Tags"
+                                                              Grid.Column="2"
+                                                              Margin="2"
+                                                              >
+                                                    <ToggleButton.Resources>
+
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </ToggleButton.Resources>
+                                                </ToggleButton>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Schedules">
+                <Grid Margin="5"
+                      Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="Bill Of Materials Column Settings"
+                           FontWeight="Bold" 
+                           Grid.ColumnSpan="3"/>
+                    <Border Grid.Row="1"
+                            Margin="0,0.5,.5,2"
+                            BorderBrush="Black"
+                            BorderThickness="0.3">
+                        <DockPanel Margin="2">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                        Text="&#xE721;"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,4,0"/>
+                            <TextBox Grid.Column="1"
+                                        BorderThickness="0"
+                                        Text="{Binding BOMFieldSearch, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                    </Border>
+                    <ListBox x:Name="ListBox_AvailableBOMFields"
+                             Grid.Row="2"
+                             SelectionMode="Single"
+                             FontWeight="Bold"
+                             ItemsSource="{Binding BOMFields_Available}" 
+                             SelectedItem="{Binding CurrnetAvailableBOMField}"/>
+                    <StackPanel Orientation="Vertical"
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                VerticalAlignment="Top">
+                        <Button x:Name="Add"
+                                Margin="2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE974;"
+                                Height="50"
+                                FontWeight="Bold"
+                                Background="White"
+                                Foreground="LimeGreen"
+                                Click="Add_Click" />
+                        <Button x:Name="Rem"
+                                Margin="2"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE973;"
+                                FontWeight="Black"
+                                Height="50"
+                                Background="White"
+                                Foreground="DarkRed"
+                                Click="Rem_Click" />
+
+                    </StackPanel>
+                    <DataGrid x:Name="bomDataGrid"
+                              Grid.Row="2"
+                              Grid.Column="2"
+                              ItemsSource="{Binding SpoolSheetDefinition.BOMFields}"
+                              SelectedItem="{Binding CurrnetSelectedBOMField}"
+                              SelectionMode="Single"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Parameter"
+                                                Binding="{Binding ParameterName}" />
+                            <DataGridTextColumn Header="Schedule Header"
+                                                Binding="{Binding ColumnHeader}" />
+                            <DataGridTextColumn Header="Column Width"
+                                                Binding="{Binding ColumnWidth}" 
+                                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
         <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
             <Button x:Name="Cancel"
-                    Content="Cancel"
-                    Margin="5"
-                    Width="100"
-                    Background="White"
-                    Click="Cancel_Click"/>
+                        Content="Cancel"
+                        Margin="5"
+                        Width="100"
+                        Background="White"
+                        Click="Cancel_Click"/>
             <Button x:Name="Go"
-                    Content="Go"
-                    FontWeight="Bold"
-                    BorderThickness="2"
-                    Background="White"
-                    Margin="5"
-                    Click="Go_Click"
-                    Width="100" />
+                        Content="Go"
+                        FontWeight="Bold"
+                        BorderThickness="2"
+                        Background="White"
+                        Margin="5"
+                        Click="Go_Click"
+                        Width="100" />
         </StackPanel>
     </Grid>
+
 </Window>

@@ -1,4 +1,5 @@
 ﻿using AssemblyManagerUI.DataModel;
+using AssemblyMgrShared.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

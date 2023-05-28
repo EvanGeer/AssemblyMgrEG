@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using AssemblyMgrShared.DataModel;
+using System.Collections.ObjectModel;
 
 namespace AssemblyManagerUI.DataModel
 {

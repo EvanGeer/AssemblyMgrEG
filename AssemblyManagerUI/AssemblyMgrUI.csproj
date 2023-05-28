@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,12 +64,9 @@
     <Compile Include="DataModel\AssemblyViewDefinition.cs" />
     <Compile Include="DataModel\AssemblyViewType.cs" />
     <Compile Include="DataModel\AssemblyViewViewModel.cs" />
-    <Compile Include="DataModel\ISpoolSheetDefinition.cs" />
-    <Compile Include="DataModel\SpoolSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel\AssemblyMgrVM.cs" />
-    <Compile Include="DataModel\BOMFieldDefinition.cs" />
     <Compile Include="AssemblyMgrForm.xaml.cs">
       <DependentUpon>AssemblyMgrForm.xaml</DependentUpon>
     </Compile>

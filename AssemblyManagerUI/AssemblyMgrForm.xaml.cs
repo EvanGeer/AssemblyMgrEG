@@ -1,8 +1,10 @@
 ﻿using AssemblyManagerUI.DataModel;
+using AssemblyMgrShared.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace AssemblyManagerUI
 {
@@ -71,6 +73,53 @@ namespace AssemblyManagerUI
         private void Rem_Click(object sender, RoutedEventArgs e)
         {
             AssemblyData.SpoolSheetDefinition.BOMFields.Remove(AssemblyData.CurrnetSelectedBOMField);
+        }
+
+        private Point _startPoint;
+        //private Box2d _currentbBox;
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _startPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
+            //this.AssemblyData.Rectangle.
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.MouseDevice.LeftButton != MouseButtonState.Pressed) return;
+            var currentPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
+            //currentPoint.Y = SheetCanvas.ActualHeight - currentPoint.Y;
+            AssemblyData.ViewPorts.Rectangle = (new Box2d(_startPoint, currentPoint));
+        }
+
+        private Point normalizeToCanvas(Point origin)
+        {
+            // convert bottom left origin
+            var bl_origin = new Point(origin.X, SheetCanvas.ActualHeight - origin.Y);
+
+            // remove scaling
+            //var de_scaled = new Point(bl_origin.X / AssemblyData.ViewPorts.SheetImageScale,
+            //    bl_origin.Y / AssemblyData.ViewPorts.SheetImageScale);
+            //return de_scaled;
+            return bl_origin;
+        }
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (AssemblyData.ViewPorts.Rectangle == null) return;
+
+            var newRectangle = AssemblyData.ViewPorts.Rectangle;
+            var deScaled = new Box2d(newRectangle.BottomLeft / AssemblyData.ViewPorts.SheetImageScale,
+                newRectangle.TopRight / AssemblyData.ViewPorts.SheetImageScale);
+            AssemblyData.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, AssemblyData.ViewPorts.SheetImageScale));
+            AssemblyData.ViewPorts.Rectangle = null;
+        }
+
+        private void SheetCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var img = System.Drawing.Image.FromFile(AssemblyData.ViewPorts.DefaultImage);
+            //var imageSize =  img.Width + ", Height: " + img.Height);
+
+            AssemblyData.ViewPorts.SheetImageScale = (float)(e.NewSize.Width / ((double)img.Width));
         }
     }
 }

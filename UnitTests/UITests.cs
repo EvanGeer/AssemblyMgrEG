@@ -1,4 +1,4 @@
-using AssemblyMgrCore.UI;
+using AssemblyMgrShared.UI;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

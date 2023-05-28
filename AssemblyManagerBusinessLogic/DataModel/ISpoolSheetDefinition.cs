@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace AssemblyManagerUI.DataModel
+namespace AssemblyMgrShared.DataModel
 {
     public interface ISpoolSheetDefinition
     {

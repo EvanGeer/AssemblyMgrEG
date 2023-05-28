@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AssemblyManagerUI.DataModel;
-using AssemblyManagerUI.DataModel;
 using AssemblyMgrRevit.Data;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 
 namespace AssemblyMgrEG.Revit
 {

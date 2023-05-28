@@ -1,4 +1,5 @@
 ﻿using AssemblyManagerUI.DataModel;
+using AssemblyMgrShared.DataModel;
 using Autodesk.Revit.DB;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,7 @@ namespace AssemblyMgrRevit.Data
         private List<Element> getTitleBlockData()
             => new FilteredElementCollector(Doc)
                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                .ToElements()
                 .GroupBy(x => x.Name)
                 .Select(x => x.First())
                 .ToList();

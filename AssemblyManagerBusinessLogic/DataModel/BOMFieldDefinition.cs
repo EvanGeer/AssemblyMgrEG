@@ -1,9 +1,8 @@
-﻿using AssemblyMgrCore.Extensions;
-using AssemblyMgrCore.UI;
+﻿using AssemblyMgrShared.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace AssemblyManagerUI.DataModel
+namespace AssemblyMgrShared.DataModel
 {
     public class BOMFieldDefinition : IStringSearchable
     {

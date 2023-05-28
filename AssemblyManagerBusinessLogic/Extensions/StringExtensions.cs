@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssemblyMgrCore.Extensions
+namespace AssemblyMgrShared.Extensions
 {
     public static class StringExtensions
     {

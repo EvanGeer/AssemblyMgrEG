@@ -1,4 +1,4 @@
-﻿using AssemblyManagerUI.DataModel;
+﻿using AssemblyMgrShared.DataModel;
 using Autodesk.Revit.DB;
 
 namespace AssemblyMgrRevit.Data

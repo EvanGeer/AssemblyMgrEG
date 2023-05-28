@@ -1,4 +1,5 @@
 ﻿using AssemblyManagerUI.DataModel;
+using AssemblyMgrShared.DataModel;
 using Autodesk.Revit.DB;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
