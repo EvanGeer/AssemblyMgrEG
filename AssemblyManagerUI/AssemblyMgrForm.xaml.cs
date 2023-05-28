@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace AssemblyManagerUI
@@ -75,17 +76,20 @@ namespace AssemblyManagerUI
             AssemblyData.SpoolSheetDefinition.BOMFields.Remove(AssemblyData.CurrnetSelectedBOMField);
         }
 
+        bool isAddingRectangle = false;
         private Point _startPoint;
         //private Box2d _currentbBox;
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!(e.Source is Image)) return;
             _startPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
+            isAddingRectangle = true;
             //this.AssemblyData.Rectangle.
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.MouseDevice.LeftButton != MouseButtonState.Pressed) return;
+            if (!isAddingRectangle || e.MouseDevice.LeftButton != MouseButtonState.Pressed) return;
             var currentPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
             //currentPoint.Y = SheetCanvas.ActualHeight - currentPoint.Y;
             AssemblyData.ViewPorts.Rectangle = (new Box2d(_startPoint, currentPoint));
@@ -105,6 +109,8 @@ namespace AssemblyManagerUI
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (!isAddingRectangle) return;
+
             if (AssemblyData.ViewPorts.Rectangle == null) return;
 
             var newRectangle = AssemblyData.ViewPorts.Rectangle;
@@ -112,6 +118,7 @@ namespace AssemblyManagerUI
                 newRectangle.TopRight / AssemblyData.ViewPorts.SheetImageScale);
             AssemblyData.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, AssemblyData.ViewPorts.SheetImageScale));
             AssemblyData.ViewPorts.Rectangle = null;
+            isAddingRectangle = false;
         }
 
         private void SheetCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -120,6 +127,12 @@ namespace AssemblyManagerUI
             //var imageSize =  img.Width + ", Height: " + img.Height);
 
             AssemblyData.ViewPorts.SheetImageScale = (float)(e.NewSize.Width / ((double)img.Width));
+        }
+
+
+        private void DeleteCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            AssemblyData.ViewPorts.Rectangles.Remove((sender as FrameworkElement)?.DataContext as ViewPortVM);
         }
     }
 }
