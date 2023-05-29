@@ -1,4 +1,4 @@
-﻿namespace AssemblyManagerUI.DataModel
+﻿namespace AssemblyManagerUI.ViewModels
 {
     public class AssemblyViewDefinition
     {

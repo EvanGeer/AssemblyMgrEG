@@ -1,4 +1,4 @@
-﻿using AssemblyManagerUI.DataModel;
+﻿using AssemblyManagerUI.ViewModels;
 using AssemblyMgrShared.DataModel;
 using System;
 using System.Collections.Generic;
@@ -19,18 +19,13 @@ namespace AssemblyManagerUI
         {
             base.OnStartup(e);
 
-            var testSpoolSheetDef = new DataModel.SpoolSheetDefinition();
+            var testSpoolSheetDef = new ViewModels.SpoolSheetDefinition();
             var testVM = new AssemblyMgrVM(testSpoolSheetDef)
             {
+                // ToDo: get these from the temp folder
                 TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },
-                ModelBOMFields = new List<BOMFieldDefinition>
-                {
-                    new BOMFieldDefinition("Tag"),
-                    new BOMFieldDefinition("Description"),
-                    new BOMFieldDefinition("Length"),
-                    new BOMFieldDefinition("End Prep 1"),
-                    new BOMFieldDefinition("End Prep 2"),
-                }
+
+                
             };
 
             AssemblyMgrForm mw = new AssemblyMgrForm(testVM);

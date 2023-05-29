@@ -61,12 +61,30 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataModel\AssemblyViewDefinition.cs" />
-    <Compile Include="DataModel\AssemblyViewType.cs" />
-    <Compile Include="DataModel\AssemblyViewViewModel.cs" />
+    <Compile Include="Components\ModelViewPort.xaml.cs">
+      <DependentUpon>ModelViewPort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SheduleViewPort.xaml.cs">
+      <DependentUpon>SheduleViewPort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TitleBlockCanvas.xaml.cs">
+      <DependentUpon>TitleBlockCanvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ViewPortCard.xaml.cs">
+      <DependentUpon>ViewPortCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AssemblyViewDefinition.cs" />
+    <Compile Include="ViewModels\AssemblyViewType.cs" />
+    <Compile Include="ViewModels\AssemblyViewViewModel.cs" />
+    <Compile Include="ViewModels\ViewPortVM_BOM.cs" />
+    <Compile Include="ViewModels\EnumerationExtension.cs" />
+    <Compile Include="ViewModels\IViewPort.cs" />
+    <Compile Include="ViewModels\SheetLayoutVM.cs" />
+    <Compile Include="ViewModels\ViewPortType.cs" />
+    <Compile Include="ViewModels\ViewPortVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel\AssemblyMgrVM.cs" />
+    <Compile Include="ViewModels\AssemblyMgrVM.cs" />
     <Compile Include="AssemblyMgrForm.xaml.cs">
       <DependentUpon>AssemblyMgrForm.xaml</DependentUpon>
     </Compile>
@@ -99,6 +117,22 @@
     <Page Include="AssemblyMgrForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Components\ModelViewPort.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SheduleViewPort.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\TitleBlockCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ViewPortCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />

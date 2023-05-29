@@ -1,7 +1,7 @@
 ﻿using AssemblyMgrShared.UI;
 using System.ComponentModel;
 
-namespace AssemblyManagerUI.DataModel
+namespace AssemblyManagerUI.ViewModels
 {
     public class AssemblyViewViewModel : AssemblyViewDefinition, INotifyPropertyChanged
     {

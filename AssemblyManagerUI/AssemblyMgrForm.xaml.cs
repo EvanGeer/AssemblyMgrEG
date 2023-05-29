@@ -1,4 +1,4 @@
-﻿using AssemblyManagerUI.DataModel;
+﻿using AssemblyManagerUI.ViewModels;
 using AssemblyMgrShared.DataModel;
 using System;
 using System.Collections.Generic;
@@ -66,16 +66,6 @@ namespace AssemblyManagerUI
             Close();
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            AssemblyData.SpoolSheetDefinition.BOMFields.Add(AssemblyData.CurrnetAvailableBOMField);
-        }
-
-        private void Rem_Click(object sender, RoutedEventArgs e)
-        {
-            AssemblyData.SpoolSheetDefinition.BOMFields.Remove(AssemblyData.CurrnetSelectedBOMField);
-        }
-
         bool isAddingRectangle = false;
         private Point _startPoint;
         //private Box2d _currentbBox;
@@ -116,7 +106,7 @@ namespace AssemblyManagerUI
             var newRectangle = AssemblyData.ViewPorts.Rectangle;
             var deScaled = new Box2d(newRectangle.BottomLeft / AssemblyData.ViewPorts.SheetImageScale,
                 newRectangle.TopRight / AssemblyData.ViewPorts.SheetImageScale);
-            AssemblyData.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, AssemblyData.ViewPorts.SheetImageScale));
+            AssemblyData.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, AssemblyData.ViewPorts.SheetImageScale, AssemblyData.SpoolSheetDefinition));
             AssemblyData.ViewPorts.Rectangle = null;
             isAddingRectangle = false;
         }
@@ -134,5 +124,7 @@ namespace AssemblyManagerUI
         {
             AssemblyData.ViewPorts.Rectangles.Remove((sender as FrameworkElement)?.DataContext as ViewPortVM);
         }
+
+        private void DeleteViewPort(ViewPortVM viewPort) => AssemblyData.ViewPorts.Rectangles.Remove(viewPort);
     }
 }
