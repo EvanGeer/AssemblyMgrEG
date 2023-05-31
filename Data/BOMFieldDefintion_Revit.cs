@@ -3,11 +3,11 @@ using Autodesk.Revit.DB;
 
 namespace AssemblyMgrRevit.Data
 {
-    public class RevitFieldDefintion : BOMFieldDefinition
+    public class BOMFieldDefintion_Revit : BOMFieldDefinition
     {
         public SchedulableField SchedulableField { get; }
 
-        public RevitFieldDefintion(Document doc, SchedulableField schedulableField) : base(schedulableField.GetName(doc))
+        public BOMFieldDefintion_Revit(Document doc, SchedulableField schedulableField) : base(schedulableField.GetName(doc))
         {
             SchedulableField = schedulableField;
         }

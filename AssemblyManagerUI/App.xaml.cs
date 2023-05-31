@@ -1,4 +1,5 @@
-﻿using AssemblyManagerUI.ViewModels;
+﻿using AssemblyManagerUI.Test;
+using AssemblyManagerUI.ViewModels;
 using AssemblyMgrShared.DataModel;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,12 @@ namespace AssemblyManagerUI
         {
             base.OnStartup(e);
 
-            var testSpoolSheetDef = new ViewModels.SpoolSheetDefinition();
-            var testVM = new AssemblyMgrVM(testSpoolSheetDef)
+            var testSpoolSheetDef = new SpoolSheetDefinition();
+            var testController = new AssemblyMgrController();
+            var testVM = new AssemblyMgrVM(testSpoolSheetDef, testController)
             {
                 // ToDo: get these from the temp folder
-                TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },
+                //TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },
 
                 
             };

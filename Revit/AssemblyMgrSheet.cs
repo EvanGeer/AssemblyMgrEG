@@ -1,43 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using AssemblyMgrRevit.Data;
-using AssemblyMgrShared.DataModel;
 using Autodesk.Revit.DB;
 
 namespace AssemblyMgrEG.Revit
 {
-    public static class VectorExtensions
-    {
-
-        public static Vector2 AsVector2(this UV revitVector)
-        {
-            return new Vector2((float)revitVector.U, (float)revitVector.V);
-        }
-
-
-        public static UV AsUV(this Vector2 numericsVector)
-        {
-            return new UV(numericsVector.X, numericsVector.Y);
-        }
-
-        public static Box2d AsBox2d(this BoundingBoxUV outline)
-        {
-            return new Box2d(outline.Min.AsVector2(), outline.Max.AsVector2());
-        }
-
-        public static BoundingBoxUV AsBoundingBoxUV(this Box2d box)
-        {
-            return new BoundingBoxUV(box.BottomLeft.X, box.BottomLeft.Y, box.TopRight.X, box.TopRight.Y);
-        }
-    }
     public class AssemblyMgrSheet
     {
-        public ViewSheet Sheet { get => sheet; }
-        private ViewSheet sheet { get; set; }
+        public ViewSheet Sheet { get => _sheet; }
+        private ViewSheet _sheet { get; set; }
 
         private AssemblyMgrDataModel formData;
         private ViewFactory assembly;
@@ -59,27 +33,27 @@ namespace AssemblyMgrEG.Revit
             //using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Sheet"))
             //{
             //    t.Start();
-            //    sheet = AssemblyViewUtils.CreateSheet(Doc, assembly.AssemblyInstance.Id, formData.SelectedTitleBlockId);
-            //    sheet.Name = assembly.AssemblyInstance.Name;
-            //    //sheet.LookupParameter("Drawn By")?.Set(rch.userName);
+            //    _sheet = AssemblyViewUtils.CreateSheet(Doc, assembly.AssemblyInstance.Id, formData.SelectedTitleBlockId);
+            //    _sheet.Name = assembly.AssemblyInstance.Name;
+            //    //_sheet.LookupParameter("Drawn By")?.Set(rch.userName);
 
             //    //double spacing = 0.01;
-            //    var sheetProxy = new Box2d(sheet.Outline.Min.AsVector2(), sheet.Outline.Max.AsVector2());
+            //    var sheetProxy = new Box2d(_sheet.Outline.Min.AsVector2(), _sheet.Outline.Max.AsVector2());
 
             //    // quadrant 2 - Top Right
             //    placeSchedule();
-            //    var bom = ScheduleSheetInstance.Create(Doc, sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
+            //    var bom = ScheduleSheetInstance.Create(Doc, _sheet.Id, assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
 
             //    ISpoolSheetDefinition sheetDefinition = formData.SpoolSheetDefinition;
             //    var bomWidth = sheetDefinition.GetBOMWidth();
-            //    var bomPoint = sheetDefinition.GetBOMInsertionPoint(sheet.Outline.Max.U, sheet.Outline.Max.V);
+            //    var bomPoint = sheetDefinition.GetBOMInsertionPoint(_sheet.Outline.Max.U, _sheet.Outline.Max.V);
             //    bom.Point = new XYZ(bomPoint.X, bomPoint.Y, bomPoint.Z);
 
             //    double centerX = 0;
             //    double centerY = 0.4;
             //    double centerZ = 0;
 
-            //    double sheetWidth = sheet.Outline.Max.U - sheet.Outline.Min.U;
+            //    double sheetWidth = _sheet.Outline.Max.U - _sheet.Outline.Min.U;
 
             //    // quadrant 1 - Top Left
             //    var q1View = assembly.Views[0];
@@ -88,14 +62,14 @@ namespace AssemblyMgrEG.Revit
             //    int q1Scale = (int)Math.Ceiling(requiredWidth / availableWidth);
             //    q1View.Scale = q1Scale;
 
-            //    Viewport vp1 = Viewport.Create(Doc, sheet.Id, q1View.Id, new XYZ(centerX, centerY, centerZ));
+            //    Viewport vp1 = Viewport.Create(Doc, _sheet.Id, q1View.Id, new XYZ(centerX, centerY, centerZ));
             //    var vpOutline1 = vp1.GetBoxOutline();
             //    double lenX1 = vpOutline1.MaximumPoint.X
             //                 - vpOutline1.MinimumPoint.X;
             //    double lenY1 = vpOutline1.MaximumPoint.Y
             //                 - vpOutline1.MinimumPoint.Y;
 
-            //    var centerY1 = sheet.Outline.Max.V - (lenY1 / 2.0);
+            //    var centerY1 = _sheet.Outline.Max.V - (lenY1 / 2.0);
             //    centerX = (lenX1 / 2.0) + spacing;
             //    vp1.SetBoxCenter(new XYZ(centerX, centerY1, centerZ));
                 
@@ -109,7 +83,7 @@ namespace AssemblyMgrEG.Revit
             //    foreach (var view in assembly.Views.Skip(1))
             //    {
             //        view.Scale = scale;
-            //        Viewport vp = Viewport.Create(Doc, sheet.Id, view.Id, new XYZ(centerX, centerY, centerZ));
+            //        Viewport vp = Viewport.Create(Doc, _sheet.Id, view.Id, new XYZ(centerX, centerY, centerZ));
             //        var vpOutline = vp.GetBoxOutline();
             //        double lenX = vpOutline.MaximumPoint.X
             //                    - vpOutline.MinimumPoint.X;

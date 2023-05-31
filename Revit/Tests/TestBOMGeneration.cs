@@ -19,7 +19,7 @@ namespace AssemblyMgrEG.Revit.Tests
             if (null == assemblyInstance)
                 return Result.Cancelled;
 
-            // get input from the user on how to build the assembly sheet
+            // get input from the user on how to build the assembly _sheet
             var spoolSheetDefinition = new SpoolSheetDefinition(assemblyInstance?.Name);
             var assemblyDataModel = new AssemblyMgrDataModel(spoolSheetDefinition, assemblyInstance);
 

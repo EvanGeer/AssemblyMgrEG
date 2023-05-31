@@ -73,6 +73,12 @@
     <Compile Include="Components\ViewPortCard.xaml.cs">
       <DependentUpon>ViewPortCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ViewPortTypeSelector.xaml.cs">
+      <DependentUpon>ViewPortTypeSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\AssemblyMgrController.cs" />
+    <Compile Include="Test\ScheduleController.cs" />
+    <Compile Include="Test\TitleBlockController.cs" />
     <Compile Include="ViewModels\AssemblyViewDefinition.cs" />
     <Compile Include="ViewModels\AssemblyViewType.cs" />
     <Compile Include="ViewModels\AssemblyViewViewModel.cs" />
@@ -131,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\ViewPortCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ViewPortTypeSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

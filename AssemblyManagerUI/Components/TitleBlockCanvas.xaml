@@ -4,9 +4,70 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AssemblyManagerUI.Components"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:components="clr-namespace:AssemblyManagerUI.Components"
+             xmlns:data="clr-namespace:AssemblyManagerUI.ViewModels"
+             d:DataContext="{d:DesignInstance Type=data:AssemblyMgrVM}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid Grid.Column="2"
+              Grid.Row="1"
+              MouseDown="Canvas_MouseDown"
+              MouseMove="Canvas_MouseMove"
+              MouseUp="Canvas_MouseUp"
+              Margin="8,16,16,8">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="20"
+                                  ShadowDepth="2"
+                                  Color="Gray"
+                                  Opacity=".5" />
+            </Grid.Effect>
+            <Image Source="{Binding TitleblockImagePath}"
+                   Stretch="UniformToFill" />
+            <Canvas x:Name="ActiveCanvase"
+                    MouseDown="Canvas_MouseDown"
+                    MouseMove="Canvas_MouseMove"
+                    MouseUp="Canvas_MouseUp"
+                    SizeChanged="SheetCanvas_SizeChanged">
+                <Rectangle Width="{Binding ViewPorts.TempViewPort.Width}"
+                           Height="{Binding ViewPorts.TempViewPort.Height}"
+                           Canvas.Bottom="{Binding ViewPorts.TempViewPort.Bottom, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                           Canvas.Left="{Binding ViewPorts.TempViewPort.Left, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                           Stroke="GreenYellow"
+                           StrokeThickness="4" 
+                           Visibility="{Binding ViewPorts.TempViewPortVisibility}"/>
+                <!--<Rectangle Width="{Binding ViewPorts.Rectangle.Width}" 
+                                       Height="{Binding ViewPorts.Rectangle.Height}"
+                                       Canvas.Bottom="0"
+                                       Canvas.Left="0"
+                                       Stroke="GreenYellow"
+                                       StrokeThickness="4"/>-->
+            </Canvas>
+            <ItemsControl ItemsSource="{Binding Path=ViewPorts.Rectangles}"
+                          x:Name="SheetCanvas">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left"
+                                Value="{Binding PreviewOutline.Left}" />
+                        <Setter Property="Canvas.Bottom"
+                                Value="{Binding PreviewOutline.Bottom}" />
+                        <!--<Setter Property="Width" Value="{Binding Width}" />
+                                    <Setter Property="Height" Value="{Binding Height}" />-->
+                        <!--<Setter Property="-->
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <components:ViewPortCard OnDeleted="DeleteViewPort" />
+                        <!--<ViewPortCard />-->
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </UserControl>

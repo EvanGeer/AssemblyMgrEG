@@ -2,17 +2,21 @@
 using AssemblyMgrShared.UI;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 
 namespace AssemblyManagerUI.ViewModels
 {
     public class SheetLayoutVM : INotifyPropertyChanged 
     {
         public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
-        private Box2d _rectangle;// = new Box2d((50, 25), (200, 100));
-        public Box2d Rectangle
+
+
+        public Visibility TempViewPortVisibility => TempViewPort is null ? Visibility.Collapsed : Visibility.Visible;
+        private Box2d _tempViewPort;
+        public Box2d TempViewPort
         {
-            get => _rectangle; // == null ? null : new Box2d(_rectangle.BottomLeft * SheetImageScale, _rectangle.TopRight * SheetImageScale);
-            set => this.Notify(PropertyChanged, () => _rectangle = value);
+            get => _tempViewPort;
+            set => this.Notify(PropertyChanged, () => _tempViewPort = value, alsoNotify: new[] { nameof(TempViewPortVisibility) });
         }
 
 
@@ -38,7 +42,7 @@ namespace AssemblyManagerUI.ViewModels
                     _sheetImageScale1 = value;
                     foreach(ViewPortVM v in Rectangles) v.PreviewScale = _sheetImageScale1;
                 },
-                    alsoNotify: new[] { nameof(Rectangle), nameof(Rectangles) });
+                    alsoNotify: new[] { nameof(TempViewPort), nameof(Rectangles) });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

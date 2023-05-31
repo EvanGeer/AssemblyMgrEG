@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace AssemblyMgrRevit.Data
 {
-    public class RevitAssemblyScheduleDataModel
+    public class ScheduleData
     {
         public Document Doc { get; }
         public AssemblyInstance Assembly { get; }
@@ -15,7 +15,7 @@ namespace AssemblyMgrRevit.Data
         public List<BOMFieldDefinition> ModelBOMFields { get; private set; }
         public ObservableCollection<BOMFieldDefinition> DefaultFieldList { get; private set; }
 
-        public RevitAssemblyScheduleDataModel(Document doc, AssemblyInstance assembly)
+        public ScheduleData(Document doc, AssemblyInstance assembly)
         {
             Doc = doc;
             Assembly = assembly;
@@ -27,7 +27,7 @@ namespace AssemblyMgrRevit.Data
         {
             SchedulableFields = getBomSchedulableFields();
             ModelBOMFields = SchedulableFields
-                .Select(x => new RevitFieldDefintion(Doc, x))
+                .Select(x => new BOMFieldDefintion_Revit(Doc, x))
                 .ToList<BOMFieldDefinition>();
 
             DefaultFieldList = getDefaultBomFieldList();
@@ -47,10 +47,10 @@ namespace AssemblyMgrRevit.Data
             return new ObservableCollection<BOMFieldDefinition>(defaultFields);
         }
 
-        public RevitFieldDefintion Get(string fieldName, string header, double width)
+        public BOMFieldDefintion_Revit Get(string fieldName, string header, double width)
         {
             var field = ModelBOMFields
-                .OfType<RevitFieldDefintion>()
+                .OfType<BOMFieldDefintion_Revit>()
                 .FirstOrDefault(x => x.ParameterName == fieldName);
 
             if (field == null) return null;

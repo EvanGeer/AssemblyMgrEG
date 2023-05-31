@@ -10,21 +10,54 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-        <Border BorderBrush="Black"
-                Width="{Binding PreviewOutline.Width}"
+        <Border Width="{Binding PreviewOutline.Width}"
                 Height="{Binding PreviewOutline.Height}"
-                BorderThickness="1"
                 CornerRadius="6">
-            <Border.Background>
-                <SolidColorBrush Color="White"
-                                 Opacity=".5" />
-            </Border.Background>
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20"
-                                  ShadowDepth="1"
-                                  Color="Gray"
-                                  Opacity=".25" />
-            </Border.Effect>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderThickness"
+                            Value="1" />
+                    <Setter Property="BorderBrush"
+                            Value="#999999" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="White"
+                                             Opacity=".5" />
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self }}"
+                                           Value="True" />
+                                <Condition Binding="{Binding DataContext.ViewPorts.TempViewPortVisibility,
+                                    FallbackValue='binding error',
+                                    TargetNullValue='null value',
+                                    RelativeSource={RelativeSource AncestorType=local:TitleBlockCanvas}}"
+                                           Value="Collapsed" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="BorderBrush"
+                                        Value="Black" />
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="20"
+                                                          ShadowDepth="2"
+                                                          Color="Gray"
+                                                          Opacity=".5" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="White"
+                                                         Opacity="1" />
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -32,22 +65,28 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border CornerRadius="4,4,0,0"
-                        Background="#992222">
+                        Background="#80004060">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Text="Card"
-                                  FontSize="14"
-                                  FontWeight="Bold"
-                                  Margin="0"
-                                  Padding="8"
-                                  ItemsSource="{Binding Source={data:Enumeration {x:Type data:ViewPortType}}}"
-                                  DisplayMemberPath="Description"
-                                  SelectedValue="{Binding Type}"
-                                  SelectedValuePath="Value" />
+                        <TextBlock x:Name="GoBack"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Padding="8"
+                                   MouseDown="GoBack_MouseDown"
+                                   Cursor="Hand"
+                                   Visibility="{Binding GoBackVisibility}">
+                            <Run Text="&#xF8AC;"
+                                 FontFamily="Segoe MDL2 Assets" />
+                            <Run Text="{Binding TypeDispaly, Mode=OneWay}"
+                                 FontWeight="Bold"
+                                 FontSize="14" />
+                        </TextBlock>
                         <TextBlock Grid.Column="1"
+                                   Cursor="Hand"
                                    Text="&#xEF2C;"
                                    x:Name="DeleteCard"
                                    FontFamily="Segoe MDL2 Assets"
@@ -60,8 +99,11 @@
                 </Border>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto"
+                              VerticalAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              MaxWidth="480"
                               Content="{Binding MainControl}"
-                              Grid.Row="1" />
+                              Grid.Row="2" />
             </Grid>
         </Border>
     </Grid>

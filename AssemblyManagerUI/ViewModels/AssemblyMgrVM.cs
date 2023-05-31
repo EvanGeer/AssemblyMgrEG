@@ -16,18 +16,30 @@ namespace AssemblyManagerUI.ViewModels
 
     public class AssemblyMgrVM : INotifyPropertyChanged
     {
-        public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
-        public AssemblyMgrVM(ISpoolSheetDefinition spoolSheetDefinition)
+        private TitleBlock _titleBlock;
+
+        public ISpoolSheetDefinition SpoolSheetDefinition { get; }
+        public IAssemblyMgrController Controller { get; }
+
+        public AssemblyMgrVM(ISpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
         {
             SpoolSheetDefinition = spoolSheetDefinition;
+            Controller = controller;
             ViewPorts = new SheetLayoutVM(SpoolSheetDefinition);
         }
 
         public SheetLayoutVM ViewPorts { get; set; }
-        public List<string> TitleBlocks { get; set; }
 
+        public List<string> TitleBlocks => Controller.TitleBlockController.GetTitleBlocks();
+        public string TitleBlock
+        {
+            get => SpoolSheetDefinition.TitleBlock; 
+            set => this.Notify(PropertyChanged, () => SpoolSheetDefinition.TitleBlock = value,
+                    alsoNotify: new[] { nameof(TitleblockImagePath) }); 
+        }
 
-
+        public string TitleblockImagePath => Controller.TitleBlockController
+            .GetTitleBlockImage(TitleBlock);
 
         public string Scale
         {

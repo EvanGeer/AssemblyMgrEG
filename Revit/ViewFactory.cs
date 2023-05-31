@@ -161,7 +161,7 @@ namespace AssemblyMgrEG.Revit
         private void AddColumnsToSchedule(ViewSchedule billOfMaterials)
         {
             //add user fields to schedule with custom headers and widths
-            foreach (var fieldDef in AssemblyDataModel.SpoolSheetDefinition.BOMFields.OfType<RevitFieldDefintion>()) // extra work to grab param, but will preserve users' ordering
+            foreach (var fieldDef in AssemblyDataModel.SpoolSheetDefinition.BOMFields.OfType<BOMFieldDefintion_Revit>()) // extra work to grab param, but will preserve users' ordering
             {
                 var field = fieldDef.SchedulableField;
 

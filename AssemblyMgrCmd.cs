@@ -26,7 +26,7 @@ namespace AssemblyMgrEG.Revit
             if (null == assemblyInstance)
                 return Result.Cancelled;
 
-            // get input from the user on how to build the assembly sheet
+            // get input from the user on how to build the assembly _sheet
             var spoolSheetDefinition = new SpoolSheetDefinition(assemblyInstance?.Name);
             var assemblyDataModel = new AssemblyMgrDataModel(spoolSheetDefinition, assemblyInstance);
             var form = new AssemblyMgrForm(assemblyDataModel);
@@ -34,13 +34,13 @@ namespace AssemblyMgrEG.Revit
             if (!form.Run)
                 return Result.Cancelled;
 
-            // build the views to go on the sheet
+            // build the views to go on the _sheet
             var viewFactory = new ViewFactory(assemblyDataModel);
             viewFactory.Create3DView();
             viewFactory.Create2DViews();
             viewFactory.CreateBillOfMaterials();
 
-            // build the new sheet
+            // build the new _sheet
             var sheet = new AssemblyMgrSheet(viewFactory);
             UiDoc.ActiveView = sheet.Sheet;
 

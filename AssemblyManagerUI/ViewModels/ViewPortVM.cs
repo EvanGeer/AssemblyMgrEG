@@ -1,8 +1,10 @@
 ﻿using AssemblyManagerUI.Components;
 using AssemblyMgrShared.DataModel;
+using AssemblyMgrShared.Extensions;
 using AssemblyMgrShared.UI;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace AssemblyManagerUI.ViewModels
@@ -62,15 +64,26 @@ namespace AssemblyManagerUI.ViewModels
                 bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(value);
                 if (isSchedule) ViewPortProps = new ViewPortVM_BOM(SpoolSheetDefinition);
                 if (isModelView) ViewPortProps = new ViewPortVM_ModelView();
-                this.Notify(PropertyChanged, () => _type = value, alsoNotify: new[] { nameof(MainControl) });
+                this.Notify(PropertyChanged, () => _type = value, 
+                    alsoNotify: new[] 
+                    { 
+                        nameof(MainControl), 
+                        nameof(GoBackVisibility),
+                        nameof(TypeDispaly),
+                    });
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string TypeDispaly => Type.GetAttribute((DescriptionAttribute x) => x.Description);
+
+        public Visibility GoBackVisibility => 
+            Type == ViewPortType.None  ? Visibility.Collapsed 
+            : Visibility.Visible;
+
         public UserControl MainControl => 
-            Type == ViewPortType.None ? null :
-            Type == ViewPortType.Schedule
-            ? new SheduleViewPort() as UserControl
+            Type == ViewPortType.None ? new ViewPortTypeSelector()
+            : Type == ViewPortType.Schedule ? new SheduleViewPort()
             : new ModelViewPort() as UserControl;
     }
 }

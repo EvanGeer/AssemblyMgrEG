@@ -13,7 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\ISpoolSheetDefinition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\SpoolSheetDefinition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)businesslogic\SpoolSheetDefintionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)datamodel\IAssemblyMgrController.cs" />
+    <Compile Include="..\AssemblyManagerBusinessLogic\Extensions\DotNetExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\IStringSearchable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModelExtensions.cs" />
   </ItemGroup>

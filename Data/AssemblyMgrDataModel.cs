@@ -6,14 +6,16 @@ using System.Linq;
 
 namespace AssemblyMgrRevit.Data
 {
+
+
     public class AssemblyMgrDataModel : AssemblyMgrVM
     {
         public Document Doc { get; }
-        public RevitAssemblyScheduleDataModel BomDefintion { get; }
+        public ScheduleData BomDefintion { get; }
         public List<Element> TitleBlockElements { get; private set; }
         public List<SchedulableField> SelectedBomFields =>
             SpoolSheetDefinition.BOMFields
-            .OfType<RevitFieldDefintion>()
+            .OfType<BOMFieldDefintion_Revit>()
             .Select(x => x.SchedulableField)
             .ToList();
 
@@ -26,7 +28,7 @@ namespace AssemblyMgrRevit.Data
             Assembly = assembly;
             Doc = assembly.Document;
 
-            BomDefintion = new RevitAssemblyScheduleDataModel(Doc, Assembly);
+            BomDefintion = new ScheduleData(Doc, Assembly);
             ModelBOMFields = BomDefintion.ModelBOMFields;
             SpoolSheetDefinition.BOMFields = BomDefintion.DefaultFieldList;
 
@@ -36,7 +38,7 @@ namespace AssemblyMgrRevit.Data
         private void initializeTitelBlockData()
         {
             TitleBlockElements = getTitleBlockData();
-            TitleBlocks = TitleBlockElements.Select(x => x.Name).ToList();
+            //TitleBlocks = TitleBlockElements.Select(x => x.Name).ToList();
         }
 
 

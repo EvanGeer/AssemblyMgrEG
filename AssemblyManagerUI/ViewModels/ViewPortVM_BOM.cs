@@ -18,14 +18,7 @@ namespace AssemblyManagerUI.ViewModels
             SpoolSheetDefinition.BOMFields.CollectionChanged += BOMFields_CollectionChanged;
 
             // ToDo: move this to the controller
-            ModelBOMFields = new List<BOMFieldDefinition>
-            {
-                new BOMFieldDefinition("Tag"),
-                new BOMFieldDefinition("Description"),
-                new BOMFieldDefinition("Length"),
-                new BOMFieldDefinition("End Prep 1"),
-                new BOMFieldDefinition("End Prep 2"),
-            };
+            //ModelBOMFields =  
         }
 
         public List<BOMFieldDefinition> ModelBOMFields { get; set; }

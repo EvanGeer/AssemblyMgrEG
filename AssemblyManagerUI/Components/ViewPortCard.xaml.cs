@@ -24,7 +24,15 @@ namespace AssemblyManagerUI.Components
         public ViewPortCard()
         {
             InitializeComponent();
+            this.DataContextChanged += setViewModel;
         }
+
+        private void setViewModel(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            _viewModel = this.DataContext as ViewPortVM;
+        }
+
+        private ViewPortVM _viewModel;
 
 
 
@@ -44,6 +52,9 @@ namespace AssemblyManagerUI.Components
         public static readonly DependencyProperty OnDeletedProperty =
             DependencyProperty.Register("OnDeleted", typeof(Action<ViewPortVM>), typeof(ViewPortCard), new PropertyMetadata(null));
 
-
+        private void GoBack_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _viewModel.Type = ViewPortType.None;
+        }
     }
 }
