@@ -23,8 +23,6 @@ namespace AssemblyMgrShared.DataModel
         Q4 = 8,
     }
 
-
-
     public static class SpoolSheetDefinitionExtensions
     {
         const double Spacing = 0.01;
