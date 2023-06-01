@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net481</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AssemblyMgr.Core\AssemblyMgr.Core.csproj" />
+		<ProjectReference Include="..\AssemblyMgr.UI\AssemblyMgr.UI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="PresentationCore" />
+	  <Reference Include="PresentationFramework" />
+	  <Reference Include="RevitAPI">
+	    <HintPath>..\..\..\..\Users\emg1018\source\repos\AssemblyMgrEG\externalAssemblies\RevitAPI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RevitAPIUI">
+	    <HintPath>..\..\..\..\Users\emg1018\source\repos\AssemblyMgrEG\externalAssemblies\RevitAPIUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="WindowsBase" />
+	</ItemGroup>
+
+</Project>

@@ -8,18 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>AssemblyMgrShared</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\BOMFieldDefinition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\ISpoolSheetDefinition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\SpoolSheetDefinition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)businesslogic\SpoolSheetDefintionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)datamodel\IAssemblyMgrController.cs" />
-    <Compile Include="..\AssemblyManagerBusinessLogic\Extensions\DotNetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\..\..\%24\Personal\AssemblyMgrEG\AssemblyManagerBusinessLogic\DataModel\IStringSearchable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModelExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)BusinessLogic\NewFolder\" />
-    <Folder Include="$(MSBuildThisFileDirectory)DataModel\" />
-  </ItemGroup>
 </Project>

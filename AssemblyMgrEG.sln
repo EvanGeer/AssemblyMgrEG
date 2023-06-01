@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrRevit", "AssemblyMgrRevit.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core.Tests", "UnitTests\AssemblyMgr.Core.Tests.csproj", "{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core", "AssemblyMgr.Core\AssemblyMgr.Core.csproj", "{D87B2433-8999-4963-9703-EC41D36ADE72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrUI", "AssemblyManagerUI\AssemblyMgrUI.csproj", "{1079F884-8455-4762-BB65-B9BED40C16BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI", "AssemblyMgr.UI\AssemblyMgr.UI.csproj", "{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AssemblyMgrShared", "AssemblyManagerBusinessLogic\AssemblyMgrShared.shproj", "{02A4D81A-372F-4BE2-9D80-9E166FFBBB7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI.DemoApp", "AssemblyMgr.UI.DemoApp\AssemblyMgr.UI.DemoApp.csproj", "{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgr.Revit", "AssemblyMgr.Revit\AssemblyMgr.Revit.csproj", "{FAA50F44-A539-48FF-829D-AA506089A8FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,28 +19,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15671C7D-E152-45EC-B7E3-5335163BC268}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{02a4d81a-372f-4be2-9d80-9e166ffbbb7c}*SharedItemsImports = 13
-		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{1079f884-8455-4762-bb65-b9bed40c16bf}*SharedItemsImports = 4
-		AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems*{32f8ea71-6051-41ae-9aa1-f22ac7758de3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

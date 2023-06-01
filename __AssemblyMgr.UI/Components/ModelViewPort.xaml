@@ -1,0 +1,122 @@
+﻿ <UserControl x:Class="AssemblyManagerUI.Components.ModelViewPort"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AssemblyManagerUI.Components"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid>
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Content="Name" />
+            <TextBox Grid.Column="1"
+                     Text="{Binding Title}" />
+            <Label Content="Type"
+                   Grid.Row="1" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="1"
+                     Text="Yo" />
+            <Label Content=""
+                   Grid.Row="2" />
+            <Grid Grid.Column="1"
+                  Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition />
+                    <!--<ColumnDefinition/>-->
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style  TargetType="{x:Type ToggleButton}">
+                        <!--<Setter Property="Background" Value="White" />-->
+                        <Style.Resources>
+                            <Style TargetType="ToolTip">
+                                <Setter Property="Background"
+                                        Value="Black" />
+                                <Setter Property="Foreground"
+                                        Value="White" />
+                                <Setter Property="FontWeight"
+                                        Value="Bold" />
+                                <Setter Property="ToolTipService.InitialShowDelay"
+                                        Value="10" />
+                            </Style>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"
+                                        Value="5" />
+                                <Setter Property="Height"
+                                        Value="40" />
+                            </Style>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="False">
+                                <Setter Property="Background"
+                                        Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <!--</ToggleButton>-->
+                <ToggleButton Content="&#xE8EC;"
+                              FontFamily="Segoe MDL2 Assets"
+                              Grid.Column="0"
+                              FontSize="20"
+                              Margin="2"
+                              ToolTip="Tags" />
+                <ToggleButton FontFamily="Segoe MDL2 Assets"
+                              Grid.Column="1"
+                              Margin="2"
+                              FontSize="14"
+                              ToolTip="Dimensions">
+                    <!--Content="&#xECC6;"-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="&#xF8AC;"
+                                   FontSize="10"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="&#xF8AB;"
+                                   Margin="-2,0,-2,0"
+                                   Grid.Column="1" />
+                        <TextBlock Text="&#xF8AD;"
+                                   Grid.Column="2"
+                                   FontSize="10"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                    <!--<Grid>
+                                                                
+                                                            <TextBlock Text="&#xEDE1;" />
+                                                            <TextBlock Text="&#xEDE2;" />
+                                                            </Grid>-->
+                </ToggleButton>
+                <!--<ToggleButton Content="Tags"
+                                                              Grid.Column="2"
+                                                              Margin="2"
+                                                              >
+                                                            <ToggleButton.Resources>
+
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="CornerRadius" Value="5"/>
+                                                                </Style>
+                                                            </ToggleButton.Resources>
+                                                        </ToggleButton>-->
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

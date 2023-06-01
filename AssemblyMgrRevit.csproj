@@ -106,12 +106,6 @@
     <Folder Include="AutodeskWrapper\" />
     <Folder Include="Forge\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="AssemblyManagerUI\AssemblyMgrUI.csproj">
-      <Project>{1079f884-8455-4762-bb65-b9bed40c16bf}</Project>
-      <Name>AssemblyMgrUI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>@echo

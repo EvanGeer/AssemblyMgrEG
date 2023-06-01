@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
-using System.Windows;
 
 namespace AssemblyMgrShared.DataModel
 {
@@ -86,9 +85,6 @@ namespace AssemblyMgrShared.DataModel
 
     public class Box2d
     {
-        public Box2d(Point pt1, Point pt2)
-            : this((pt1.X, pt1.Y),(pt2.X, pt2.Y)) 
-        { }
         public Box2d((double X, double Y) pt1, (double X, double Y) pt2)
             : this(new Vector2((float)pt1.X, (float)pt1.Y),
                    new Vector2((float)pt2.X, (float)pt2.Y))

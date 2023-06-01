@@ -38,7 +38,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -145,6 +144,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <Import Project="..\AssemblyManagerBusinessLogic\AssemblyManagerBusinessLogic.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\AssemblyMgrCore\AssemblyMgr.Core.csproj">
+      <Project>{b013fc63-a6f5-4a81-ad7f-be85249ee57c}</Project>
+      <Name>AssemblyMgr.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
