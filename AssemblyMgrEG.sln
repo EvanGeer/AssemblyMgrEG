@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core.Tests", "UnitTests\AssemblyMgr.Core.Tests.csproj", "{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core", "AssemblyMgr.Core\AssemblyMgr.Core.csproj", "{D87B2433-8999-4963-9703-EC41D36ADE72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI", "AssemblyMgr.UI\AssemblyMgr.UI.csproj", "{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}"
@@ -13,16 +11,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI.DemoApp", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgr.Revit", "AssemblyMgr.Revit\AssemblyMgr.Revit.csproj", "{FAA50F44-A539-48FF-829D-AA506089A8FC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core.Tests", "AssemblyMgr.Core.Tests\AssemblyMgr.Core.Tests.csproj", "{791D988B-F122-4E5C-8793-C38D884B0CA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgr.UI.Tests", "AssemblyMgr.UI.Tests\AssemblyMgr.UI.Tests.csproj", "{E523264D-67A1-4400-9E15-9039B0E71BC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D87B2433-8999-4963-9703-EC41D36ADE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAA50F44-A539-48FF-829D-AA506089A8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

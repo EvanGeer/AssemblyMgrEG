@@ -1,4 +1,5 @@
-﻿using AssemblyMgrShared.DataModel;
+﻿using AssemblyMgr.Core.Geometry;
+using AssemblyMgrShared.DataModel;
 using AssemblyMgrShared.UI;
 using System.Collections.Generic;
 using System.Collections.Specialized;

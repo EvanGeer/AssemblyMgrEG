@@ -1,4 +1,5 @@
 ﻿using AssemblyManagerUI.Components;
+using AssemblyMgr.Core.Geometry;
 using AssemblyMgrShared.DataModel;
 using AssemblyMgrShared.Extensions;
 using AssemblyMgrShared.UI;

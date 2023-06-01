@@ -5,10 +5,10 @@ using AssemblyManagerUI;
 using AssemblyMgrRevit.Data;
 using AssemblyManagerUI.ViewModels;
 
-namespace AssemblyMgrEG.Revit
+namespace AssemblyMgrEG.Revit.Core
 {
     /// <summary>
-    /// Main logic for interacting with Revit:
+    /// Main logic for interacting with Revit.Core:
     /// Builds out views and sheets for new or selected Assembly
     /// </summary>
     /// <remarks>

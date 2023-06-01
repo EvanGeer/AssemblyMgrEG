@@ -1,5 +1,5 @@
 ﻿using AssemblyManagerUI.ViewModels;
-using AssemblyMgrShared.DataModel;
+using AssemblyMgr.Core.Geometry;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

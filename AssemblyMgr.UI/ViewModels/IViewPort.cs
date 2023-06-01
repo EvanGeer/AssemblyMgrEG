@@ -1,4 +1,4 @@
-﻿using AssemblyMgrShared.DataModel;
+﻿using AssemblyMgr.Core.Geometry;
 
 namespace AssemblyManagerUI.ViewModels
 {
