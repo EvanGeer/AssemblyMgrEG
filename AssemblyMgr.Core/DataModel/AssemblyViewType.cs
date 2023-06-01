@@ -1,4 +1,4 @@
-﻿namespace AssemblyManagerUI.ViewModels
+﻿namespace AssemblyMgr.UI.ViewModels
 {
     public enum AssemblyViewType
     {

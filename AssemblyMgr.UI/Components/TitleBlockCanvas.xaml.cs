@@ -1,10 +1,10 @@
-﻿using AssemblyManagerUI.ViewModels;
+﻿using AssemblyMgr.UI.ViewModels;
 using AssemblyMgr.Core.Geometry;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AssemblyManagerUI.Components
+namespace AssemblyMgr.UI.Components
 {
     /// <summary>
     /// Interaction logic for TitleBlockCanvas.xaml
@@ -62,8 +62,9 @@ namespace AssemblyManagerUI.Components
             var newRectangle = _viewModel.ViewPorts.TempViewPort;
             var deScaled = new Box2d(newRectangle.BottomLeft / _viewModel.ViewPorts.SheetImageScale,
                 newRectangle.TopRight / _viewModel.ViewPorts.SheetImageScale);
-            _viewModel.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, _viewModel.ViewPorts.SheetImageScale, _viewModel.SpoolSheetDefinition));
-            _viewModel.ViewPorts.TempViewPort = null;
+            _viewModel.ViewPorts.AddViewPort(deScaled);
+            //_viewModel.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, _viewModel.ViewPorts.SheetImageScale, _viewModel.SpoolSheetDefinition));
+            //_viewModel.ViewPorts.TempViewPort = null;
             isAddingRectangle = false;
         }
 

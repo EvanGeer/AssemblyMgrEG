@@ -1,6 +1,6 @@
 ﻿using AssemblyMgr.Core.Geometry;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.Core.DataModel
 {
     public interface IViewPort
     {

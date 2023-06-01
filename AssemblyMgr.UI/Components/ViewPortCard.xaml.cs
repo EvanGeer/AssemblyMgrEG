@@ -1,10 +1,11 @@
-﻿using AssemblyManagerUI.ViewModels;
+﻿using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.UI.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AssemblyManagerUI.Components
+namespace AssemblyMgr.UI.Components
 {
     /// <summary>
     /// Interaction logic for ViewPortCard.xaml

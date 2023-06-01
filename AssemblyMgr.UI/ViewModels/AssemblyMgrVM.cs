@@ -1,11 +1,11 @@
-﻿using AssemblyMgrShared.DataModel;
-using AssemblyMgrShared.UI;
+﻿using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.ViewModels
 {
     public interface ISheetController
     {
@@ -15,7 +15,7 @@ namespace AssemblyManagerUI.ViewModels
 
     public class AssemblyMgrVM : INotifyPropertyChanged
     {
-        private TitleBlock _titleBlock;
+        //private TitleBlock _titleBlock;
 
         public ISpoolSheetDefinition SpoolSheetDefinition { get; }
         public IAssemblyMgrController Controller { get; }
@@ -24,12 +24,12 @@ namespace AssemblyManagerUI.ViewModels
         {
             SpoolSheetDefinition = spoolSheetDefinition;
             Controller = controller;
-            ViewPorts = new SheetLayoutVM(SpoolSheetDefinition);
+            ViewPorts = new SheetLayoutVM(SpoolSheetDefinition, Controller);
         }
 
         public SheetLayoutVM ViewPorts { get; set; }
 
-        public List<string> TitleBlocks => Controller.TitleBlockController.GetTitleBlocks();
+        public List<string> TitleBlocks => Controller.GetTitleBlocks();
         public string TitleBlock
         {
             get => SpoolSheetDefinition.TitleBlock; 
@@ -37,8 +37,7 @@ namespace AssemblyManagerUI.ViewModels
                     alsoNotify: new[] { nameof(TitleblockImagePath) }); 
         }
 
-        public string TitleblockImagePath => Controller.TitleBlockController
-            .GetTitleBlockImage(TitleBlock);
+        public string TitleblockImagePath => Controller.GetTitleBlockImage(TitleBlock);
 
         public string Scale
         {

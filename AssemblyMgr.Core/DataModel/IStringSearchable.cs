@@ -1,4 +1,4 @@
-﻿namespace AssemblyMgrShared.DataModel
+﻿namespace AssemblyMgr.Core.DataModel
 {
     public interface IStringSearchable
     {

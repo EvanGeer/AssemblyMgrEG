@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using AssemblyMgrEG.Revit.Core;
 using AssemblyMgrRevit.Data;
-using AssemblyManagerUI.ViewModels;
+using AssemblyMgr.UI.ViewModels;
 
 namespace AssemblyMgr.Revit.Tests
 {

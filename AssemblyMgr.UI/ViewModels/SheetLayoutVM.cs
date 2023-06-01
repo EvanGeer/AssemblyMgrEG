@@ -1,16 +1,16 @@
 ﻿using AssemblyMgr.Core.Geometry;
-using AssemblyMgrShared.DataModel;
-using AssemblyMgrShared.UI;
+using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.UI.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.ViewModels
 {
     public class SheetLayoutVM : INotifyPropertyChanged 
     {
         public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
-
+        public IAssemblyMgrController Controller { get; }
 
         public Visibility TempViewPortVisibility => TempViewPort is null ? Visibility.Collapsed : Visibility.Visible;
         private Box2d _tempViewPort;
@@ -28,12 +28,19 @@ namespace AssemblyManagerUI.ViewModels
             //new ViewPortVM(new Box2d((550, 255), (200, 100)), 1),
         };
 
+        public void AddViewPort(Box2d rectangle)
+        {
+            Rectangles.Add(new ViewPortVM(rectangle, SheetImageScale, SpoolSheetDefinition, Controller));
+            TempViewPort = null;
+        }
+
         public string DefaultImage => @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
         private float _sheetImageScale1 = 1;
 
-        public SheetLayoutVM(ISpoolSheetDefinition spoolSheetDefinition)
+        public SheetLayoutVM(ISpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
         {
             SpoolSheetDefinition = spoolSheetDefinition;
+            Controller = controller;
         }
 
         public float SheetImageScale

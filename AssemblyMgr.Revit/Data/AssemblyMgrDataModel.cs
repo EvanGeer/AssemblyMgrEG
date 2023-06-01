@@ -1,5 +1,5 @@
-﻿using AssemblyManagerUI.ViewModels;
-using AssemblyMgrShared.DataModel;
+﻿using AssemblyMgr.UI.ViewModels;
+using AssemblyMgr.Core.DataModel;
 using Autodesk.Revit.DB;
 using System.Collections.Generic;
 using System.Linq;

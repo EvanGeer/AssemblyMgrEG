@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.Core.DataModel
 {
     public enum ViewPortType
     {

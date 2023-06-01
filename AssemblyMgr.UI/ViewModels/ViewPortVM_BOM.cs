@@ -1,33 +1,33 @@
 ﻿using AssemblyMgr.Core.Geometry;
-using AssemblyMgrShared.DataModel;
-using AssemblyMgrShared.UI;
+using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.UI.Extensions;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.ViewModels
 {
     public class ViewPortVM_BOM : IViewPort, INotifyPropertyChanged
     {
         public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
-        public ViewPortVM_BOM(ISpoolSheetDefinition spoolSheetDefinition)
+        public IAssemblyMgrController Controller { get; }
+
+        public ViewPortVM_BOM(ISpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
         {
             SpoolSheetDefinition = spoolSheetDefinition;
+            Controller = controller;
             if (SpoolSheetDefinition.BOMFields is null)
                 SpoolSheetDefinition.BOMFields = new System.Collections.ObjectModel.ObservableCollection<BOMFieldDefinition>();
             SpoolSheetDefinition.BOMFields.CollectionChanged += BOMFields_CollectionChanged;
-
-            // ToDo: move this to the controller
-            //ModelBOMFields =  
         }
 
-        public List<BOMFieldDefinition> ModelBOMFields { get; set; }
-             = new List<BOMFieldDefinition>();
+        //public List<BOMFieldDefinition> ModelBOMFields { get; set; }
+        //     = new List<BOMFieldDefinition>();
         public BOMFieldDefinition CurrnetSelectedBOMField { get; set; }
         public BOMFieldDefinition CurrnetAvailableBOMField { get; set; }
         public IEnumerable<BOMFieldDefinition> BOMFields_Available
-            => ModelBOMFields.Where(x => x.PassesSearch(BOMFieldSearch)
+            => Controller.GetBOMFields().Where(x => x.PassesSearch(BOMFieldSearch)
                                       && SpoolSheetDefinition?.BOMFields?.Contains(x) != true);
         public string _bomFieldSearch;
 

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.Extensions
 {
     public class EnumerationExtension : MarkupExtension
     {

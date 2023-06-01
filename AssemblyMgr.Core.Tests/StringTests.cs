@@ -1,4 +1,4 @@
-﻿using AssemblyMgrShared.Extensions;
+﻿using AssemblyMgr.Core.Extensions;
 using NUnit.Framework;
 using System;
 using System.Linq;

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AssemblyManagerUI.Components
+namespace AssemblyMgr.UI.Components
 {
     /// <summary>
     /// Interaction logic for ModelViewPort.xaml

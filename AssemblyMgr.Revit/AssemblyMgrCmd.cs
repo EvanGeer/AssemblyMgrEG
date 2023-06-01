@@ -1,9 +1,9 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
-using AssemblyManagerUI;
+using AssemblyMgr.UI;
 using AssemblyMgrRevit.Data;
-using AssemblyManagerUI.ViewModels;
+using AssemblyMgr.UI.ViewModels;
 
 namespace AssemblyMgrEG.Revit.Core
 {

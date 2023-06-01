@@ -1,11 +1,11 @@
-﻿using AssemblyManagerUI.ViewModels;
-using AssemblyMgrShared.DataModel;
+﻿using AssemblyMgr.UI.ViewModels;
+using AssemblyMgr.Core.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace AssemblyManagerUI
+namespace AssemblyMgr.UI
 {
     /// <summary>Interaction logic for MainWindow.xaml</summary>
     public partial class AssemblyMgrForm : Window

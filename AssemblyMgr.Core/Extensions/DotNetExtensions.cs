@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace AssemblyMgrShared.Extensions
+namespace AssemblyMgr.Core.Extensions
 {
     public static class DotNetExtensions
     {

@@ -1,8 +1,8 @@
-﻿using AssemblyManagerUI.Test;
-using AssemblyManagerUI.ViewModels;
+﻿using AssemblyMgr.UI.Test;
+using AssemblyMgr.UI.ViewModels;
 using System.Windows;
 
-namespace AssemblyManagerUI
+namespace AssemblyMgr.UI
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -1,8 +1,8 @@
-﻿using AssemblyManagerUI.ViewModels;
+﻿using AssemblyMgr.UI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AssemblyManagerUI.Components
+namespace AssemblyMgr.UI.Components
 {
     /// <summary>
     /// Interaction logic for SheduleViewPort.xaml

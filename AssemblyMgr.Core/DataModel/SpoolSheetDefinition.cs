@@ -1,7 +1,7 @@
-﻿using AssemblyMgrShared.DataModel;
+﻿using AssemblyMgr.Core.DataModel;
 using System.Collections.ObjectModel;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.ViewModels
 {
     public class SpoolSheetDefinition : ISpoolSheetDefinition
     {

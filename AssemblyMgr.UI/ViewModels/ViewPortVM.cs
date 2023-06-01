@@ -1,19 +1,20 @@
-﻿using AssemblyManagerUI.Components;
+﻿using AssemblyMgr.UI.Components;
 using AssemblyMgr.Core.Geometry;
-using AssemblyMgrShared.DataModel;
-using AssemblyMgrShared.Extensions;
-using AssemblyMgrShared.UI;
+using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.Core.Extensions;
+using AssemblyMgr.UI.Extensions;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AssemblyManagerUI.ViewModels
+namespace AssemblyMgr.UI.ViewModels
 {
     public class ViewPortVM : INotifyPropertyChanged, IViewPort
     {
         public IViewPort ViewPortProps { get; set; }
         public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
+        public IAssemblyMgrController Controller { get; }
 
         /// <summary>
         /// Defined as percentage relative to sheet
@@ -23,11 +24,12 @@ namespace AssemblyManagerUI.ViewModels
             get => _outline;
             set => this.Notify(PropertyChanged, () => _outline = value, alsoNotify: new[] { nameof(PreviewOutline) });
         }
-        public ViewPortVM(Box2d outline, float previewScale, ISpoolSheetDefinition spoolSheetDefinition)
+        public ViewPortVM(Box2d outline, float previewScale, ISpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
         {
             Outline = outline;
             _previewScale = previewScale;
             SpoolSheetDefinition = spoolSheetDefinition;
+            Controller = controller;
         }
 
         private string _name;
@@ -63,7 +65,7 @@ namespace AssemblyManagerUI.ViewModels
             {
                 bool isSchedule = value == ViewPortType.Schedule;
                 bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(value);
-                if (isSchedule) ViewPortProps = new ViewPortVM_BOM(SpoolSheetDefinition);
+                if (isSchedule) ViewPortProps = new ViewPortVM_BOM(SpoolSheetDefinition, Controller);
                 if (isModelView) ViewPortProps = new ViewPortVM_ModelView();
                 this.Notify(PropertyChanged, () => _type = value, 
                     alsoNotify: new[] 
