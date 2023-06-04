@@ -36,12 +36,12 @@ namespace AssemblyMgr.UI
         }
 
 
-        private List<(Predicate<ISpoolSheetDefinition> isValid, string errorMesssage)> inputValidations
-            = new List<(Predicate<ISpoolSheetDefinition> isValid, string errorMesssage)>
+        private List<(Predicate<SpoolSheetDefinition> isValid, string errorMesssage)> inputValidations
+            = new List<(Predicate<SpoolSheetDefinition> isValid, string errorMesssage)>
             {
                 (x => !string.IsNullOrEmpty(x.TitleBlock), "A TitelBlock is required."),
-                (x => x.BOMFields.Count > 0, "Please pick at least one column for the Bill of Materials."),
-                (x => x.Scale > 0, "Please select a valid scale.")
+                //(x => x.BOMFields.Count > 0, "Please pick at least one column for the Bill of Materials."),
+                //(x => x.Scale > 0, "Please select a valid scale.")
             };
 
         private (bool passed, string message) ValidateInputs()

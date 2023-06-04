@@ -9,8 +9,8 @@ namespace AssemblyMgr.UI.Components
     /// </summary>
     public partial class SheduleViewPort : UserControl
     {
-        private ViewPortVM _viewModel;
-        private ViewPortVM_BOM _bom => _viewModel.ViewPortProps as ViewPortVM_BOM;
+        private RectangleVM _viewModel;
+        private ViewPortVM_CustomBOM _bom => _viewModel?.ViewPort as ViewPortVM_CustomBOM;
         public SheduleViewPort()
         {
             InitializeComponent();
@@ -19,20 +19,20 @@ namespace AssemblyMgr.UI.Components
 
         private void setViewModel(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _viewModel = this.DataContext as ViewPortVM;
+            _viewModel = this.DataContext as RectangleVM;
         }
 
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel is null) return;
-            _viewModel.SpoolSheetDefinition.BOMFields.Add(_bom?.CurrnetAvailableBOMField);
+            if (_bom is null) return;
+            _bom.Definition.BOMFields.Add(_bom?.CurrnetAvailableBOMField);
         }
 
         private void Rem_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel is null) return;
-            _viewModel.SpoolSheetDefinition.BOMFields.Remove(_bom?.CurrnetSelectedBOMField);
+            if (_bom is null) return;
+            _bom.Definition.BOMFields.Remove(_bom?.CurrnetSelectedBOMField);
         }
 
 

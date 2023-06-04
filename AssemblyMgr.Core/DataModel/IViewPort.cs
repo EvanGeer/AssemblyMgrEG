@@ -2,13 +2,12 @@
 
 namespace AssemblyMgr.Core.DataModel
 {
-    public interface IViewPort
+   public interface IViewPort
     {
-        //int Scale { get; }
-        //bool HasTags { get; }
-        //bool HasTagLeaders { get; }
-        //bool HasDimensions { get; }
-        Box2d Outline { get; }
-        ViewPortType Type { get; }
+        Box2d Outline { get; set; }
+        ViewPortType Type { get; set; }
+        string Title { get; set; }
+        bool IgnoreWelds { get; set; }
+        string ViewTemplate { get; set; }
     }
 }

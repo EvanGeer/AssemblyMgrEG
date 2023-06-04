@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AssemblyMgr.UI.Components"
              mc:Ignorable="d"
              xmlns:data="clr-namespace:AssemblyMgr.UI.ViewModels"
-             d:DataContext="{d:DesignInstance Type=data:ViewPortVM}"
+             d:DataContext="{d:DesignInstance Type=data:RectangleVM}"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
@@ -84,6 +84,7 @@
                             <Run Text="{Binding TypeDispaly, Mode=OneWay}"
                                  FontWeight="Bold"
                                  FontSize="14" />
+                            <Run Text="{Binding ViewTemplate}" />
                         </TextBlock>
                         <TextBlock Grid.Column="1"
                                    Cursor="Hand"

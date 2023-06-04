@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.Attributes;
+﻿using AssemblyMgr.Revit.Core;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
@@ -15,60 +16,56 @@ namespace AssemblyMgr.Revit.Tests
         {
             var sw = Stopwatch.StartNew();
             var doc = commandData.Application.ActiveUIDocument.Document;
-            var tBlocks = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_TitleBlocks)
-                //.OfClass(typeof(FamilyInstance))
-                //.ToElementIds()
-                .ToElements()
-                .OfType<FamilySymbol>()
-                .ToList()
-                ;
+            var titleBlockController = new TitleBlockController(doc);
 
-            //TaskDialog.Show("Sheets", "")
 
-            List<(string Name, ViewSheet BlankSheet)> blankSheets;
+            //List<(string Name, ViewSheet BlankSheet)> blankSheets;
             using (var tgroup = new TransactionGroup(doc, "export pngs"))
             {
                 tgroup.Start();
-                using (var t = new Transaction(doc, "temp create sheets"))
+                foreach (var titleBlock in titleBlockController.TitleBlocksByName)
                 {
-                    t.Start();
-
-                    Func<FamilySymbol, ViewSheet> createSheet = (titleBlock) =>
-                    {
-                        var sheet = ViewSheet.Create(doc, titleBlock.Id);
-                        sheet.Name = titleBlock.Name;
-                        sheet.SheetNumber = titleBlock.Id.IntegerValue.ToString();
-
-                        return sheet;
-                    };
-                    blankSheets = tBlocks.Select(x => (x.Name, createSheet(x)))
-                        .ToList();
-
-
-                    var options = new ImageExportOptions
-                    {
-                        ZoomType = ZoomFitType.FitToPage,
-                        PixelSize = 1024,
-                        FilePath = @"c:\$\personal\images\TitleBlock",
-                        FitDirection = FitDirectionType.Horizontal,
-                        HLRandWFViewsFileType = ImageFileType.PNG,
-                        ShadowViewsFileType = ImageFileType.PNG,
-                        ImageResolution = ImageResolution.DPI_72,
-                        ExportRange = ExportRange.SetOfViews,
-                    };
-                    options.SetViewsAndSheets(blankSheets.Select(x => x.BlankSheet.Id).ToList());
-                    doc.ExportImage(options);
-
-                    //blankSheets.ForEach(x =>
-                    //{
-                    //    options.FilePath = $@"c:\$\personal\images\x";
-                    //    options.SetViewsAndSheets(new[] { x.BlankSheet.Id });
-                    //    doc.ExportImage(options);
-                    //});
-
-                    t.RollBack();
+                    titleBlockController.ExportImage(titleBlock.Value);
                 }
+                //using (var t = new Transaction(doc, "temp create sheets"))
+                //{
+                //    t.Start();
+
+                //    Func<FamilySymbol, ViewSheet> createSheet = (titleBlock) =>
+                //    {
+                //        var sheet = ViewSheet.ExportImage(doc, titleBlock.Id);
+                //        sheet.Name = titleBlock.Name;
+                //        sheet.SheetNumber = titleBlock.Id.IntegerValue.ToString();
+
+                //        return sheet;
+                //    };
+                //    blankSheets = titleBlockController.Select(x => (x.Name, createSheet(x)))
+                //        .ToList();
+
+
+                //    var options = new ImageExportOptions
+                //    {
+                //        ZoomType = ZoomFitType.FitToPage,
+                //        PixelSize = 1024,
+                //        FilePath = @"c:\$\personal\images\TitleBlock",
+                //        FitDirection = FitDirectionType.Horizontal,
+                //        HLRandWFViewsFileType = ImageFileType.PNG,
+                //        ShadowViewsFileType = ImageFileType.PNG,
+                //        ImageResolution = ImageResolution.DPI_72,
+                //        ExportRange = ExportRange.SetOfViews,
+                //    };
+                //    options.SetViewsAndSheets(blankSheets.Select(x => x.BlankSheet.Id).ToList());
+                //    doc.ExportImage(options);
+
+                //    //blankSheets.ForEach(x =>
+                //    //{
+                //    //    options.FilePath = $@"c:\$\personal\images\x";
+                //    //    options.SetViewsAndSheets(new[] { x.BlankSheet.Id });
+                //    //    doc.ExportImage(options);
+                //    //});
+
+                //    t.RollBack();
+                //}
 
                 tgroup.RollBack();
             }

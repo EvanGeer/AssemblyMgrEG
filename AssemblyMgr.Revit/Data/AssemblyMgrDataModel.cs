@@ -1,58 +1,56 @@
-﻿using AssemblyMgr.UI.ViewModels;
-using AssemblyMgr.Core.DataModel;
-using Autodesk.Revit.DB;
-using System.Collections.Generic;
-using System.Linq;
+﻿//using AssemblyMgr.UI.ViewModels;
+//using AssemblyMgr.Core.DataModel;
+//using Autodesk.Revit.DB;
+//using System.Collections.Generic;
+//using System.Linq;
 
-namespace AssemblyMgrRevit.Data
-{
+//namespace AssemblyMgr.Revit.Data
+//{
+//    public class AssemblyMgrDataModel : AssemblyMgrVM
+//    {
+//        public Document _doc { get; }
+//        public ScheduleData BomDefintion { get; }
+//        public List<Element> TitleBlockElements { get; private set; }
+//        public List<SchedulableField> SelectedBomFields =>
+//            Definition.ViewPorts
+//            .OfType<BOMFieldDefintion_Revit>()
+//            .Select(x => x.SchedulableField)
+//            .ToList();
 
+//        public AssemblyInstance Assembly { get; }
+//        public ElementId SelectedTitleBlockId => TitleBlockElements
+//            .FirstOrDefault(x => x.Name == Definition.TitleBlock)?.Id;
 
-    public class AssemblyMgrDataModel : AssemblyMgrVM
-    {
-        public Document Doc { get; }
-        public ScheduleData BomDefintion { get; }
-        public List<Element> TitleBlockElements { get; private set; }
-        public List<SchedulableField> SelectedBomFields =>
-            SpoolSheetDefinition.BOMFields
-            .OfType<BOMFieldDefintion_Revit>()
-            .Select(x => x.SchedulableField)
-            .ToList();
+//        public AssemblyMgrDataModel(ISpoolSheetDefinition spoolSheetDefinition, AssemblyInstance Assembly) 
+//            : base(spoolSheetDefinition)
+//        {
+//            Assembly = Assembly;
+//            _doc = Assembly.Document;
 
-        public AssemblyInstance Assembly { get; }
-        public ElementId SelectedTitleBlockId => TitleBlockElements
-            .FirstOrDefault(x => x.Name == SpoolSheetDefinition.TitleBlock)?.Id;
+//            BomDefintion = new ScheduleData(_doc, Assembly);
+//            ModelBOMFields = BomDefintion.ModelBOMFields;
+//            Definition.ViewPorts = BomDefintion.DefaultFieldList;
 
-        public AssemblyMgrDataModel(ISpoolSheetDefinition spoolSheetDefinition, AssemblyInstance assembly) 
-            : base(spoolSheetDefinition)
-        {
-            Assembly = assembly;
-            Doc = assembly.Document;
+//            initializeTitelBlockData();
+//        }
 
-            BomDefintion = new ScheduleData(Doc, Assembly);
-            ModelBOMFields = BomDefintion.ModelBOMFields;
-            SpoolSheetDefinition.BOMFields = BomDefintion.DefaultFieldList;
-
-            initializeTitelBlockData();
-        }
-
-        private void initializeTitelBlockData()
-        {
-            TitleBlockElements = getTitleBlockData();
-            //TitleBlocks = TitleBlockElements.Select(x => x.Name).ToList();
-        }
+//        private void initializeTitelBlockData()
+//        {
+//            TitleBlockElements = getTemplates();
+//            //ViewTemplatesByName = ViewTemplatesByName.Select(x => x.Name).ToList();
+//        }
 
 
-        /// <summary>Gets distinct list of titleblock elements</summary>
-        private List<Element> getTitleBlockData()
-            => new FilteredElementCollector(Doc)
-                .OfCategory(BuiltInCategory.OST_TitleBlocks)
-                .ToElements()
-                .GroupBy(x => x.Name)
-                .Select(x => x.First())
-                .ToList();
+//        /// <summary>Gets distinct list of titleblock elements</summary>
+//        private List<Element> getTemplates()
+//            => new FilteredElementCollector(_doc)
+//                .OfCategory(BuiltInCategory.OST_TitleBlocks)
+//                .ToElements()
+//                .GroupBy(x => x.Name)
+//                .Select(x => x.First())
+//                .ToList();
 
 
 
-    }
-}
+//    }
+//}

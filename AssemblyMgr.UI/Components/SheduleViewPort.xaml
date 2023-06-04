@@ -6,12 +6,166 @@
              xmlns:local="clr-namespace:AssemblyMgr.UI.Components"
              mc:Ignorable="d"
              xmlns:data="clr-namespace:AssemblyMgr.UI.ViewModels"
-             d:DataContext="{d:DesignInstance Type=data:ViewPortVM}"
+             d:DataContext="{d:DesignInstance Type=data:RectangleVM}"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Control"
+               x:Key="Common">
+            <Style.Resources>
+                <Style TargetType="ToolTip">
+                    <Setter Property="Background"
+                            Value="Black" />
+                    <Setter Property="Foreground"
+                            Value="White" />
+                    <Setter Property="FontWeight"
+                            Value="Bold" />
+                    <Setter Property="ToolTipService.InitialShowDelay"
+                            Value="10" />
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius"
+                            Value="5" />
+                    <Setter Property="Height"
+                            Value="25" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style BasedOn="{StaticResource Common}"
+               TargetType="{x:Type ToggleButton}">
+            <Style.Triggers>
+                <Trigger Property="IsChecked"
+                         Value="False">
+                    <Setter Property="Background"
+                            Value="White" />
+                    <Setter Property="BorderThickness"
+                            Value="0" />
+                    <Setter Property="Foreground"
+                            Value="LightSteelBlue" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="BorderBrush"
+                    Value="White" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Grid Margin="5"
-              Grid.Column="1">
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Content="Template"
+                   VerticalAlignment="Center"
+                   Grid.Row="0" />
+            <ComboBox Grid.Column="1"
+                      ItemsSource="{Binding Controller.ScheduleTemplates}"
+                      SelectedItem="{Binding ViewPort.ViewTemplate}" />
+            <Label Content="Dock Point"
+                   VerticalAlignment="Center"
+                   Grid.Row="2"
+                   Grid.RowSpan="2" />
+            <Border BorderBrush="SteelBlue"
+                    BorderThickness="1"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    CornerRadius="5"
+                    Margin="0,3"
+                    Padding="1">
+                <Grid Grid.Column="1"
+                      Grid.Row="2"
+                      DataContext="{Binding ViewPort}"
+                      d:DataContext="{d:DesignInstance Type=data:ViewPortVM_Schedule}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="25" />
+                        <!--<ColumnDefinition Width="50" />-->
+                        <ColumnDefinition />
+                        <!--<ColumnDefinition/>-->
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    
+                    <!--</ToggleButton>-->
+                    <ToggleButton Grid.Column="0"
+                                  ToolTip="Tags"
+                                  IsChecked="{Binding TopLeft}"
+                                  VerticalContentAlignment="Top"
+                                  HorizontalContentAlignment="Left"
+                                  Padding="0">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-135" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Top"
+                                  HorizontalContentAlignment="Right"
+                                  IsChecked="{Binding TopRight}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-45" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="0"
+                                  Grid.Row="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Bottom"
+                                  HorizontalContentAlignment="Left"
+                                  IsChecked="{Binding BottomLeft}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="135" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="1"
+                                  Grid.Row="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Bottom"
+                                  HorizontalContentAlignment="Right"
+                                  IsChecked="{Binding BottomRight}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="45" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--<Grid Margin="5"
+              Grid.Column="1"
+              DataContext="{Binding ViewPort}"
+              d:DataContext="{d:DesignInstance Type=data:ViewPortVM_BOM}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -36,15 +190,15 @@
                                Margin="0,0,4,0" />
                     <TextBox Grid.Column="1"
                              BorderThickness="0"
-                             Text="{Binding ViewPortProps.BOMFieldSearch, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding BOMFieldSearch, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </Border>
             <ListBox x:Name="ListBox_AvailableBOMFields"
                      Grid.Row="2"
                      SelectionMode="Single"
                      FontWeight="Bold"
-                     ItemsSource="{Binding ViewPortProps.BOMFields_Available}"
-                     SelectedItem="{Binding ViewPortProps.CurrnetAvailableBOMField}" />
+                     ItemsSource="{Binding BOMFields_Available}"
+                     SelectedItem="{Binding CurrnetAvailableBOMField}" />
             <StackPanel Orientation="Vertical"
                         Grid.Column="1"
                         Grid.Row="2"
@@ -71,8 +225,8 @@
             <DataGrid x:Name="bomDataGrid"
                       Grid.Row="2"
                       Grid.Column="2"
-                      ItemsSource="{Binding SpoolSheetDefinition.BOMFields}"
-                      SelectedItem="{Binding ViewPortProps.CurrnetSelectedBOMField}"
+                      ItemsSource="{Binding Definition.BOMFields}"
+                      SelectedItem="{Binding CurrnetSelectedBOMField}"
                       SelectionMode="Single"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -85,6 +239,6 @@
                                         Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>

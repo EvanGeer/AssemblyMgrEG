@@ -9,7 +9,7 @@ namespace AssemblyMgr.UI.ViewModels
 {
     public class SheetLayoutVM : INotifyPropertyChanged 
     {
-        public ISpoolSheetDefinition SpoolSheetDefinition { get; set; }
+        public SpoolSheetDefinition SpoolSheetDefinition { get; set; }
         public IAssemblyMgrController Controller { get; }
 
         public Visibility TempViewPortVisibility => TempViewPort is null ? Visibility.Collapsed : Visibility.Visible;
@@ -22,22 +22,22 @@ namespace AssemblyMgr.UI.ViewModels
 
 
 
-        public ObservableCollection<IViewPort> Rectangles { get; } = new ObservableCollection<IViewPort>
+        public ObservableCollection<RectangleVM> Rectangles { get; } = new ObservableCollection<RectangleVM>
         {
-            //new ViewPortVM(new Box2d((50, 25), (200, 100)), 1),
-            //new ViewPortVM(new Box2d((550, 255), (200, 100)), 1),
+            //new RectangleVM(new Box2d((50, 25), (200, 100)), 1),
+            //new RectangleVM(new Box2d((550, 255), (200, 100)), 1),
         };
 
         public void AddViewPort(Box2d rectangle)
         {
-            Rectangles.Add(new ViewPortVM(rectangle, SheetImageScale, SpoolSheetDefinition, Controller));
+            Rectangles.Add(new RectangleVM(rectangle, SheetImageScale, SpoolSheetDefinition, Controller));
             TempViewPort = null;
         }
 
         public string DefaultImage => @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
         private float _sheetImageScale1 = 1;
 
-        public SheetLayoutVM(ISpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
+        public SheetLayoutVM(SpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
         {
             SpoolSheetDefinition = spoolSheetDefinition;
             Controller = controller;
@@ -48,7 +48,7 @@ namespace AssemblyMgr.UI.ViewModels
             get => _sheetImageScale1;
             set => this.Notify(PropertyChanged, () => {
                     _sheetImageScale1 = value;
-                    foreach(ViewPortVM v in Rectangles) v.PreviewScale = _sheetImageScale1;
+                    foreach(RectangleVM v in Rectangles) v.PreviewScale = _sheetImageScale1;
                 },
                     alsoNotify: new[] { nameof(TempViewPort), nameof(Rectangles) });
         }

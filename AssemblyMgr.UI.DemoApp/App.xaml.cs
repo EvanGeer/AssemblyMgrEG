@@ -1,5 +1,9 @@
-﻿using AssemblyMgr.UI.Test;
+﻿using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.UI.Test;
 using AssemblyMgr.UI.ViewModels;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace AssemblyMgr.UI
@@ -13,7 +17,7 @@ namespace AssemblyMgr.UI
         {
             base.OnStartup(e);
 
-            var testSpoolSheetDef = new SpoolSheetDefinition();
+            var testSpoolSheetDef = new SpoolSheetDefinition("Sample Spool 101");
             var testController = new AssemblyMgrController();
             var testVM = new AssemblyMgrVM(testSpoolSheetDef, testController)
             {
@@ -23,8 +27,19 @@ namespace AssemblyMgr.UI
                 
             };
 
+
             AssemblyMgrForm mw = new AssemblyMgrForm(testVM);
-            mw.Show();
+            mw.ShowDialog();
+
+            //var dir = new DirectoryInfo(@"c:\$\personal\settings\");
+            //if (!dir.Exists) dir.Create();
+            //var file = new FileInfo(Path.Combine(dir.FullName, "assemblyManager.json"));
+
+            //using (var writer = new StreamWriter(file.FullName))
+            //{
+            //    var settings = JsonSerializer.Serialize(testSpoolSheetDef);
+            //    writer.Write(settings);
+            //}
         }
     }
 }

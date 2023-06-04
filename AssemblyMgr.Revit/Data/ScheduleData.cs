@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace AssemblyMgrRevit.Data
+namespace AssemblyMgr.Revit.Data
 {
     public class ScheduleData
     {

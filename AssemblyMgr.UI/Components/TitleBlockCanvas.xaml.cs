@@ -63,7 +63,7 @@ namespace AssemblyMgr.UI.Components
             var deScaled = new Box2d(newRectangle.BottomLeft / _viewModel.ViewPorts.SheetImageScale,
                 newRectangle.TopRight / _viewModel.ViewPorts.SheetImageScale);
             _viewModel.ViewPorts.AddViewPort(deScaled);
-            //_viewModel.ViewPorts.Rectangles.Add(new ViewPortVM(deScaled, _viewModel.ViewPorts.SheetImageScale, _viewModel.SpoolSheetDefinition));
+            //_viewModel.ViewPorts.Rectangles.Add(new RectangleVM(deScaled, _viewModel.ViewPorts.SheetImageScale, _viewModel.Definition));
             //_viewModel.ViewPorts.TempViewPort = null;
             isAddingRectangle = false;
         }
@@ -79,10 +79,10 @@ namespace AssemblyMgr.UI.Components
 
         private void DeleteCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            _viewModel.ViewPorts.Rectangles.Remove((sender as FrameworkElement)?.DataContext as ViewPortVM);
+            _viewModel.ViewPorts.Rectangles.Remove((sender as FrameworkElement)?.DataContext as RectangleVM);
         }
 
-        private void DeleteViewPort(ViewPortVM viewPort) => _viewModel.ViewPorts.Rectangles.Remove(viewPort);
+        private void DeleteViewPort(RectangleVM viewPort) => _viewModel.ViewPorts.Rectangles.Remove(viewPort);
 
     }
 }

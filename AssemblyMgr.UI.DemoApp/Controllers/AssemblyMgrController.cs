@@ -10,7 +10,7 @@ namespace AssemblyMgr.UI.Test
     {
         //public IScheduleController ScheduleController { get; } = new ScheduleController();
         //public ITitleBlockController TitleBlockController { get; } = new TitleBlockController();
-        public List<BOMFieldDefinition> GetBOMFields() =>
+        public List<BOMFieldDefinition> BOMFields { get; } =
             new List<BOMFieldDefinition>
             {
                 new BOMFieldDefinition("Tag"),
@@ -20,7 +20,7 @@ namespace AssemblyMgr.UI.Test
                 new BOMFieldDefinition("End Prep 2"),
             };
 
-        private Dictionary<string, FileInfo> _titleBlockImages
+        private static Dictionary<string, FileInfo> _titleBlockImages
             = new Dictionary<string, FileInfo>();
 
         private const string _defaultPath = @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
@@ -32,7 +32,18 @@ namespace AssemblyMgr.UI.Test
             return _titleBlockImages[name]?.FullName ?? _defaultPath;
         }
 
-        public List<string> GetTitleBlocks()
+        public List<string> TitleBlocks { get; } = getSampleTitleBlocks();
+        public List<string> ViewTemplates { get; } = new List<string>
+        {
+            "BOM Template",
+            "Schedule Template",
+            "2D Template",
+            "Plane Template",
+            "Elevation Template",
+            "3D Template",
+        };
+
+        private static List<string> getSampleTitleBlocks()
         {
             // ToDo: Change this path to a sample data folder in repo
             var titleBlockImageFolder = @"C:\$\Personal\images";
@@ -54,6 +65,9 @@ namespace AssemblyMgr.UI.Test
             return _titleBlockImages.Keys.ToList();
         }
 
-
+        public string RefreshImage(string titleBlock)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

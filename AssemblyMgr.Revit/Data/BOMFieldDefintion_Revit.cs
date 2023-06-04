@@ -1,7 +1,7 @@
 ﻿using AssemblyMgr.Core.DataModel;
 using Autodesk.Revit.DB;
 
-namespace AssemblyMgrRevit.Data
+namespace AssemblyMgr.Revit.Data
 {
     public class BOMFieldDefintion_Revit : BOMFieldDefinition
     {

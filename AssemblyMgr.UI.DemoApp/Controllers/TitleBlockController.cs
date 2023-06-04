@@ -19,7 +19,7 @@
 //            return _titleBlockImages[name]?.FullName ?? _defaultPath;
 //        }
 
-//        public List<string> GetTitleBlocks()
+//        public List<string> TitleBlocks()
 //        {
 //            // ToDo: Change this path to a sample data folder in repo
 //            var titleBlockImageFolder = @"C:\$\Personal\images";

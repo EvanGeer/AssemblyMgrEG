@@ -2,6 +2,7 @@
 
 namespace AssemblyMgr.Core.DataModel
 {
+
     public interface ISpoolSheetDefinition
     {
         ObservableCollection<BOMFieldDefinition> BOMFields { get; set; }

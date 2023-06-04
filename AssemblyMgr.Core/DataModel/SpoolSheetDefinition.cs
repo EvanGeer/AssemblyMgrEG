@@ -1,24 +1,15 @@
-﻿using AssemblyMgr.Core.DataModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace AssemblyMgr.UI.ViewModels
+namespace AssemblyMgr.Core.DataModel
 {
-    public class SpoolSheetDefinition : ISpoolSheetDefinition
+    public class SpoolSheetDefinition //: ISpoolSheetDefinition
     {
-        public ObservableCollection<BOMFieldDefinition> BOMFields { get; set; }
-        = new ObservableCollection<BOMFieldDefinition>();
+        public ObservableCollection<IViewPort> ViewPorts { get; set; }
+            = new ObservableCollection<IViewPort>();
+        public int TitleBlockId { get; set; }
         public string TitleBlock { get; set; }
-
-        public bool TagLeaders { get; set; }
-        public bool PlaceOrthoView { get; set; } = true;
-        public bool PlaceFrontView { get; set; } = true;
-        public bool PlaceTopView { get; set; } = true;
-
-        public bool IgnoreWelds { get; set; }
-        public int Scale { get; set; } = 48;
         public string AssemblyName { get; set; }
 
-        public SpoolSheetDefinition() { }
         public SpoolSheetDefinition(string assemblyName)
         {
             AssemblyName = assemblyName;

@@ -31,7 +31,7 @@
             <StackPanel Orientation="Horizontal"
                         Margin="8,8,8,0">
                 <Label Content="Title Block:"
-                       FontSize="18"
+                       FontSize="12"
                        FontWeight="Bold" />
                 <ComboBox x:Name="TitleBlockListBox"
                           FontWeight="Bold"

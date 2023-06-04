@@ -20,28 +20,28 @@ namespace AssemblyMgr.UI.Components
 
         private void setViewModel(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _viewModel = this.DataContext as ViewPortVM;
+            _viewModel = this.DataContext as RectangleVM;
         }
 
-        private ViewPortVM _viewModel;
+        private RectangleVM _viewModel;
 
 
 
         private void DeleteCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (OnDeleted is null) return;
-            OnDeleted((sender as FrameworkElement)?.DataContext as ViewPortVM);
+            OnDeleted((sender as FrameworkElement)?.DataContext as RectangleVM);
         }
 
-        public Action<ViewPortVM> OnDeleted
+        public Action<RectangleVM> OnDeleted
         {
-            get { return (Action<ViewPortVM>)GetValue(OnDeletedProperty); }
+            get { return (Action<RectangleVM>)GetValue(OnDeletedProperty); }
             set { SetValue(OnDeletedProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for OnDeleted.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OnDeletedProperty =
-            DependencyProperty.Register("OnDeleted", typeof(Action<ViewPortVM>), typeof(ViewPortCard), new PropertyMetadata(null));
+            DependencyProperty.Register("OnDeleted", typeof(Action<RectangleVM>), typeof(ViewPortCard), new PropertyMetadata(null));
 
         private void GoBack_MouseDown(object sender, MouseButtonEventArgs e)
         {

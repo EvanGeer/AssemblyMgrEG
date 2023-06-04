@@ -5,7 +5,7 @@
 //{
 //    internal class ScheduleController : IScheduleController
 //    {
-//        public List<BOMFieldDefinition> GetBOMFields() =>
+//        public List<BOMFieldDefinition> BOMFields() =>
 //            new List<BOMFieldDefinition>
 //            {
 //                new BOMFieldDefinition("Tag"),

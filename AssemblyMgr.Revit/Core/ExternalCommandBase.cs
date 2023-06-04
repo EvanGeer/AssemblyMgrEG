@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace AssemblyMgrEG.Revit__Core
+namespace AssemblyMgr.Revit.Core
 {
     public abstract class ExternalCommandBase : IExternalCommand
     {
