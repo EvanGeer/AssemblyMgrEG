@@ -125,9 +125,14 @@ namespace AssemblyMgr.Revit.Core
             var fec = new FilteredElementCollector(Doc, assemblyMgrView.View.Id);
             fec.OfCategory(BuiltInCategory.OST_FabricationPipework);
 
-            var tagOffset = 1.5 / assemblyMgrView.View.Scale;// viewDef.TagOffset;
+            var tagOffset = 6 / 12.0; // viewDef.TagOffset; // ToDo: custom tag offset per tag type
             var view = assemblyMgrView.View;
+            
+            
             //pair these down to just the stuff we're interested in
+            // ToDo: 
+            // - Straights = location is Curve
+            // - Joints & Fittings = everything else
             IEnumerable<Element> elements;
             if (viewDef.IgnoreWelds)
             {
@@ -152,7 +157,22 @@ namespace AssemblyMgr.Revit.Core
                 {
                     var elemRef = new Reference(elem);
                     var elementCenter = elem.get_BoundingBox(view).GetCenter();
-                    var tagXYZ = elementCenter + view.UpDirection * tagOffset;
+                    var connectors = elem.ConnectorManager.Connectors
+                        .OfType<Connector>()
+                        .Where(x => x.ConnectorType == ConnectorType.End);
+
+                    var elementDirection = connectors
+                        .Select(x => x.CoordinateSystem.BasisZ)
+                        .Aggregate((x, y) => x + y);
+
+                    //if (elementDirection.IsAlmostEqualTo(XYZ.Zero)) elementDirection = connectors.FirstOrDefault()?.CoordinateSystem.BasisZ;
+
+                    // this should be normal to the element
+                    var offsetDiretion = elementDirection.IsAlmostEqualTo(XYZ.Zero) 
+                        ? connectors.FirstOrDefault()?.CoordinateSystem.BasisZ.CrossProduct(view.ViewDirection)
+                        : elementDirection.Negate();
+
+                    var tagXYZ = elementCenter + offsetDiretion * tagOffset;
 
                     //var maxXYZ = elem.get_BoundingBox(view).Max;
                     //var minXYZ = elem.get_BoundingBox(view).Min;
@@ -161,7 +181,20 @@ namespace AssemblyMgr.Revit.Core
                     //    ((maxXYZ.Y + minXYZ.Y) / 2.0) + (tagOffset),
                     //    ((maxXYZ.Z + minXYZ.Z) / 2.0) + (tagOffset)
                     //);
-                    IndependentTag.Create(Doc, view.Id, elemRef, true/* viewDef.HasTagLeaders*/, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, tagXYZ);
+                    var tag = IndependentTag.Create(Doc, view.Id, elemRef, true/* viewDef.HasTagLeaders*/, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, tagXYZ);
+                    tag.LeaderEndCondition = LeaderEndCondition.Free;
+                    tag.LeaderEnd = elementCenter;
+                    tag.TagHeadPosition = tagXYZ;
+                    //tag.LeaderElbow = tagXYZ;
+
+                    //var direction =
+                    //    tagXYZ.X > elementCenter.X ? XYZ.BasisX.Negate()
+                    //    : tagXYZ.X < elementCenter.X ? XYZ.BasisX
+                    //    : tagXYZ.Y < elementCenter.Y ? XYZ.BasisY
+                    //    : tagXYZ.Y > elementCenter.Y ? XYZ.BasisY.Negate()
+                    //    : XYZ.BasisZ;
+
+                    //tag.TagHeadPosition = tagXYZ + (0.25 * direction);
                 }
 
                 t.Commit();
