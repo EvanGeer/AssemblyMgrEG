@@ -58,12 +58,12 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid Margin="8">
+        <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -73,20 +73,35 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <Label Content="View Template"
+                   VerticalAlignment="Center"
+                   Grid.Column="1"
+                   Grid.Row="2" />
             <ComboBox Grid.Column="1"
+                      Grid.Row="3"
                       ItemsSource="{Binding Controller.ViewTemplates}"
                       SelectedItem="{Binding ViewPort.ViewTemplate}" />
             <Label Content="Orientation"
-                   VerticalAlignment="Center"
-                   Grid.Row="2" />
-            <Grid Grid.Column="1"
-                  Grid.Row="2"
-                  Width="80"
-                  Height="80">
-                <Border BorderBrush="#7FB0C4DE"
-                        BorderThickness="12"
+                   Grid.Column="2"
+                   Grid.Row="0" 
+                   Margin="8,0,0,0"/>
+            <Border Grid.Column="2"
+                  Grid.Row="1"
+                  Grid.RowSpan="4"
+                    BorderThickness="1"
+                    BorderBrush="LightSteelBlue"
+                    CornerRadius="5"
+                    Margin="8,2"
+                  >
+            <Grid Width="80"
+                  Height="80"
+                  VerticalAlignment="Top"
+                  Margin="2">
+                <Border BorderBrush="LightSteelBlue"
+                        Opacity=".5"
+                        BorderThickness="5"
                         CornerRadius="50"
-                        Margin="7" />
+                        Margin="10" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -99,7 +114,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.Resources>
-                        <Style TargetType="Label">
+                        <Style TargetType="ToggleButton">
                             <Setter Property="FontSize"
                                     Value="14" />
                             <Setter Property="FontWeight"
@@ -112,32 +127,57 @@
                                     Value="Center" />
                             <Setter Property="VerticalAlignment"
                                     Value="Center" />
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
                             <Setter Property="Padding"
                                     Value="0" />
+                            <Setter Property="Width"
+                                    Value="25" />
+                            <Setter Property="Height"
+                                    Value="25" />
+                            <!--<Setter Property="Padding"
+                                    Value="0" />
+                            <Setter Property="Margin"
+                                    Value="0,-2,0,0" />-->
                             <!--<Setter Property="Background"
                                     Value="White" />-->
-                            <!--<Style.Resources>
-                            <Style TargetType="Border">
+                            <Setter Property="BorderBrush"
+                                    Value="White" />
+                            <Style.Resources>
+                                <Style TargetType="Border">
                                     <Setter Property="CornerRadius"
                                             Value="50" />
+                                    <Setter Property="BorderThickness"
+                                            Value="0" />
                                 </Style>
-                        </Style.Resources>-->
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked"
+                                         Value="False">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="BorderBrush"
+                                            Value="Transparent" />
+                                    <Setter Property="BorderThickness"
+                                            Value="1" />
+                                </Trigger>
+                            </Style.Triggers>
                         </Style>
                     </Grid.Resources>
-                    <Label Content="N"
-                           Grid.Row="0"
-                           Grid.Column="1"/>
-                    <Label Content="S"
-                           Grid.Row="2"
-                           Grid.Column="1" 
-                           />
-                    <Label Content="E"
-                           Grid.Row="1"
-                           Grid.Column="2" 
-                           FontSize="16"/>
-                    <Label Content="W"
-                           Grid.Row="1"
-                           Grid.Column="0" />
+                    <ToggleButton Content="N"
+                                  Grid.Row="0"
+                                  Grid.Column="1" />
+                    <ToggleButton Content="S"
+                                  Grid.Row="2"
+                                  Grid.Column="1"
+                                  FontSize="15" />
+                    <ToggleButton Content="E"
+                                  Grid.Row="1"
+                                  Grid.Column="2"
+                                  FontSize="16" />
+                    <ToggleButton Content="W"
+                                  Grid.Row="1"
+                                  Grid.Column="0" />
                 </Grid>
                 <!--<Grid Grid.Column="1"
                       Grid.Row="2"
@@ -146,11 +186,15 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="30" />
-                        --><!--<ColumnDefinition Width="25" />
+                        -->
+                <!--<ColumnDefinition Width="25" />
                         <ColumnDefinition Width="25" />-->
-                        <!--<ColumnDefinition Width="50" />--><!--
+                <!--<ColumnDefinition Width="50" />-->
+                <!--
                         <ColumnDefinition />
-                        --><!--<ColumnDefinition/>--><!--
+                        -->
+                <!--<ColumnDefinition/>-->
+                <!--
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -243,12 +287,14 @@
                     </ToggleButton>
                 </Grid>-->
             </Grid>
+            </Border>
             <!--</Border>-->
             <Label Content="Annotations"
-                   Grid.Row="3"
+                   Grid.Row="0"
+                   Grid.Column="1"
                    VerticalAlignment="Center" />
             <Grid Grid.Column="1"
-                  Grid.Row="3"
+                  Grid.Row="1"
                   DataContext="{Binding ViewPort}"
                   d:DataContext="{d:DesignInstance Type=data:ViewPortVM_ModelView}">
                 <Grid.ColumnDefinitions>

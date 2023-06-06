@@ -101,9 +101,9 @@
                               VerticalScrollBarVisibility="Auto"
                               VerticalAlignment="Center"
                               VerticalContentAlignment="Center"
-                              MaxWidth="480"
                               Content="{Binding MainControl}"
                               Grid.Row="2" />
+                              <!--MaxWidth="302"-->
             </Grid>
         </Border>
     </Grid>
