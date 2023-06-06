@@ -17,7 +17,7 @@ namespace AssemblyMgr.UI
         {
             DataContext = assemblyData;
             AssemblyData = assemblyData;
-            Title = "Assembly Manager: " + AssemblyData?.SpoolSheetDefinition?.AssemblyName;
+            Title = "Assembly Manager";
 
             InitializeComponent();
         }

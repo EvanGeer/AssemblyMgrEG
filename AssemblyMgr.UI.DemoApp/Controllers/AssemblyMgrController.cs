@@ -35,12 +35,15 @@ namespace AssemblyMgr.UI.Test
         public List<string> TitleBlocks { get; } = getSampleTitleBlocks();
         public List<string> ViewTemplates { get; } = new List<string>
         {
-            "BOM Template",
-            "Schedule Template",
             "2D Template",
             "Plane Template",
             "Elevation Template",
             "3D Template",
+        };
+        public List<string> ScheduleTemplates { get; } = new List<string>
+        {
+            "BOM Template",
+            "Schedule Template",
         };
 
         private static List<string> getSampleTitleBlocks()

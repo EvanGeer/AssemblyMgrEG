@@ -1,13 +1,15 @@
 ﻿using AssemblyMgr.Core.Geometry;
 using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.Core.Extensions;
 using AssemblyMgr.UI.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Linq;
 
 namespace AssemblyMgr.UI.ViewModels
 {
-    public class SheetLayoutVM : INotifyPropertyChanged 
+    public class SheetLayoutVM : INotifyPropertyChanged
     {
         public SpoolSheetDefinition SpoolSheetDefinition { get; set; }
         public IAssemblyMgrController Controller { get; }
@@ -28,6 +30,10 @@ namespace AssemblyMgr.UI.ViewModels
             //new RectangleVM(new Box2d((550, 255), (200, 100)), 1),
         };
 
+        public void AddViewPort(ViewPortDefinition viewPort)
+        {
+            Rectangles.Add(new RectangleVM(viewPort, SheetImageScale, SpoolSheetDefinition, Controller));
+        }
         public void AddViewPort(Box2d rectangle)
         {
             Rectangles.Add(new RectangleVM(rectangle, SheetImageScale, SpoolSheetDefinition, Controller));
@@ -41,16 +47,24 @@ namespace AssemblyMgr.UI.ViewModels
         {
             SpoolSheetDefinition = spoolSheetDefinition;
             Controller = controller;
+
+            if (spoolSheetDefinition?.ViewPorts?.Count > 0)
+            {
+                var existinViewPorts = spoolSheetDefinition.ViewPorts.ToList();
+                existinViewPorts.ForEach(x => AddViewPort(x));
+                this.Notify(PropertyChanged, nameof(Rectangles));
+            }
         }
 
         public float SheetImageScale
         {
             get => _sheetImageScale1;
-            set => this.Notify(PropertyChanged, () => {
-                    _sheetImageScale1 = value;
-                    foreach(RectangleVM v in Rectangles) v.PreviewScale = _sheetImageScale1;
-                },
-                    alsoNotify: new[] { nameof(TempViewPort), nameof(Rectangles) });
+            set => this.Notify(PropertyChanged, () =>
+            {
+                _sheetImageScale1 = value;
+                foreach (RectangleVM v in Rectangles) v.PreviewScale = _sheetImageScale1;
+            },
+            alsoNotify: new[] { nameof(TempViewPort), nameof(Rectangles) });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

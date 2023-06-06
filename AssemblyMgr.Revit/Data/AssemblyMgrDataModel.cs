@@ -12,14 +12,14 @@
 //        public ScheduleData BomDefintion { get; }
 //        public List<Element> TitleBlockElements { get; private set; }
 //        public List<SchedulableField> SelectedBomFields =>
-//            Definition.ViewPorts
+//            ViewPort.ViewPorts
 //            .OfType<BOMFieldDefintion_Revit>()
 //            .Select(x => x.SchedulableField)
 //            .ToList();
 
 //        public AssemblyInstance Assembly { get; }
 //        public ElementId SelectedTitleBlockId => TitleBlockElements
-//            .FirstOrDefault(x => x.Name == Definition.TitleBlock)?.Id;
+//            .FirstOrDefault(x => x.Name == ViewPort.TitleBlock)?.Id;
 
 //        public AssemblyMgrDataModel(ISpoolSheetDefinition spoolSheetDefinition, AssemblyInstance Assembly) 
 //            : base(spoolSheetDefinition)
@@ -29,7 +29,7 @@
 
 //            BomDefintion = new ScheduleData(_doc, Assembly);
 //            ModelBOMFields = BomDefintion.ModelBOMFields;
-//            Definition.ViewPorts = BomDefintion.DefaultFieldList;
+//            ViewPort.ViewPorts = BomDefintion.DefaultFieldList;
 
 //            initializeTitelBlockData();
 //        }

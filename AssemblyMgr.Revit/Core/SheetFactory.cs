@@ -61,7 +61,7 @@ namespace AssemblyMgr.Revit.Core
             //    placeSchedule();
             //    var bom = ScheduleSheetInstance.ExportImage(doc, _sheet.Id, Assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
 
-            //    ISpoolSheetDefinition sheetDefinition = formData.Definition;
+            //    ISpoolSheetDefinition sheetDefinition = formData.ViewPort;
             //    var bomWidth = sheetDefinition.GetBOMWidth();
             //    var bomPoint = sheetDefinition.GetBOMInsertionPoint(_sheet.Outline.Max.U, _sheet.Outline.Max.V);
             //    bom.Point = new XYZ(bomPoint.X, bomPoint.Y, bomPoint.Z);

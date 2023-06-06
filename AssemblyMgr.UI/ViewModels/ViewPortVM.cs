@@ -5,12 +5,12 @@ using System.ComponentModel;
 
 namespace AssemblyMgr.UI.ViewModels
 {
-    public class ViewPortVM : INotifyPropertyChanged
-    {
-        public IViewPort Definition { get; set; }
+    public abstract class ViewPortVM : INotifyPropertyChanged
+    {   
+        public ViewPortDefinition Definition { get; set; }
         public IAssemblyMgrController Controller { get; }
 
-        public ViewPortVM(Box2d outline, IAssemblyMgrController controller, ViewPortType type, IViewPort definition)
+        public ViewPortVM(Box2d outline, IAssemblyMgrController controller, ViewPortType type, ViewPortDefinition definition)
         {
             Definition = definition;
 

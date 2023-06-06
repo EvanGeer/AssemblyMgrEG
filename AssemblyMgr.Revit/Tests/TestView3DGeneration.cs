@@ -27,7 +27,7 @@ namespace AssemblyMgr.Revit.Tests
                 return Result.Cancelled;
 
             // get input from the user on how to build the Assembly _sheet
-            var spoolSheetDefinition = new SpoolSheetDefinition(assemblyInstance.Name);
+            var spoolSheetDefinition = new SpoolSheetDefinition();
             spoolSheetDefinition.ViewPorts.Add(new ViewPortModel
             {
                 Outline = new Box2d((0, 0), (0.5, 0.5)),

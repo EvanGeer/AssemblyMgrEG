@@ -23,6 +23,7 @@ namespace AssemblyMgr.Core.DataModel
 
     public enum Quadrant
     {
+        None = 0, 
         TopRight = 1, 
         TopLeft = 2, 
         BottomLeft = 3,

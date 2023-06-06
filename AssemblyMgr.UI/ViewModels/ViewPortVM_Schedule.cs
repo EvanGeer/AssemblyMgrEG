@@ -7,7 +7,7 @@ namespace AssemblyMgr.UI.ViewModels
 {
     public class ViewPortVM_Schedule : ViewPortVM, INotifyPropertyChanged
     {
-        public new ViewPortSchedule Definition
+        public ViewPortSchedule Schedule
         {
             get => base.Definition as ViewPortSchedule;
             set => base.Definition = value;
@@ -18,11 +18,16 @@ namespace AssemblyMgr.UI.ViewModels
         {
 
         }
+        public ViewPortVM_Schedule(ViewPortSchedule schedule, IAssemblyMgrController controller)
+            : base(schedule.Outline, controller, schedule.Type, schedule)
+        {
+
+        }
 
         public Quadrant DockPoint 
         {
-            get => Definition.DockPoint; 
-            set => this.Notify(PropertyChanged, () => Definition.DockPoint = value,
+            get => Schedule.DockPoint; 
+            set => this.Notify(PropertyChanged, () => Schedule.DockPoint = value,
                     alsoNotify: new[] {
                         nameof(TopLeft), 
                         nameof(BottomRight), 

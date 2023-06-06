@@ -28,7 +28,7 @@ namespace AssemblyMgr.Revit.Core
                 return Result.Cancelled;
 
             // get input from the user on how to build the Assembly sheet
-            var spoolSheetDefinition = new SpoolSheetDefinition(assemblyInstance?.Name);
+            var spoolSheetDefinition = new SpoolSheetDefinition();
             var revitAdapter = new AssemblyMangerRevitAdapter(assemblyInstance);
             var viewModel = new AssemblyMgrVM(spoolSheetDefinition, revitAdapter);
             //var assemblyDataModel = new AssemblyMgrDataModel(spoolSheetDefinition, assemblyInstance);

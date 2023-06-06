@@ -21,6 +21,8 @@ namespace AssemblyMgr.UI.Components
         private void setViewModel(object sender, DependencyPropertyChangedEventArgs e)
         {
             _viewModel = this.DataContext as RectangleVM;
+            //this.Height = _viewModel.PreviewOutline.Height;
+            //this.Width = _viewModel.PreviewOutline.Width;
         }
 
         private RectangleVM _viewModel;

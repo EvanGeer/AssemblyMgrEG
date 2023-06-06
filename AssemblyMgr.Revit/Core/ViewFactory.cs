@@ -30,8 +30,8 @@ namespace AssemblyMgr.Revit.Core
         /// <summary>
         /// Output list of Assembly View objects created by this tool
         /// </summary>
-        //public List<(IViewPort Definition, View View)> Views { get; private set; } 
-        //    = new List<(IViewPort Definition, View View)>();
+        //public List<(ViewPortDefinition ViewPort, View View)> Views { get; private set; } 
+        //    = new List<(ViewPortDefinition ViewPort, View View)>();
 
         /// <summary>
         /// Ouput Bill of Materials schedule view
@@ -41,7 +41,7 @@ namespace AssemblyMgr.Revit.Core
         /// <summary>
         /// Form interface implementation
         /// </summary>
-        //public Definition AssemblyDataModel { get; set; }
+        //public ViewPort AssemblyDataModel { get; set; }
         public ScheduleData ScheduleData => Adapter.BomDefintion;
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace AssemblyMgr.Revit.Core
             Doc = assembly.Document;
         }
 
-        public List<AssemblyMgrView> CreateViews(IEnumerable<IViewPort> viewDefinitions)
+        public List<AssemblyMgrView> CreateViews(IEnumerable<ViewPortDefinition> viewDefinitions)
         {
             var assemblyMgrViews = viewDefinitions
                 .Select(x => createView(x))
@@ -74,7 +74,7 @@ namespace AssemblyMgr.Revit.Core
             return assemblyMgrViews;
         }
 
-        private AssemblyMgrView createView(IViewPort viewPort)
+        private AssemblyMgrView createView(ViewPortDefinition viewPort)
         {
             switch (viewPort.Type)
             {

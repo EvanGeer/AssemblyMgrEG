@@ -75,49 +75,175 @@
             </Grid.RowDefinitions>
             <ComboBox Grid.Column="1"
                       ItemsSource="{Binding Controller.ViewTemplates}"
-                      SelectedItem="{Binding ViewTemplate}" />
+                      SelectedItem="{Binding ViewPort.ViewTemplate}" />
             <Label Content="Orientation"
                    VerticalAlignment="Center"
                    Grid.Row="2" />
             <Grid Grid.Column="1"
                   Grid.Row="2"
-                  DataContext="{Binding ViewPort}"
-                  d:DataContext="{d:DesignInstance Type=data:ViewPortVM_ModelView}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                    <!--<ColumnDefinition Width="50" />-->
-                    <ColumnDefinition />
-                    <!--<ColumnDefinition/>-->
-                </Grid.ColumnDefinitions>
-                <!--</ToggleButton>-->
-                <ToggleButton Content="Front"
-                              Grid.Column="0"
-                              FontSize="15"
-                              Margin="2"
-                              ToolTip="Tags"
-                              IsChecked="{Binding HasTags}" />
-                <ToggleButton Content="Back"
-                              Grid.Column="1"
-                              FontSize="15"
-                              Margin="2"
-                              ToolTip="Tag Leaders"
-                              IsChecked="{Binding HasTagLeaders}" />
-                <ToggleButton Content="Left"
-                              Grid.Column="2"
-                              FontSize="15"
-                              Margin="2"
-                              ToolTip="Tag Leaders"
-                              IsChecked="{Binding IgnoreWelds}" />
-                <ToggleButton Content="Right"
-                              Grid.Column="3"
-                              FontSize="15"
-                              Margin="2"
-                              ToolTip="Tag Leaders"
-                              IsChecked="{Binding IgnoreWelds}" />
+                  Width="80"
+                  Height="80">
+                <Border BorderBrush="#7FB0C4DE"
+                        BorderThickness="12"
+                        CornerRadius="50"
+                        Margin="7" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="FontSize"
+                                    Value="14" />
+                            <Setter Property="FontWeight"
+                                    Value="Bold" />
+                            <!--<Setter Property="BorderBrush"
+                                    Value="SlateGray" />
+                            <Setter Property="BorderThickness"
+                                    Value="1" />-->
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="Padding"
+                                    Value="0" />
+                            <!--<Setter Property="Background"
+                                    Value="White" />-->
+                            <!--<Style.Resources>
+                            <Style TargetType="Border">
+                                    <Setter Property="CornerRadius"
+                                            Value="50" />
+                                </Style>
+                        </Style.Resources>-->
+                        </Style>
+                    </Grid.Resources>
+                    <Label Content="N"
+                           Grid.Row="0"
+                           Grid.Column="1"/>
+                    <Label Content="S"
+                           Grid.Row="2"
+                           Grid.Column="1" 
+                           />
+                    <Label Content="E"
+                           Grid.Row="1"
+                           Grid.Column="2" 
+                           FontSize="16"/>
+                    <Label Content="W"
+                           Grid.Row="1"
+                           Grid.Column="0" />
+                </Grid>
+                <!--<Grid Grid.Column="1"
+                      Grid.Row="2"
+                      DataContext="{Binding ViewPort}"
+                      d:DataContext="{d:DesignInstance Type=data:ViewPortVM_Schedule}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="30" />
+                        --><!--<ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="25" />-->
+                        <!--<ColumnDefinition Width="50" />--><!--
+                        <ColumnDefinition />
+                        --><!--<ColumnDefinition/>--><!--
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Style BasedOn="{StaticResource Common}"
+                               TargetType="{x:Type ToggleButton}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked"
+                                         Value="False">
+                                    <Setter Property="Background"
+                                            Value="White" />
+                                    <Setter Property="BorderBrush"
+                                            Value="SteelBlue" />
+                                    <Setter Property="BorderThickness"
+                                            Value="0" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius"
+                                            Value="100" />
+                                    <Setter Property="Height"
+                                            Value="30" />
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="Padding"
+                                    Value="0" />
+                        </Style>
+                    </Grid.Resources>
+                    <ToggleButton Grid.Column="0"
+                                  ToolTip="Tags"
+                                  IsChecked="{Binding TopLeft}"
+                                  VerticalContentAlignment="Top"
+                                  HorizontalContentAlignment="Left"
+                                  Padding="0">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-135" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Top"
+                                  HorizontalContentAlignment="Right"
+                                  IsChecked="{Binding TopRight}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="-45" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="0"
+                                  Grid.Row="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Bottom"
+                                  HorizontalContentAlignment="Left"
+                                  IsChecked="{Binding BottomLeft}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="135" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                    <ToggleButton Grid.Column="1"
+                                  Grid.Row="1"
+                                  ToolTip="Tag Leaders"
+                                  VerticalContentAlignment="Bottom"
+                                  HorizontalContentAlignment="Right"
+                                  IsChecked="{Binding BottomRight}">
+                        <TextBlock Text="&#xEDD6;"
+                                   FontSize="20"
+                                   Margin="-6"
+                                   Padding="0"
+                                   FontFamily="Segoe MDL2 Assets">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="45" />
+                            </TextBlock.LayoutTransform></TextBlock>
+                    </ToggleButton>
+                </Grid>-->
             </Grid>
+            <!--</Border>-->
             <Label Content="Annotations"
                    Grid.Row="3"
                    VerticalAlignment="Center" />

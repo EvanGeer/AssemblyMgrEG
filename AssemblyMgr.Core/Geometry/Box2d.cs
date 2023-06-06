@@ -87,6 +87,12 @@ namespace AssemblyMgr.Core.Geometry
 
     public class Box2d
     {
+        [JsonConstructor]
+        public Box2d(double Max_X, double Max_Y, double Min_X, double Min_Y)
+            => (BottomLeft, TopRight) 
+            = (new Vector2((float)Min_X, (float)Min_Y),
+               new Vector2((float)Max_X, (float)Max_Y));
+
         public Box2d((double X, double Y) pt1, (double X, double Y) pt2)
             : this(new Vector2((float)pt1.X, (float)pt1.Y),
                    new Vector2((float)pt2.X, (float)pt2.Y))
@@ -100,6 +106,11 @@ namespace AssemblyMgr.Core.Geometry
 
         public Box2d() { }
         // base properties
+
+        public float Max_X => TopRight.X;
+        public float Max_Y => TopRight.Y;
+        public float Min_X => BottomLeft.X;
+        public float Min_Y => BottomLeft.Y;
         public Vector2 TopRight { get; set; }
         public Vector2 BottomLeft { get; set; }
 

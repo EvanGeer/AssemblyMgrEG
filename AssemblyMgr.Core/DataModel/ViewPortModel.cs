@@ -1,8 +1,9 @@
 ﻿using AssemblyMgr.Core.Geometry;
+using System;
 
 namespace AssemblyMgr.Core.DataModel
 {
-    public class ViewPortModel : IViewPort
+    public class ViewPortModel : ViewPortDefinition
     {
         public int Scale { get; set; }
 
@@ -11,11 +12,6 @@ namespace AssemblyMgr.Core.DataModel
         public double TagOffset { get; set; }
         public bool HasDimensions { get; set; }
 
-        public Box2d Outline { get; set; }
-        public ViewPortType Type { get; set; }
-        public string Title { get; set; }
         public Orientation Orientation { get; set; }
-        public bool IgnoreWelds { get; set; }
-        public string ViewTemplate { get; set; }
     }
 }

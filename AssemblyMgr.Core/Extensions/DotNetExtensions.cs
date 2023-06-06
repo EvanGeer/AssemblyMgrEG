@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AssemblyMgr.Core.Extensions
@@ -24,5 +25,9 @@ namespace AssemblyMgr.Core.Extensions
 
         }
 
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        {
+            foreach(T item in collection) action(item);
+        }
     }
 }

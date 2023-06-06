@@ -7,34 +7,36 @@ namespace AssemblyMgr.UI.ViewModels
 {
     public class ViewPortVM_ModelView : ViewPortVM, INotifyPropertyChanged
     {
-        public new ViewPortModel Definition
+        public ViewPortModel ViewPort
         {
-            get => base.Definition as ViewPortModel;
-            set => base.Definition = value;
+            get => Definition as ViewPortModel;
+            set => Definition = value;
         }
 
         public ViewPortVM_ModelView(Box2d outline, IAssemblyMgrController controller, ViewPortType type)
             : base(outline, controller, type, new ViewPortModel()) { }
+        public ViewPortVM_ModelView(ViewPortModel model, IAssemblyMgrController controller)
+            : base(model.Outline, controller, model.Type, model) { }
 
         public bool HasTags 
         { 
-            get => Definition.HasTags;
-            set => this.Notify(PropertyChanged, () => Definition.HasTags = value); 
+            get => ViewPort.HasTags;
+            set => this.Notify(PropertyChanged, () => ViewPort.HasTags = value); 
         }
         public bool HasTagLeaders 
         { 
-            get => Definition.HasTagLeaders;
-            set => this.Notify(PropertyChanged, () => Definition.HasTagLeaders = value);
+            get => ViewPort.HasTagLeaders;
+            set => this.Notify(PropertyChanged, () => ViewPort.HasTagLeaders = value);
         }
         public bool HasDimensions
         {
-            get => Definition.HasDimensions;
-            set => this.Notify(PropertyChanged, () => Definition.HasDimensions = value);
+            get => ViewPort.HasDimensions;
+            set => this.Notify(PropertyChanged, () => ViewPort.HasDimensions = value);
         }
         public Orientation Orientation
         {
-            get => Definition.Orientation;
-            set => this.Notify(PropertyChanged, () => Definition.Orientation = value);
+            get => ViewPort.Orientation;
+            set => this.Notify(PropertyChanged, () => ViewPort.Orientation = value);
         }
         // ToDo: fix this... probably a different interface
 

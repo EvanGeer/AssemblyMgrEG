@@ -2,10 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+	  <TargetFramework>net481</TargetFramework>
+	  <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AssemblyMgr.Core\AssemblyMgr.Core.csproj" />
