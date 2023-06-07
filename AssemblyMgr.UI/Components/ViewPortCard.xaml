@@ -93,38 +93,37 @@
                         Background="Red"
                         Grid.Column="4"
                         Grid.Row="0" />-->
-                <Border x:Name="BottomLeft"
-                        Grid.Column="0"
-                        Grid.Row="4"
-                        Cursor="SizeNESW"
-                        BorderBrush="LightGray"
-                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
-                        BorderThickness="1,0,0,1"
-                        CornerRadius="0,0,0,4"
-                        Margin="2"
-                        MouseDown="BottomLeft_MouseDown"
-                        MouseMove="ResizeCard"
-                        MouseUp="ResizeDone">
-                    
-                    <!--<Border Background="White"
-                            CornerRadius="2"
-                            Margin="2,-1,-1,2" />-->
-                </Border>
-                <Border x:Name="BottomRight"
-                        Grid.Column="4"
-                        Grid.Row="4"
-                        Cursor="SizeNWSE"
-                        BorderBrush="LightGray"
-                        BorderThickness="0,0,1,1"
-                        CornerRadius="0,0,4,0"
-                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
-                        Margin="2"
-                        MouseDown="BottomRight_MouseDown"
-                        MouseMove="ResizeCard"
-                        MouseUp="ResizeDone"
-                        >
-                    <Border />
-                </Border>
+                <Thumb x:Name="BottomLeft"
+                       Cursor="SizeNESW"
+                       Grid.Column="0"
+                       Grid.Row="4"
+                       DragDelta="BottomLeft_DragDelta">
+                    <Thumb.Template>
+                        <ControlTemplate>
+                            <Border BorderBrush="LightGray"
+                                    Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
+                                    BorderThickness="1,0,0,1"
+                                    CornerRadius="0,0,0,4"
+                                    Margin="2" />
+                        </ControlTemplate>
+                    </Thumb.Template>
+                </Thumb>
+                <Thumb x:Name="BottomRight"
+                       Cursor="SizeNWSE"
+                       Grid.Column="4"
+                       Grid.Row="4"
+                       DragDelta="BottomRight_DragDelta">
+                    <Thumb.Template>
+                        <ControlTemplate>
+                            <Border BorderBrush="LightGray"
+                                    BorderThickness="0,0,1,1"
+                                    CornerRadius="0,0,4,0"
+                                    Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
+                                    Margin="2" />
+                        </ControlTemplate>
+                    </Thumb.Template>
+                </Thumb>
+                
                 <Grid Grid.RowSpan="3"
                       Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
@@ -132,11 +131,25 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Border CornerRadius="4,4,0,0"
+                    <Thumb Name="myThumb"
+                           Cursor="SizeAll"
+                           DragDelta="myThumb_DragDelta"
+                           DragStarted="myThumb_DragStarted"
+                           DragCompleted="myThumb_DragCompleted">
+                        <Thumb.Template>
+                            <ControlTemplate>
+                                <Border CornerRadius="4,4,0,0"
+                                        Background="#80004060"
+                                        Margin="0"
+                                        Padding="0" />
+                            </ControlTemplate>
+                        </Thumb.Template>
+                    </Thumb>
+                    <!--<Border CornerRadius="4,4,0,0"
                             Background="#80004060"
                             Cursor="SizeAll"
                             Margin="0"
-                            Padding="0">
+                            Padding="0">-->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -202,14 +215,9 @@
                                 </TextBlock.Style>--></TextBlock>
                             </Border>
                         </Grid>
-                    </Border>
+                    <!--</Border>-->
                     
-                    <Thumb Name="myThumb"
-                           Cursor="Cross"
-                           DragDelta="myThumb_DragDelta"
-                           DragStarted="myThumb_DragStarted"
-                           DragCompleted="myThumb_DragCompleted">
-                    </Thumb>
+
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto"
                                   VerticalAlignment="Center"

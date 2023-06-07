@@ -103,22 +103,6 @@ namespace AssemblyMgr.UI.Components
             //Move the Thumb to the mouse position during the drag operation
             var translation = new Vector2((float)e.HorizontalChange, (-1.0f)*(float)e.VerticalChange);
             _viewModel.Outline = new Box2d(_viewModel.Outline.BottomLeft +  translation, _viewModel.Outline.TopRight + translation);
-
-            //double yadjust = this.Height + e.VerticalChange;
-            //double xadjust = this.Width + e.HorizontalChange;
-            //if ((xadjust >= 0) && (yadjust >= 0))
-            //{
-            //    this.Width = xadjust;
-            //    this.Height = yadjust;
-            //    Canvas.SetLeft(myThumb, Canvas.GetLeft(myThumb) +
-            //                            e.HorizontalChange);
-            //    Canvas.SetTop(myThumb, Canvas.GetTop(myThumb) +
-            //                            e.VerticalChange);
-            //    //changes.Text = "Size: " +
-            //    //                this.Width.ToString() +
-            //    //                 ", " +
-            //    //                this.Height.ToString();
-            //}
         }
 
         private void myThumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -129,6 +113,38 @@ namespace AssemblyMgr.UI.Components
         private void myThumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             myThumb.Background = Brushes.Blue;
+        }
+
+        private void BottomRight_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var translation = new Vector2((float)e.HorizontalChange, (-1.0f) * (float)e.VerticalChange);
+
+            var newBottomRight = _viewModel.Outline.BottomRight + translation;
+            if (newBottomRight.X < _viewModel.Outline.TopLeft.X + 120
+                || newBottomRight.Y > _viewModel.Outline.TopLeft.Y - 40)
+                return;
+
+            _viewModel.Outline = new Box2d(newBottomRight, _viewModel.Outline.TopLeft);
+
+
+        }
+
+        private void BottomLeft_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var translation = new Vector2((float)e.HorizontalChange, (-1.0f) * (float)e.VerticalChange);
+            _viewModel.Outline = new Box2d(_viewModel.Outline.BottomLeft + translation, _viewModel.Outline.TopRight);
+
+
+        }
+
+        private void BottomLeft_DragStarted(object sender, DragStartedEventArgs e)
+        {
+
+        }
+
+        private void BottomLeft_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+
         }
     }
 }
