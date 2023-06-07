@@ -2,6 +2,8 @@
 using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.UI.Extensions;
 using System.ComponentModel;
+using System.Windows.Controls;
+using AssemblyMgr.UI.Components;
 
 namespace AssemblyMgr.UI.ViewModels
 {
@@ -57,5 +59,7 @@ namespace AssemblyMgr.UI.ViewModels
         }
 
         public new event PropertyChangedEventHandler PropertyChanged;
+
+        public override UserControl DirectionControl => new DirectionCtrl_Box2d(); 
     }
 }

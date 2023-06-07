@@ -63,7 +63,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -83,102 +83,25 @@
                       SelectedItem="{Binding ViewPort.ViewTemplate}" />
             <Label Content="Orientation"
                    Grid.Column="2"
-                   Grid.Row="0" 
-                   Margin="8,0,0,0"/>
+                   Grid.Row="0"
+                   Margin="8,0,0,0"
+                   Visibility="{Binding ViewPort.DirectionControl.Visibility}" />
             <Border Grid.Column="2"
-                  Grid.Row="1"
-                  Grid.RowSpan="4"
+                    Grid.Row="1"
+                    Grid.RowSpan="4"
                     BorderThickness="1"
-                    BorderBrush="LightSteelBlue"
+                    HorizontalAlignment="Center"
                     CornerRadius="5"
                     Margin="8,2"
-                  >
-            <Grid Width="80"
-                  Height="80"
-                  VerticalAlignment="Top"
-                  Margin="2">
-                <Border BorderBrush="LightSteelBlue"
-                        Opacity=".5"
-                        BorderThickness="5"
-                        CornerRadius="50"
-                        Margin="10" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="ToggleButton">
-                            <Setter Property="FontSize"
-                                    Value="14" />
-                            <Setter Property="FontWeight"
-                                    Value="Bold" />
-                            <!--<Setter Property="BorderBrush"
-                                    Value="SlateGray" />
-                            <Setter Property="BorderThickness"
-                                    Value="1" />-->
-                            <Setter Property="HorizontalAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Center" />
-                            <Setter Property="VerticalContentAlignment"
-                                    Value="Center" />
-                            <Setter Property="Padding"
-                                    Value="0" />
-                            <Setter Property="Width"
-                                    Value="25" />
-                            <Setter Property="Height"
-                                    Value="25" />
-                            <!--<Setter Property="Padding"
-                                    Value="0" />
-                            <Setter Property="Margin"
-                                    Value="0,-2,0,0" />-->
-                            <!--<Setter Property="Background"
-                                    Value="White" />-->
-                            <Setter Property="BorderBrush"
-                                    Value="White" />
-                            <Style.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius"
-                                            Value="50" />
-                                    <Setter Property="BorderThickness"
-                                            Value="0" />
-                                </Style>
-                            </Style.Resources>
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked"
-                                         Value="False">
-                                    <Setter Property="Background"
-                                            Value="Transparent" />
-                                    <Setter Property="BorderBrush"
-                                            Value="Transparent" />
-                                    <Setter Property="BorderThickness"
-                                            Value="1" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Resources>
-                    <ToggleButton Content="N"
-                                  Grid.Row="0"
-                                  Grid.Column="1" />
-                    <ToggleButton Content="S"
-                                  Grid.Row="2"
-                                  Grid.Column="1"
-                                  FontSize="15" />
-                    <ToggleButton Content="E"
-                                  Grid.Row="1"
-                                  Grid.Column="2"
-                                  FontSize="16" />
-                    <ToggleButton Content="W"
-                                  Grid.Row="1"
-                                  Grid.Column="0" />
-                </Grid>
+                    BorderBrush="LightSteelBlue"
+                    Background="White"
+                    Visibility="{Binding ViewPort.DirectionControl.Visibility}"
+                    >
+                <!-- ISO VIEW CUBE  -->
+            <ContentPresenter Content="{Binding ViewPort.DirectionControl}" />
+                <!--<local:DirectionCtrl_ViewCube DataContext="{Binding ViewPort}" />-->
+                <!--<local:Positioner_CompassRose DataContext="{Binding ViewPort}"/>-->
+                <!-- ISO VIEW CUBE  -->
                 <!--<Grid Grid.Column="1"
                       Grid.Row="2"
                       DataContext="{Binding ViewPort}"
@@ -286,7 +209,6 @@
                             </TextBlock.LayoutTransform></TextBlock>
                     </ToggleButton>
                 </Grid>-->
-            </Grid>
             </Border>
             <!--</Border>-->
             <Label Content="Annotations"

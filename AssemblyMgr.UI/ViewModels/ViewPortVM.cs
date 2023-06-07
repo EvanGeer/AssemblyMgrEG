@@ -2,6 +2,7 @@
 using AssemblyMgr.Core.Geometry;
 using AssemblyMgr.UI.Extensions;
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace AssemblyMgr.UI.ViewModels
 {
@@ -42,6 +43,8 @@ namespace AssemblyMgr.UI.ViewModels
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public abstract UserControl DirectionControl { get; }
 
     }
 }

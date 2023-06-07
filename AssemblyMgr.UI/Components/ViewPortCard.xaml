@@ -48,7 +48,7 @@
                                 </Setter>
                                 <Setter Property="Background">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="White"
+                                        <SolidColorBrush Color="AliceBlue"
                                                          Opacity="1" />
                                     </Setter.Value>
                                 </Setter>
@@ -58,52 +58,166 @@
                 </Style>
             </Border.Style>
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
-                <Border CornerRadius="4,4,0,0"
-                        Background="#80004060">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="GoBack"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   Padding="8"
-                                   MouseDown="GoBack_MouseDown"
-                                   Cursor="Hand"
-                                   Visibility="{Binding GoBackVisibility}">
+                <Grid.Resources>
+                    <!--<Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Cursor"
+                                        Value="SizeNWSE" />
+                                        
+                    
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>-->
+                    <!--Value="{Binding Name, RelativeSource={RelativeSource Self}}" />-->
+                </Grid.Resources>
+                <!--<Border x:Name="TopLeft"
+                        Cursor="SizeNWSE"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Background="Blue"
+                        Margin="-4"/>
+                <Border x:Name="TopRight"
+                        Cursor="SizeNESW"
+                        Background="Red"
+                        Grid.Column="4"
+                        Grid.Row="0" />-->
+                <Border x:Name="BottomLeft"
+                        Grid.Column="0"
+                        Grid.Row="4"
+                        Cursor="SizeNESW"
+                        BorderBrush="LightGray"
+                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
+                        BorderThickness="1,0,0,1"
+                        CornerRadius="0,0,0,4"
+                        Margin="2"
+                        MouseDown="BottomLeft_MouseDown"
+                        MouseMove="ResizeCard"
+                        MouseUp="ResizeDone">
+                    
+                    <!--<Border Background="White"
+                            CornerRadius="2"
+                            Margin="2,-1,-1,2" />-->
+                </Border>
+                <Border x:Name="BottomRight"
+                        Grid.Column="4"
+                        Grid.Row="4"
+                        Cursor="SizeNWSE"
+                        BorderBrush="LightGray"
+                        BorderThickness="0,0,1,1"
+                        CornerRadius="0,0,4,0"
+                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}}"
+                        Margin="2"
+                        MouseDown="BottomRight_MouseDown"
+                        MouseMove="ResizeCard"
+                        MouseUp="ResizeDone"
+                        >
+                    <Border />
+                </Border>
+                <Grid Grid.RowSpan="3"
+                      Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border CornerRadius="4,4,0,0"
+                            Background="#80004060"
+                            Cursor="SizeAll"
+                            Margin="0"
+                            Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="GoBack"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Padding="8,0"
+                                       MouseDown="GoBack_MouseDown"
+                                       Cursor="Hand"
+                                       Visibility="{Binding GoBackVisibility}">
                             <Run Text="&#xF8AC;"
                                  FontFamily="Segoe MDL2 Assets" />
                             <Run Text="{Binding TypeDispaly, Mode=OneWay}"
                                  FontWeight="Bold"
                                  FontSize="14" />
-                            <Run Text="{Binding ViewTemplate}" />
-                        </TextBlock>
-                        <TextBlock Grid.Column="1"
-                                   Cursor="Hand"
-                                   Text="&#xEF2C;"
-                                   x:Name="DeleteCard"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   Padding="8"
-                                   MouseDown="DeleteCard_PreviewMouseDown" />
-                    </Grid>
-                </Border>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto"
-                              VerticalAlignment="Center"
-                              VerticalContentAlignment="Center"
-                              Content="{Binding MainControl}"
-                              Grid.Row="2" />
-                              <!--MaxWidth="302"-->
+                            <Run Text="{Binding ViewPort.ViewTemplate}" /></TextBlock>
+                            <Border Grid.Column="2"
+                                    Margin="2"
+                                    Padding="8"
+                                    CornerRadius="4"
+                                    Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Grid.Column="1"
+                                           Cursor="Hand"
+                                           Text="&#xEF2C;"
+                                           x:Name="DeleteCard"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Foreground="White"
+                                           Margin="0,0,2,0"
+                                           MouseDown="DeleteCard_PreviewMouseDown">
+                                <!--<TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                        <Style.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius"
+                                                        Value="4" />
+                                            </Style>
+                                        </Style.Resources>
+                                    </Style>
+                                </TextBlock.Style>--></TextBlock>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    
+                    <Thumb Name="myThumb"
+                           Cursor="Cross"
+                           DragDelta="myThumb_DragDelta"
+                           DragStarted="myThumb_DragStarted"
+                           DragCompleted="myThumb_DragCompleted">
+                    </Thumb>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  Content="{Binding MainControl}"
+                                  Grid.Row="2" />
+                    <!--MaxWidth="302"-->
+                </Grid>
             </Grid>
         </Border>
     </Grid>

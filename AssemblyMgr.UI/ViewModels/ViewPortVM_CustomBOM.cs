@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace AssemblyMgr.UI.ViewModels
 {
@@ -37,6 +38,7 @@ namespace AssemblyMgr.UI.ViewModels
             set => this.Notify(PropertyChanged, () => _bomFieldSearch = value,
                 alsoNotify: new[] { nameof(BOMFields_Available) });
         }
+        public override UserControl DirectionControl { get; } = new UserControl();
 
         private void BOMFields_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
                 => this.Notify(PropertyChanged, nameof(BOMFields_Available));

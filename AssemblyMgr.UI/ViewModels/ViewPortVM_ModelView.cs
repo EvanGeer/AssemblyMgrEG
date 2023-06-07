@@ -2,6 +2,10 @@
 using AssemblyMgr.Core.DataModel;
 using System.ComponentModel;
 using AssemblyMgr.UI.Extensions;
+using AssemblyMgr.UI.Components;
+using System.Windows.Controls;
+using Orientation = AssemblyMgr.Core.DataModel.Orientation;
+using System.Windows;
 
 namespace AssemblyMgr.UI.ViewModels
 {
@@ -47,5 +51,17 @@ namespace AssemblyMgr.UI.ViewModels
         // - grab a sample spool
         // - show plan/elev/3d per type picked
         // - show dimensions/tags/leaders per toggle state
+
+        public override UserControl DirectionControl =>
+            Type == ViewPortType.ModelElevation
+            ? new DirectionCtrl_Compass()
+            : Type == ViewPortType.ModelOrtho
+            ? new DirectionCtrl_ViewCube()
+            : new UserControl { Visibility = Visibility.Collapsed };
+
+        public Visibility DimensionToggleVisibility => 
+            Type == ViewPortType.ModelOrtho 
+            ? Visibility.Collapsed
+            : Visibility.Visible;
     }
 }
