@@ -4,7 +4,6 @@ using System.ComponentModel;
 using AssemblyMgr.UI.Extensions;
 using AssemblyMgr.UI.Components;
 using System.Windows.Controls;
-using Orientation = AssemblyMgr.Core.DataModel.Orientation;
 using System.Windows;
 
 namespace AssemblyMgr.UI.ViewModels
@@ -37,7 +36,7 @@ namespace AssemblyMgr.UI.ViewModels
             get => ViewPort.HasDimensions;
             set => this.Notify(PropertyChanged, () => ViewPort.HasDimensions = value);
         }
-        public Orientation Orientation
+        public ElevationOrientation Orientation
         {
             get => ViewPort.Orientation;
             set => this.Notify(PropertyChanged, () => ViewPort.Orientation = value);

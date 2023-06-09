@@ -24,11 +24,13 @@
                                   Opacity=".5" />
             </Grid.Effect>
             <Image Source="{Binding TitleblockImagePath}"
-                   Stretch="UniformToFill" />
-            <Canvas x:Name="ActiveCanvase"
+                   Stretch="UniformToFill"
                     MouseDown="Canvas_MouseDown"
                     MouseMove="Canvas_MouseMove"
-                    MouseUp="Canvas_MouseUp"
+                    MouseUp="Canvas_MouseUp"                   
+                   Cursor="Cross" />
+            <Canvas x:Name="ActiveCanvase"
+
                     SizeChanged="SheetCanvas_SizeChanged">
                 <Rectangle Width="{Binding ViewPorts.TempViewPort.Width}"
                            Height="{Binding ViewPorts.TempViewPort.Height}"

@@ -9,7 +9,7 @@
         d:DataContext="{d:DesignInstance Type=data:AssemblyMgrVM}"
         mc:Ignorable="d"
         Title="Assembly Manager"
-        Height="840"
+        Height="800"
         Width="1080">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />

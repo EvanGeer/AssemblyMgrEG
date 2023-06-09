@@ -14,7 +14,7 @@ namespace AssemblyMgr.UI.Extensions
 
         public static void Notify(this INotifyPropertyChanged vm, PropertyChangedEventHandler PropertyChanged, Action updateAction, string[] alsoNotify, [CallerMemberName] string callerName = null)
         {
-            updateAction.Invoke();
+            updateAction?.Invoke();
 
             if (vm == null || PropertyChanged == null) 
                 return;
@@ -25,6 +25,11 @@ namespace AssemblyMgr.UI.Extensions
                 return;
 
             foreach (var additionalProperty in alsoNotify)
+                PropertyChanged?.Invoke(vm, new PropertyChangedEventArgs(additionalProperty));
+        }
+        public static void Notify(this INotifyPropertyChanged vm, PropertyChangedEventHandler PropertyChanged, string[] notifications)
+        {
+            foreach (var additionalProperty in notifications)
                 PropertyChanged?.Invoke(vm, new PropertyChangedEventArgs(additionalProperty));
         }
     }

@@ -52,20 +52,20 @@ namespace AssemblyMgr.Revit.Extensions
             return new BoundingBoxUV(box.BottomLeft.X, box.BottomLeft.Y, box.TopRight.X, box.TopRight.Y);
         }
 
-        public static bool TryAsAssemblyDetailViewOrientation(this Orientation orientation, out AssemblyDetailViewOrientation assemblyDetailViewOrientation)
+        public static bool TryAsAssemblyDetailViewOrientation(this ElevationOrientation orientation, out AssemblyDetailViewOrientation assemblyDetailViewOrientation)
         {
             switch (orientation)
             {
-                case Orientation.Left: 
+                case ElevationOrientation.Left: 
                     assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationLeft;
                     return true;
-                case Orientation.Right:
+                case ElevationOrientation.Right:
                     assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationRight;
                     return true;
-                case Orientation.Front: 
+                case ElevationOrientation.Front: 
                     assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationFront;
                     return true;
-                case Orientation.Back:
+                case ElevationOrientation.Back:
                     assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationBack;
                     return true;
                 default:
@@ -73,5 +73,6 @@ namespace AssemblyMgr.Revit.Extensions
                     return false;
             }
         }
+
     }
 }

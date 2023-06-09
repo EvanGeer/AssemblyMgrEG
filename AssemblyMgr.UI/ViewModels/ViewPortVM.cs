@@ -38,9 +38,18 @@ namespace AssemblyMgr.UI.ViewModels
         public string ViewTemplate
         {
             get => Definition?.ViewTemplate;
-            set => this.Notify(PropertyChanged, () => Definition.ViewTemplate = value);
+            set => this.Notify(PropertyChanged, () => validateAndSetViewTemplate(value));
         }
-
+        private void validateAndSetViewTemplate(string value)
+        {
+            if (!Controller.ScheduleTemplates.Contains(value)) return;
+            Definition.ViewTemplate = value;
+        }
+        public Direction3d Direction
+        {
+            get => Definition.Direction;
+            set => this.Notify(PropertyChanged, () => Definition.Direction = value);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

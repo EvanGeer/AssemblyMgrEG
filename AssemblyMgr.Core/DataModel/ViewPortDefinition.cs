@@ -10,7 +10,7 @@ namespace AssemblyMgr.Core.DataModel
     public class ViewPortDefinition
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-
+        public Direction3d Direction { get; set; }
         public Box2d Outline { get; set; }
         public ViewPortType Type { get; set; }
         public string Title { get; set; }

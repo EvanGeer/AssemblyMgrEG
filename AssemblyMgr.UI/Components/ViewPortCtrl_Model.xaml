@@ -77,10 +77,22 @@
                    VerticalAlignment="Center"
                    Grid.Column="1"
                    Grid.Row="2" />
-            <ComboBox Grid.Column="1"
-                      Grid.Row="3"
-                      ItemsSource="{Binding Controller.ViewTemplates}"
-                      SelectedItem="{Binding ViewPort.ViewTemplate}" />
+            <Border Grid.Column="1"
+                    Grid.Row="3"
+                    BorderBrush="LightSteelBlue"
+                    BorderThickness="1"
+                    Padding="4"
+                    CornerRadius="5"
+                    Background="White"
+                    Margin="0,2"
+                    >
+                <ComboBox IsEditable="True"
+                          BorderThickness="0"
+                          IsTextSearchCaseSensitive="False"
+                          IsTextSearchEnabled="True"
+                          ItemsSource="{Binding Controller.ViewTemplates}"
+                          SelectedItem="{Binding ViewPort.ViewTemplate}"></ComboBox>
+            </Border>
             <Label Content="Orientation"
                    Grid.Column="2"
                    Grid.Row="0"
@@ -95,10 +107,9 @@
                     Margin="8,2"
                     BorderBrush="LightSteelBlue"
                     Background="White"
-                    Visibility="{Binding ViewPort.DirectionControl.Visibility}"
-                    >
+                    Visibility="{Binding ViewPort.DirectionControl.Visibility}">
                 <!-- ISO VIEW CUBE  -->
-            <ContentPresenter Content="{Binding ViewPort.DirectionControl}" />
+                <ContentPresenter Content="{Binding ViewPort.DirectionControl}" />
                 <!--<local:DirectionCtrl_ViewCube DataContext="{Binding ViewPort}" />-->
                 <!--<local:Positioner_CompassRose DataContext="{Binding ViewPort}"/>-->
                 <!-- ISO VIEW CUBE  -->

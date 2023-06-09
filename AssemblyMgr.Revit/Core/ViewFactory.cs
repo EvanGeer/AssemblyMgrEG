@@ -329,7 +329,7 @@ namespace AssemblyMgr.Revit.Core
                 ? AssemblyDetailViewOrientation.ElevationFront
                 : AssemblyDetailViewOrientation.HorizontalDetail;
 
-            //if (!viewDefinition.Orientation.TryAsAssemblyDetailViewOrientation(out var orientation))
+            //if (!viewDefinition.ElevationOrientation.TryAsAssemblyDetailViewOrientation(out var orientation))
             //    return null;
 
             var tranactionName = string.Format("Assembly Manager: Create {0} View", orientation.ToString());

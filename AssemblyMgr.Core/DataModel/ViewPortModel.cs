@@ -12,6 +12,6 @@ namespace AssemblyMgr.Core.DataModel
         public double TagOffset { get; set; }
         public bool HasDimensions { get; set; }
 
-        public Orientation Orientation { get; set; }
+        public ElevationOrientation Orientation { get; set; }
     }
 }

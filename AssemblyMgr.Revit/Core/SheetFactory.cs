@@ -57,7 +57,7 @@ namespace AssemblyMgr.Revit.Core
             //    //double spacing = 0.01;
             //    var sheetProxy = new Box2d(_sheet.Outline.Min.AsVector2(), _sheet.Outline.Max.AsVector2());
 
-            //    // quadrant 2 - Top Right
+            //    // quadrant 2 - Up Right
             //    placeSchedule();
             //    var bom = ScheduleSheetInstance.ExportImage(doc, _sheet.Id, Assembly.BillOfMaterials.Id, new XYZ(0, 0, 0));
 
@@ -72,7 +72,7 @@ namespace AssemblyMgr.Revit.Core
 
             //    double sheetWidth = _sheet.Outline.Max.U - _sheet.Outline.Min.U;
 
-            //    // quadrant 1 - Top Left
+            //    // quadrant 1 - Up Left
             //    var q1View = Assembly.Views[0];
             //    double availableWidth = sheetWidth - bomWidth;
             //    double requiredWidth = (q1View.Outline.Max.U - q1View.Outline.Min.U) * q1View.Scale + 2.0 * spacing;
@@ -91,7 +91,7 @@ namespace AssemblyMgr.Revit.Core
             //    vp1.SetBoxCenter(new XYZ(centerX, centerY1, centerZ));
 
 
-            //    // quadrants 3 and 4 - Bottom
+            //    // quadrants 3 and 4 - Down
 
             //    double totalViewWidth = Assembly.Views.Skip(1).Sum(x => (x.Outline.Max.U - x.Outline.Min.U) * x.Scale);
             //    int scale = (int)Geometry.Ceiling(totalViewWidth / sheetWidth);

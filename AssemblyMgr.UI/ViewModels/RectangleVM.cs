@@ -8,79 +8,33 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 
 namespace AssemblyMgr.UI.ViewModels
 {
     public class RectangleVM : INotifyPropertyChanged
     {
-        public ViewPortVM ViewPort
-        {
-            get => _viewPort;
-            set
-            {
-                //if (value != null && SpoolSheetDefinition.ViewPorts.FirstOrDefault(x => x.Id == value.Definition.Id)
-                //    is ViewPortDefinition def)
-                //{
-                //    SpoolSheetDefinition.ViewPorts.Remove(def);
-                //}
-                ////if (!(_viewPort is null) && SpoolSheetDefinition.ViewPorts.Contains(_viewPort?.Definition))
-                ////    SpoolSheetDefinition.ViewPorts.Remove(_viewPort.Definition);
+        public event PropertyChangedEventHandler PropertyChanged;
 
-                //if (value != null)
-                //    SpoolSheetDefinition.ViewPorts.Add(value.Definition);
-
-                _viewPort = value;
-            }
-        }
+        public ViewPortVM ViewPort { get; set; }
         public SpoolSheetDefinition SpoolSheetDefinition { get; set; }
         public IAssemblyMgrController Controller { get; }
 
-        /// <summary>
-        /// Defined as percentage relative to sheet
-        /// </summary>
+        /// <summary>Defined as percentage relative to sheet</summary>
         public Box2d Outline
         {
             get => _outline;
-            set => this.Notify(PropertyChanged, () => _outline = value, alsoNotify: new[] { nameof(PreviewOutline) });
+            set
+            {
+                this.Notify(PropertyChanged, () => _outline = value,
+                 alsoNotify: new[] { nameof(PreviewOutline) });
+
+                if (ViewPort is null) return;
+                ViewPort.Definition.Outline = value / Constants.SheetImageWidthPixels;
+            }
         }
-        public RectangleVM(ViewPortDefinition viewPort, float previewScale, SpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
-            : this(viewPort.Outline, previewScale, spoolSheetDefinition, controller)
-        {
-            bool isSchedule = viewPort.Type == ViewPortType.Schedule;
-            bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(viewPort.Type);
-            Type = viewPort.Type;
-            if (isSchedule) ViewPort = new ViewPortVM_Schedule(viewPort as ViewPortSchedule, Controller);
-            if (isModelView) ViewPort = new ViewPortVM_ModelView(viewPort as ViewPortModel, Controller);
-            Outline = new Box2d(1024 * previewScale * viewPort.Outline.BottomLeft, 1024 * previewScale * viewPort.Outline.TopRight);
-
-        }
-        public RectangleVM(Box2d outline, float previewScale, SpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
-        {
-            Outline = outline;
-            _previewScale = previewScale;
-            SpoolSheetDefinition = spoolSheetDefinition;
-            Controller = controller;
-        }
-
-        //private string _name;
-        //public string Name
-        //{
-        //    get => _name;
-        //    set => this.Notify(PropertyChanged, () => _name = value);
-        //}
-
-        private bool _isActive;
-        private Box2d _outline;
-        private float _previewScale = 1.0f;
-        private ViewPortType _type = ViewPortType.None;
-        private ViewPortVM _viewPort;
-
-        bool IsActive
-        {
-            get => _isActive;
-            set => this.Notify(PropertyChanged, () => _isActive = value);
-        }
-
 
         public float PreviewScale
         {
@@ -89,17 +43,17 @@ namespace AssemblyMgr.UI.ViewModels
         }
 
 
-        public Box2d PreviewOutline => Outline is null ? null : new Box2d(Outline.BottomLeft * PreviewScale, Outline.TopRight * PreviewScale);
+        public Box2d PreviewOutline => Outline * PreviewScale;
 
+        /// <summary>NOTE: Setting type to None will remove the definition from the Settings object</summary>
         public ViewPortType Type
         {
             get => _type;
             set
             {
-                bool isSchedule = value == ViewPortType.Schedule;
-                bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(value);
-                if (isSchedule) ViewPort = new ViewPortVM_Schedule(new Box2d(Outline.BottomLeft / 1024f, Outline.TopRight / 1024f), Controller, value);
-                if (isModelView) ViewPort = new ViewPortVM_ModelView(new Box2d(Outline.BottomLeft / 1024f, Outline.TopRight / 1024f), Controller, value);
+                // changing viewport types requires us to switch out our ViewModel
+                updateViewport(value);
+
                 this.Notify(PropertyChanged, () => _type = value,
                     alsoNotify: new[]
                     {
@@ -108,20 +62,11 @@ namespace AssemblyMgr.UI.ViewModels
                         nameof(TypeDispaly),
                     });
 
-                if (ViewPort?.Definition != null)
-                {
-                    if (SpoolSheetDefinition.ViewPorts.FirstOrDefault(x => x.Id == ViewPort.Definition.Id) is ViewPortDefinition def )
-                    {
-                        SpoolSheetDefinition.ViewPorts.Remove(def);
-                    }
-
-                    SpoolSheetDefinition.ViewPorts.Add(ViewPort.Definition);
-                }
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public string TypeDispaly => Type.GetAttribute((DescriptionAttribute x) => x.Description);
+        public string TypeDispaly => 
+            Type.GetAttribute((DescriptionAttribute x) => x.Description);
 
         public Visibility GoBackVisibility =>
             Type == ViewPortType.None ? Visibility.Collapsed
@@ -131,5 +76,85 @@ namespace AssemblyMgr.UI.ViewModels
             Type == ViewPortType.None ? new ViewPortTypeSelector()
             : Type == ViewPortType.Schedule ? new SheduleViewPort()
             : new ModelViewPort() as UserControl;
+
+        public RectangleVM(ViewPortDefinition viewPort, float previewScale, SpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
+            : this(viewPort.Outline, previewScale, spoolSheetDefinition, controller)
+        {
+            bool isSchedule = viewPort.Type == ViewPortType.Schedule;
+            bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(viewPort.Type);
+            if (isSchedule) ViewPort = new ViewPortVM_Schedule(viewPort as ViewPortSchedule, Controller);
+            if (isModelView) ViewPort = new ViewPortVM_ModelView(viewPort as ViewPortModel, Controller);
+            Type = viewPort.Type;
+            _outline = viewPort.Outline * Constants.SheetImageWidthPixels;
+        }
+
+        public RectangleVM(Box2d outline, float previewScale, SpoolSheetDefinition spoolSheetDefinition, IAssemblyMgrController controller)
+        {
+            Outline = outline;
+            _previewScale = previewScale;
+            SpoolSheetDefinition = spoolSheetDefinition;
+            Controller = controller;
+        }
+
+        private void updateViewport(ViewPortType value)
+        {
+            var existingViewPortId = ViewPort?.Definition?.Id;
+
+            if (value == ViewPortType.None && existingViewPortId.HasValue)
+                removeMatchingDefintions(existingViewPortId.Value, SpoolSheetDefinition.ViewPorts);
+
+            if (value == ViewPortType.None) 
+                ViewPort = null;
+
+            if (value != ViewPortType.None && ViewPort is null)
+            {
+                var newViewPort =
+                    value == ViewPortType.None ? null
+                    : getNewViewPortViewModel(value, Outline, Controller);
+
+                addNewDefinition(newViewPort, SpoolSheetDefinition.ViewPorts);
+
+                ViewPort = newViewPort;
+            }
+        }
+
+        private static ViewPortVM getNewViewPortViewModel(ViewPortType value, Box2d outline, IAssemblyMgrController controller)
+        {
+            bool isSchedule = value == ViewPortType.Schedule;
+            bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(value);
+
+            var normalizedOutline = outline / 1024f;
+
+            return
+                isModelView ? new ViewPortVM_ModelView(normalizedOutline, controller, value)
+                : isSchedule ? new ViewPortVM_Schedule(normalizedOutline, controller, value)
+                : null as ViewPortVM;
+        }
+
+
+        private static void removeMatchingDefintions(Guid existingId, ObservableCollection<ViewPortDefinition> definitionsToUpdate)
+        {
+            var existingMatches = definitionsToUpdate
+                .Where(x => x.Id == existingId)
+                .ToList();
+
+            existingMatches.ForEach(x => definitionsToUpdate.Remove(x));
+        }
+
+        private static void addNewDefinition(ViewPortVM newViewModel, ObservableCollection<ViewPortDefinition> definitionsToUpdate)
+        {
+            if (!(newViewModel?.Definition is ViewPortDefinition definition)) return;
+
+            var existingMatches = definitionsToUpdate
+                .Where(x => x.Id == definition.Id)
+                .ToList();
+
+            bool addNew = existingMatches.Count == 0;
+            if (addNew) definitionsToUpdate.Add(definition);
+        }
+
+        private ViewPortType _type = ViewPortType.None;
+        private float _previewScale = 1.0f;
+        private Box2d _outline;
     }
 }

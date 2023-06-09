@@ -75,7 +75,7 @@ namespace AssemblyMgr.Revit.Core
             return new ImageExportOptions
             {
                 ZoomType = ZoomFitType.FitToPage,
-                PixelSize = 1024,
+                PixelSize = ,
                 FilePath = _imagesFolder.FullName,
                 FitDirection = FitDirectionType.Horizontal,
                 HLRandWFViewsFileType = ImageFileType.PNG,

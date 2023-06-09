@@ -89,7 +89,7 @@ namespace AssemblyMgr.UI.Components
             var newLocation = new Vector2((float)mouseLocationPoint.X, (float)mouseLocationPoint.Y);
             var translation = newLocation - _startingMouse;
             var newPosition = translation + originalCorner;
-            _viewModel.Outline = new Box2d(newPosition / _viewModel.PreviewScale, oppositeCorner / _viewModel.PreviewScale);
+            _viewModel.Outline = new Box2d(newPosition, oppositeCorner) / _viewModel.PreviewScale;
 
         }
 
@@ -98,19 +98,19 @@ namespace AssemblyMgr.UI.Components
             _resizeBox = null;
         }
 
-        private void myThumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        private void myThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             //Move the Thumb to the mouse position during the drag operation
             var translation = new Vector2((float)e.HorizontalChange, (-1.0f)*(float)e.VerticalChange);
-            _viewModel.Outline = new Box2d(_viewModel.Outline.BottomLeft +  translation, _viewModel.Outline.TopRight + translation);
+            _viewModel.Outline = _viewModel.Outline +  translation;
         }
 
-        private void myThumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        private void myThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             myThumb.Background = Brushes.Orange;
         }
 
-        private void myThumb_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        private void myThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             myThumb.Background = Brushes.Blue;
         }
@@ -121,30 +121,16 @@ namespace AssemblyMgr.UI.Components
 
             var newBottomRight = _viewModel.Outline.BottomRight + translation;
             if (newBottomRight.X < _viewModel.Outline.TopLeft.X + 120
-                || newBottomRight.Y > _viewModel.Outline.TopLeft.Y - 40)
+             || newBottomRight.Y > _viewModel.Outline.TopLeft.Y - 40)
                 return;
 
             _viewModel.Outline = new Box2d(newBottomRight, _viewModel.Outline.TopLeft);
-
-
         }
 
         private void BottomLeft_DragDelta(object sender, DragDeltaEventArgs e)
         {
             var translation = new Vector2((float)e.HorizontalChange, (-1.0f) * (float)e.VerticalChange);
             _viewModel.Outline = new Box2d(_viewModel.Outline.BottomLeft + translation, _viewModel.Outline.TopRight);
-
-
-        }
-
-        private void BottomLeft_DragStarted(object sender, DragStartedEventArgs e)
-        {
-
-        }
-
-        private void BottomLeft_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-
         }
     }
 }
