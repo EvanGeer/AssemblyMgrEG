@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using AssemblyMgr.Core.DataModel;
+using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,8 +17,7 @@ namespace AssemblyMgr.Revit.Core
             _doc = document;
             _imagesFolder = new DirectoryInfo(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                $@"AssemblyMgr\titleBlockImageCache\"
-                ));
+                Constants.ImageCacheSubFolder));
 
             if (!_imagesFolder.Exists) _imagesFolder.Create();
             TitleBlocksByName = getTitleBlockData(_doc);
@@ -75,7 +75,7 @@ namespace AssemblyMgr.Revit.Core
             return new ImageExportOptions
             {
                 ZoomType = ZoomFitType.FitToPage,
-                PixelSize = ,
+                PixelSize = Constants.SheetImageWidthPixels,
                 FilePath = _imagesFolder.FullName,
                 FitDirection = FitDirectionType.Horizontal,
                 HLRandWFViewsFileType = ImageFileType.PNG,

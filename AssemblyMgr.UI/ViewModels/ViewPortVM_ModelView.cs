@@ -53,9 +53,9 @@ namespace AssemblyMgr.UI.ViewModels
 
         public override UserControl DirectionControl =>
             Type == ViewPortType.ModelElevation
-            ? new DirectionCtrl_Compass()
+            ? new DirectionCtrl_Compass(new DirectionVM(ViewPort))
             : Type == ViewPortType.ModelOrtho
-            ? new DirectionCtrl_ViewCube()
+            ? new DirectionCtrl_ViewCube(new DirectionVM(ViewPort))
             : new UserControl { Visibility = Visibility.Collapsed };
 
         public Visibility DimensionToggleVisibility => 

@@ -42,7 +42,8 @@ namespace AssemblyMgr.UI.ViewModels
         }
         private void validateAndSetViewTemplate(string value)
         {
-            if (!Controller.ScheduleTemplates.Contains(value)) return;
+            if (!Controller.ViewTemplates.Contains(value)
+             && !Controller.ScheduleTemplates.Contains(value)) return;
             Definition.ViewTemplate = value;
         }
         public Direction3d Direction

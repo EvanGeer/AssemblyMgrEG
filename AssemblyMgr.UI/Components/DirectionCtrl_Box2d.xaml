@@ -52,30 +52,21 @@
                 Grid.Row="2"
                 CornerRadius="7"
                 Margin="0"
-                Padding="10"
+                Padding="4"
                 Background="White">
-                <!--Width="85"-->
             <Grid Grid.Column="1"
                   Grid.Row="2"
                   DataContext="{Binding ViewPort}"
                   d:DataContext="{d:DesignInstance Type=data:ViewPortVM_Schedule}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25" />
-                    <!--<ColumnDefinition Width="*" />-->
                     <ColumnDefinition Width="25" />
-                    <!--<ColumnDefinition Width="25" />
-                        <ColumnDefinition Width="25" />-->
-                    <!--<ColumnDefinition Width="50" />-->
-                    <!--<ColumnDefinition />-->
-                    <!--<ColumnDefinition/>-->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <!--</ToggleButton>-->
                 <ToggleButton Grid.Column="0"
-                              ToolTip="Tags"
                               IsChecked="{Binding TopLeft}"
                               VerticalContentAlignment="Top"
                               HorizontalContentAlignment="Left"
@@ -90,7 +81,6 @@
                         </TextBlock.LayoutTransform></TextBlock>
                 </ToggleButton>
                 <ToggleButton Grid.Column="2"
-                              ToolTip="Tag Leaders"
                               VerticalContentAlignment="Top"
                               HorizontalContentAlignment="Right"
                               IsChecked="{Binding TopRight}">
@@ -105,7 +95,6 @@
                 </ToggleButton>
                 <ToggleButton Grid.Column="0"
                               Grid.Row="1"
-                              ToolTip="Tag Leaders"
                               VerticalContentAlignment="Bottom"
                               HorizontalContentAlignment="Left"
                               IsChecked="{Binding BottomLeft}">
@@ -120,7 +109,6 @@
                 </ToggleButton>
                 <ToggleButton Grid.Column="2"
                               Grid.Row="1"
-                              ToolTip="Tag Leaders"
                               VerticalContentAlignment="Bottom"
                               HorizontalContentAlignment="Right"
                               IsChecked="{Binding BottomRight}">

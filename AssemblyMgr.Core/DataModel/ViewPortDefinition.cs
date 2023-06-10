@@ -7,7 +7,7 @@ namespace AssemblyMgr.Core.DataModel
     [XmlInclude(typeof(ViewPortModel))]
     [XmlInclude(typeof(ViewPortSchedule))]
     //[XmlInclude(typeof(ViewPortCustomBom))]
-    public class ViewPortDefinition
+    public class ViewPortDefinition : IDirection
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Direction3d Direction { get; set; }

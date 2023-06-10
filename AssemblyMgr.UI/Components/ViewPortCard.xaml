@@ -9,6 +9,29 @@
              d:DataContext="{d:DesignInstance Type=data:RectangleVM}"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Border"
+               x:Key="Common">
+            <Style.Resources>
+                <Style TargetType="ToolTip">
+                    <Setter Property="Background"
+                            Value="Black" />
+                    <Setter Property="Foreground"
+                            Value="White" />
+                    <Setter Property="FontWeight"
+                            Value="Bold" />
+                    <Setter Property="ToolTipService.InitialShowDelay"
+                            Value="10" />
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius"
+                            Value="5" />
+                    <Setter Property="Height"
+                            Value="30" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Border CornerRadius="6"
                 Padding="0">
@@ -68,31 +91,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
-                <Grid.Resources>
-                    <!--<Style TargetType="Border">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-                                <Setter Property="Cursor"
-                                        Value="SizeNWSE" />
-                                        
-                    
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>-->
-                    <!--Value="{Binding Name, RelativeSource={RelativeSource Self}}" />-->
-                </Grid.Resources>
-                <!--<Border x:Name="TopLeft"
-                        Cursor="SizeNWSE"
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        Background="Blue"
-                        Margin="-4"/>
-                <Border x:Name="TopRight"
-                        Cursor="SizeNESW"
-                        Background="Red"
-                        Grid.Column="4"
-                        Grid.Row="0" />-->
                 <Thumb x:Name="BottomLeft"
                        Cursor="SizeNESW"
                        Grid.Column="0"
@@ -123,7 +121,6 @@
                         </ControlTemplate>
                     </Thumb.Template>
                 </Thumb>
-                
                 <Grid Grid.RowSpan="3"
                       Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
@@ -141,61 +138,81 @@
                                 <Border CornerRadius="4,4,0,0"
                                         Background="#80004060"
                                         Margin="0"
-                                        Padding="0" />
+                                        Padding="0">
+                                    <TextBlock HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               Padding="8,0"
+                                               Visibility="{Binding GoBackVisibility}">
+                            <Run Text="{Binding TypeDispaly, Mode=OneWay}"
+                                        FontWeight="Bold"
+                                        FontSize="14" />
+                            <Run Text="{Binding ViewPort.ViewTemplate}" /></TextBlock>
+                                </Border>
                             </ControlTemplate>
                         </Thumb.Template>
                     </Thumb>
-                    <!--<Border CornerRadius="4,4,0,0"
-                            Background="#80004060"
-                            Cursor="SizeAll"
-                            Margin="0"
-                            Padding="0">-->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock x:Name="GoBack"
-                                       HorizontalAlignment="Left"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="2"
+                                Margin="2"
+                                Padding="8"
+                                CornerRadius="4"
+                                Cursor="Hand"
+                                ToolTip="Go Back"
+                                Visibility="{Binding GoBackVisibility}">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}"
+                                       BasedOn="{StaticResource Common}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="SteelBlue" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock x:Name="GoBackButton"
+                                       Cursor="Hand"
+                                       Text="&#xF8AC;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        Foreground="White"
-                                       Padding="8,0"
-                                       MouseDown="GoBack_MouseDown"
+                                       Margin="0,0,2,0"
+                                       MouseDown="GoBack_MouseDown" />
+                        </Border>
+                        <Border Grid.Column="3"
+                                Margin="2"
+                                Padding="8"
+                                CornerRadius="4"
+                                Cursor="Hand">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="Red" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock x:Name="DeleteCard"
                                        Cursor="Hand"
-                                       Visibility="{Binding GoBackVisibility}">
-                            <Run Text="&#xF8AC;"
-                                 FontFamily="Segoe MDL2 Assets" />
-                            <Run Text="{Binding TypeDispaly, Mode=OneWay}"
-                                 FontWeight="Bold"
-                                 FontSize="14" />
-                            <Run Text="{Binding ViewPort.ViewTemplate}" /></TextBlock>
-                            <Border Grid.Column="2"
-                                    Margin="2"
-                                    Padding="8"
-                                    CornerRadius="4"
-                                    Cursor="Hand">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver"
-                                                     Value="True">
-                                                <Setter Property="Background"
-                                                        Value="Red" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock Grid.Column="1"
-                                           Cursor="Hand"
-                                           Text="&#xEF2C;"
-                                           x:Name="DeleteCard"
-                                           FontFamily="Segoe MDL2 Assets"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Foreground="White"
-                                           Margin="0,0,2,0"
-                                           MouseDown="DeleteCard_PreviewMouseDown">
+                                       Text="&#xEF2C;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="0,0,2,0"
+                                       MouseDown="DeleteCard_PreviewMouseDown">
                                 <!--<TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
@@ -213,11 +230,9 @@
                                         </Style.Resources>
                                     </Style>
                                 </TextBlock.Style>--></TextBlock>
-                            </Border>
-                        </Grid>
+                        </Border>
+                    </Grid>
                     <!--</Border>-->
-                    
-
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto"
                                   VerticalAlignment="Center"

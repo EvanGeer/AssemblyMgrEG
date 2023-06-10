@@ -76,22 +76,22 @@
             <Label Content="View Template"
                    VerticalAlignment="Center"
                    Grid.Column="1"
-                   Grid.Row="2" />
+                   Grid.Row="0" />
             <Border Grid.Column="1"
-                    Grid.Row="3"
+                    Grid.Row="1"
                     BorderBrush="LightSteelBlue"
                     BorderThickness="1"
                     Padding="4"
                     CornerRadius="5"
                     Background="White"
-                    Margin="0,2"
+                    Margin="2"
                     >
                 <ComboBox IsEditable="True"
                           BorderThickness="0"
                           IsTextSearchCaseSensitive="False"
                           IsTextSearchEnabled="True"
                           ItemsSource="{Binding Controller.ViewTemplates}"
-                          SelectedItem="{Binding ViewPort.ViewTemplate}"></ComboBox>
+                          SelectedItem="{Binding ViewPort.ViewTemplate, UpdateSourceTrigger=LostFocus}" />
             </Border>
             <Label Content="Orientation"
                    Grid.Column="2"
@@ -108,126 +108,15 @@
                     BorderBrush="LightSteelBlue"
                     Background="White"
                     Visibility="{Binding ViewPort.DirectionControl.Visibility}">
-                <!-- ISO VIEW CUBE  -->
                 <ContentPresenter Content="{Binding ViewPort.DirectionControl}" />
-                <!--<local:DirectionCtrl_ViewCube DataContext="{Binding ViewPort}" />-->
-                <!--<local:Positioner_CompassRose DataContext="{Binding ViewPort}"/>-->
-                <!-- ISO VIEW CUBE  -->
-                <!--<Grid Grid.Column="1"
-                      Grid.Row="2"
-                      DataContext="{Binding ViewPort}"
-                      d:DataContext="{d:DesignInstance Type=data:ViewPortVM_Schedule}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30" />
-                        <ColumnDefinition Width="30" />
-                        -->
-                <!--<ColumnDefinition Width="25" />
-                        <ColumnDefinition Width="25" />-->
-                <!--<ColumnDefinition Width="50" />-->
-                <!--
-                        <ColumnDefinition />
-                        -->
-                <!--<ColumnDefinition/>-->
-                <!--
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style BasedOn="{StaticResource Common}"
-                               TargetType="{x:Type ToggleButton}">
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked"
-                                         Value="False">
-                                    <Setter Property="Background"
-                                            Value="White" />
-                                    <Setter Property="BorderBrush"
-                                            Value="SteelBlue" />
-                                    <Setter Property="BorderThickness"
-                                            Value="0" />
-                                </Trigger>
-                            </Style.Triggers>
-                            <Style.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius"
-                                            Value="100" />
-                                    <Setter Property="Height"
-                                            Value="30" />
-                                </Style>
-                            </Style.Resources>
-                            <Setter Property="Padding"
-                                    Value="0" />
-                        </Style>
-                    </Grid.Resources>
-                    <ToggleButton Grid.Column="0"
-                                  ToolTip="Tags"
-                                  IsChecked="{Binding TopLeft}"
-                                  VerticalContentAlignment="Top"
-                                  HorizontalContentAlignment="Left"
-                                  Padding="0">
-                        <TextBlock Text="&#xEDD6;"
-                                   FontSize="20"
-                                   Margin="-6"
-                                   Padding="0"
-                                   FontFamily="Segoe MDL2 Assets">
-                            <TextBlock.LayoutTransform>
-                                <RotateTransform Angle="-135" />
-                            </TextBlock.LayoutTransform></TextBlock>
-                    </ToggleButton>
-                    <ToggleButton Grid.Column="1"
-                                  ToolTip="Tag Leaders"
-                                  VerticalContentAlignment="Top"
-                                  HorizontalContentAlignment="Right"
-                                  IsChecked="{Binding TopRight}">
-                        <TextBlock Text="&#xEDD6;"
-                                   FontSize="20"
-                                   Margin="-6"
-                                   Padding="0"
-                                   FontFamily="Segoe MDL2 Assets">
-                            <TextBlock.LayoutTransform>
-                                <RotateTransform Angle="-45" />
-                            </TextBlock.LayoutTransform></TextBlock>
-                    </ToggleButton>
-                    <ToggleButton Grid.Column="0"
-                                  Grid.Row="1"
-                                  ToolTip="Tag Leaders"
-                                  VerticalContentAlignment="Bottom"
-                                  HorizontalContentAlignment="Left"
-                                  IsChecked="{Binding BottomLeft}">
-                        <TextBlock Text="&#xEDD6;"
-                                   FontSize="20"
-                                   Margin="-6"
-                                   Padding="0"
-                                   FontFamily="Segoe MDL2 Assets">
-                            <TextBlock.LayoutTransform>
-                                <RotateTransform Angle="135" />
-                            </TextBlock.LayoutTransform></TextBlock>
-                    </ToggleButton>
-                    <ToggleButton Grid.Column="1"
-                                  Grid.Row="1"
-                                  ToolTip="Tag Leaders"
-                                  VerticalContentAlignment="Bottom"
-                                  HorizontalContentAlignment="Right"
-                                  IsChecked="{Binding BottomRight}">
-                        <TextBlock Text="&#xEDD6;"
-                                   FontSize="20"
-                                   Margin="-6"
-                                   Padding="0"
-                                   FontFamily="Segoe MDL2 Assets">
-                            <TextBlock.LayoutTransform>
-                                <RotateTransform Angle="45" />
-                            </TextBlock.LayoutTransform></TextBlock>
-                    </ToggleButton>
-                </Grid>-->
             </Border>
             <!--</Border>-->
             <Label Content="Annotations"
-                   Grid.Row="0"
+                   Grid.Row="2"
                    Grid.Column="1"
                    VerticalAlignment="Center" />
             <Grid Grid.Column="1"
-                  Grid.Row="1"
+                  Grid.Row="3"
                   DataContext="{Binding ViewPort}"
                   d:DataContext="{d:DesignInstance Type=data:ViewPortVM_ModelView}">
                 <Grid.ColumnDefinitions>

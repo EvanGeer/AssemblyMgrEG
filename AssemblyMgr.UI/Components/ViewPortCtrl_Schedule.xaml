@@ -31,11 +31,19 @@
                    VerticalAlignment="Center"
                    Grid.Column="1"
                    Grid.Row="0" />
-            <ComboBox Grid.Column="1"
-                      Grid.Row="1"
-                      ItemsSource="{Binding Controller.ScheduleTemplates}"
-                      SelectedItem="{Binding ViewPort.ViewTemplate}" 
-                        />
+            <Border Grid.Column="1"
+                    Grid.Row="1"
+                    Background="White"
+                    BorderBrush="LightSteelBlue"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="4">
+                <ComboBox BorderThickness="0"
+                          IsEditable="True"
+                          ItemsSource="{Binding Controller.ScheduleTemplates}"
+                          SelectedItem="{Binding ViewPort.ViewTemplate}" 
+                            />
+            </Border>
             <Label Content="Dock "
                    VerticalAlignment="Center"
                    Grid.Row="0"
@@ -46,83 +54,5 @@
                                        Grid.RowSpan="5"
                                        Margin="8,0"/>
         </Grid>
-        <!--<Grid Margin="5"
-              Grid.Column="1"
-              DataContext="{Binding ViewPort}"
-              d:DataContext="{d:DesignInstance Type=data:ViewPortVM_BOM}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Content="Bill Of Materials Column Settings"
-                   FontWeight="Bold"
-                   Grid.ColumnSpan="3" />
-            <Border Grid.Row="1"
-                    Margin="0,0.5,.5,2"
-                    BorderBrush="Black"
-                    BorderThickness="0.3">
-                <DockPanel Margin="2">
-                    <TextBlock FontFamily="Segoe MDL2 Assets"
-                               Text="&#xE721;"
-                               VerticalAlignment="Center"
-                               Margin="0,0,4,0" />
-                    <TextBox Grid.Column="1"
-                             BorderThickness="0"
-                             Text="{Binding BOMFieldSearch, UpdateSourceTrigger=PropertyChanged}" />
-                </DockPanel>
-            </Border>
-            <ListBox x:Name="ListBox_AvailableBOMFields"
-                     Grid.Row="2"
-                     SelectionMode="Single"
-                     FontWeight="Bold"
-                     ItemsSource="{Binding BOMFields_Available}"
-                     SelectedItem="{Binding CurrnetAvailableBOMField}" />
-            <StackPanel Orientation="Vertical"
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        VerticalAlignment="Top">
-                <Button x:Name="Add"
-                        Margin="2,0"
-                        FontFamily="Segoe MDL2 Assets"
-                        Content="&#xE974;"
-                        Height="50"
-                        FontWeight="Bold"
-                        Background="White"
-                        Foreground="LimeGreen"
-                        Click="Add_Click" />
-                <Button x:Name="Rem"
-                        Margin="2"
-                        FontFamily="Segoe MDL2 Assets"
-                        Content="&#xE973;"
-                        FontWeight="Black"
-                        Height="50"
-                        Background="White"
-                        Foreground="DarkRed"
-                        Click="Rem_Click" />
-            </StackPanel>
-            <DataGrid x:Name="bomDataGrid"
-                      Grid.Row="2"
-                      Grid.Column="2"
-                      ItemsSource="{Binding Definition.BOMFields}"
-                      SelectedItem="{Binding CurrnetSelectedBOMField}"
-                      SelectionMode="Single"
-                      AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Parameter"
-                                        Binding="{Binding ParameterName}" />
-                    <DataGridTextColumn Header="Schedule Header"
-                                        Binding="{Binding ColumnHeader}" />
-                    <DataGridTextColumn Header="Column Width"
-                                        Binding="{Binding ColumnWidth}"
-                                        Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>-->
     </Grid>
 </UserControl>
