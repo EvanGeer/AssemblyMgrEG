@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace UnitTests
+namespace AssemblyMgr.Core.Tests.Extensions
 {
     [TestFixture]
     public class StringTests

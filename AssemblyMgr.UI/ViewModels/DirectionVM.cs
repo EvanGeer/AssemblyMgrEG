@@ -16,6 +16,7 @@ namespace AssemblyMgr.UI.ViewModels
             DataModel = dataModel;
         }
 
+
         public bool TopFrontRight { get => get(); set => set(value); }
         public bool TopFrontLeft { get => get(); set => set(value); }
         public bool TopBackRight { get => get(); set => set(value); }
@@ -29,6 +30,11 @@ namespace AssemblyMgr.UI.ViewModels
         public bool S { get => get(); set => set(value); }
         public bool E { get => get(); set => set(value); }
         public bool W { get => get(); set => set(value); }
+
+        public bool BottomLeft { get => get(); set => set(value); }
+        public bool TopRight { get => get(); set => set(value); }
+        public bool TopLeft { get => get(); set => set(value); }
+        public bool BottomRight { get => get(); set => set(value); }
 
 
         private bool get([CallerMemberName] string direction = null)
@@ -56,6 +62,11 @@ namespace AssemblyMgr.UI.ViewModels
                 nameof(S),
                 nameof(E),
                 nameof(W),
+
+                nameof(BottomLeft),
+                nameof(BottomRight),
+                nameof(TopLeft),
+                nameof(TopRight),
             });
         }
 
@@ -63,12 +74,16 @@ namespace AssemblyMgr.UI.ViewModels
         {
             var directoin3dValues = Enum.GetValues(typeof(Direction3d)).Cast<object>();
             var viewCubeValues = Enum.GetValues(typeof(ViewCubeCorner)).Cast<object>();
+            var quadrants = Enum.GetValues(typeof(Quadrant)).Cast<object>();
 
-            var enumValues = directoin3dValues.Union(viewCubeValues).ToList();
+            var enumValues = directoin3dValues
+                      .Union(viewCubeValues)
+                      .Union(quadrants)
+                      .ToList();
 
             var result = enumValues.FirstOrDefault(x => x.ToString() == direction);
-
-            return result is null ? Direction3d.None : (Direction3d)result;
+            var _return = result is null ? Direction3d.None : (Direction3d)result;
+            return _return;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

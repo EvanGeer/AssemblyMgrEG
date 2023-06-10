@@ -18,11 +18,5 @@ namespace AssemblyMgr.Core.DataModel
             = new ObservableCollection<ViewPortDefinition>();
         public int TitleBlockId { get; set; }
         public string TitleBlock { get; set; }
-        //public string AssemblyName { get; set; }
-
-        //public SpoolSheetDefinition(string assemblyName)
-        //{
-        //    AssemblyName = assemblyName;
-        //}
     }
 }

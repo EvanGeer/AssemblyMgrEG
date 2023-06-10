@@ -18,6 +18,7 @@ namespace AssemblyMgr.UI.ViewModels
             Controller = controller;
             Type = type;
             Definition.Outline = outline;
+            DirectionVM = new DirectionVM(definition);
         }
 
         public ViewPortType Type
@@ -46,11 +47,12 @@ namespace AssemblyMgr.UI.ViewModels
              && !Controller.ScheduleTemplates.Contains(value)) return;
             Definition.ViewTemplate = value;
         }
-        public Direction3d Direction
-        {
-            get => Definition.Direction;
-            set => this.Notify(PropertyChanged, () => Definition.Direction = value);
-        }
+        //public Direction3d Direction
+        //{
+        //    get => Definition.Direction;
+        //    set => this.Notify(PropertyChanged, () => Definition.Direction = value);
+        //}
+        public DirectionVM DirectionVM { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

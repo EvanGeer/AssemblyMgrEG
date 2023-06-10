@@ -58,8 +58,8 @@
                 Background="White">
             <Grid Grid.Column="1"
                   Grid.Row="2"
-                  DataContext="{Binding ViewPort}"
-                  d:DataContext="{d:DesignInstance Type=vm:ViewPortVM_Schedule}">
+                  DataContext="{Binding ViewPort.DirectionVM}"
+                  d:DataContext="{d:DesignInstance Type=vm:DirectionVM}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25" />
                     <ColumnDefinition Width="25" />

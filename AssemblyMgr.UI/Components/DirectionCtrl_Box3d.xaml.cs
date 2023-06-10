@@ -16,10 +16,10 @@ namespace AssemblyMgr.UI.Components
     public partial class DirectionCtrl_ViewCube : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public DirectionCtrl_ViewCube(DirectionVM viewModel)
+        public DirectionCtrl_ViewCube(/*DirectionVM viewModel*/)
         {
             InitializeComponent();
-            DataContext = viewModel;
+            //DataContext = viewModel;
         }
 
 

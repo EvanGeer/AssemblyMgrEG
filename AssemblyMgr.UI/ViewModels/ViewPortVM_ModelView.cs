@@ -41,7 +41,6 @@ namespace AssemblyMgr.UI.ViewModels
             get => ViewPort.Orientation;
             set => this.Notify(PropertyChanged, () => ViewPort.Orientation = value);
         }
-        // ToDo: fix this... probably a different interface
 
         public new event PropertyChangedEventHandler PropertyChanged;
 
@@ -53,9 +52,9 @@ namespace AssemblyMgr.UI.ViewModels
 
         public override UserControl DirectionControl =>
             Type == ViewPortType.ModelElevation
-            ? new DirectionCtrl_Compass(new DirectionVM(ViewPort))
+            ? new DirectionCtrl_Compass()
             : Type == ViewPortType.ModelOrtho
-            ? new DirectionCtrl_ViewCube(new DirectionVM(ViewPort))
+            ? new DirectionCtrl_ViewCube()
             : new UserControl { Visibility = Visibility.Collapsed };
 
         public Visibility DimensionToggleVisibility => 

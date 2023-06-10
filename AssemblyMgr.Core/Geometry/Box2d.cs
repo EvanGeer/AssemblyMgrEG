@@ -42,37 +42,7 @@ namespace AssemblyMgr.Core.Geometry
         public Box2d() { }
 
 
-        // this feels like an extension method on the enum...
-        public Vector2 GetCoordinate(Box2dLocation location)
-        {
-            switch (location)
-            {
-                case Box2dLocation.BottomLeft: return BottomLeft;
-                case Box2dLocation.BottomRight: return BottomRight;
-                case Box2dLocation.TopRight: return TopRight;
-                case Box2dLocation.TopLeft: return TopLeft;
-                case Box2dLocation.Center: return Center;
-                default:
-                    // this should never happen
-                    Debug.Assert(false, "Invalid location...");
-                    return default;
-            }
-        }
 
-        public Vector2 GetCoordinate(Quadrant location)
-        {
-            switch (location)
-            {
-                case Quadrant.BottomLeft: return BottomLeft;
-                case Quadrant.BottomRight: return BottomRight;
-                case Quadrant.TopRight: return TopRight;
-                case Quadrant.TopLeft: return TopLeft;
-                default:
-                    // this should never happen
-                    Debug.Assert(false, "Invalid location...");
-                    return default;
-            }
-        }
 
         //public Box2d InsertBox(float insertedWidth, float insertedHeight, Box2dLocation whereToInsert)
         //{

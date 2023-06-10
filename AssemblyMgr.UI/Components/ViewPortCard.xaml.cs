@@ -1,5 +1,6 @@
 ﻿using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Core.Geometry;
+using AssemblyMgr.Core.Extensions;
 using AssemblyMgr.UI.ViewModels;
 using System;
 using System.Numerics;
