@@ -43,7 +43,23 @@ namespace AssemblyMgr.Core.Extensions
             return summedDirection;
         }
 
+        public static Direction3d FlipHorizontal(this Direction3d direction)
+        {
+            var flags = direction.GetFlags();
+            var flippedFlags = flags.Select(x => 
+                x == Direction3d.N ? Direction3d.S
+                : x == Direction3d.S ? Direction3d.N
+                : x).ToList();
 
+            var flipped = flippedFlags.Aggregate((total, current) => total | current);
+            return flipped;
+        }
+
+        public static bool IsTowards(this Direction3d direction, Direction3d towards)
+        {
+            var flags = direction.GetFlags();
+            return flags.Contains(towards);
+        }
     }
 }
 

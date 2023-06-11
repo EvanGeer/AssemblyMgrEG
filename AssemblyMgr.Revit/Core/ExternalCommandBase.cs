@@ -1,4 +1,6 @@
 ﻿using System;
+using AssemblyMgr.Core.DataModel;
+using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -19,6 +21,7 @@ namespace AssemblyMgr.Revit.Core
                 : Execute();
         }
 
+
         private Result WrapInTransactionGroup(Func<Result> action)
         {
             using (var tGroup = new TransactionGroup(Doc, CommandName))
@@ -38,6 +41,9 @@ namespace AssemblyMgr.Revit.Core
 
         public virtual bool UseTransactionGroup => true;
         public virtual string CommandName => GetType().Name;
+        public virtual FileInfo SettingsFile => new FileInfo(Path.Combine(
+            Constants.DataFolder.FullName,
+            $"{CommandName}.xml"));
         public abstract Result Execute();
     }
 }

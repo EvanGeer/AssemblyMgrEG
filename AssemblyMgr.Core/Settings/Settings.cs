@@ -5,6 +5,9 @@ namespace AssemblyMgr.Core.Serialization
 {
     public static class Settings
     {
+        public static void Serialize<T>(this T obj, FileInfo filename)
+            where T : ISettings
+            => obj.Serialize(filename.FullName);
         public static void Serialize<T>(this T obj, string filename)
             where T : ISettings
         {

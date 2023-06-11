@@ -27,13 +27,13 @@ namespace AssemblyMgr.Revit.Tests
                 {
                     titleBlockController.ExportImage(titleBlock.Value);
                 }
-                //using (var t = new Transaction(doc, "temp create sheets"))
+                //using (var t = new Transaction(_doc, "temp create sheets"))
                 //{
                 //    t.Start();
 
                 //    Func<FamilySymbol, ViewSheet> createSheet = (titleBlock) =>
                 //    {
-                //        var sheet = ViewSheet.ExportImage(doc, titleBlock.Id);
+                //        var sheet = ViewSheet.ExportImage(_doc, titleBlock.Id);
                 //        sheet.Name = titleBlock.Name;
                 //        sheet.SheetNumber = titleBlock.Id.IntegerValue.ToString();
 
@@ -55,13 +55,13 @@ namespace AssemblyMgr.Revit.Tests
                 //        ExportRange = ExportRange.SetOfViews,
                 //    };
                 //    options.SetViewsAndSheets(blankSheets.Select(x => x.BlankSheet.Id).ToList());
-                //    doc.ExportImage(options);
+                //    _doc.ExportImage(options);
 
                 //    //blankSheets.ForEach(x =>
                 //    //{
                 //    //    options.FilePath = $@"c:\$\personal\images\x";
                 //    //    options.SetViewsAndSheets(new[] { x.BlankSheet.Id });
-                //    //    doc.ExportImage(options);
+                //    //    _doc.ExportImage(options);
                 //    //});
 
                 //    t.RollBack();

@@ -27,26 +27,13 @@ namespace AssemblyMgr.Revit.Core
         public AssemblyInstance AssemblyInstance { get; private set; }
         public AssemblyMangerRevitAdapter Adapter { get; }
 
-        /// <summary>
-        /// Output list of Assembly View objects created by this tool
-        /// </summary>
-        //public List<(ViewPortDefinition ViewPort, View View)> Views { get; private set; } 
-        //    = new List<(ViewPortDefinition ViewPort, View View)>();
-
-        /// <summary>
-        /// Ouput Bill of Materials schedule view
-        /// </summary>
+        /// <summary>Ouput Bill of Materials schedule view</summary>
         public ViewSchedule BillOfMaterials { get; private set; }
 
-        /// <summary>
-        /// Form interface implementation
-        /// </summary>
-        //public ViewPort AssemblyDataModel { get; set; }
+        /// <summary>Form interface implementation</summary>
         public ScheduleData ScheduleData => Adapter.BomDefintion;
 
-        /// <summary>
-        /// Main Constructor - Builds new Assembly from selected geometry
-        /// </summary>
+        /// <summary>Main Constructor - Builds new Assembly from selected geometry</summary>
         /// <param name="helper">Simple helper class to keep API references cleaner</param>
         /// <param name="BomFields">In case we want to customize the defaults at app startup</param>
         public ViewFactory(AssemblyInstance assembly, AssemblyMangerRevitAdapter adapter)
@@ -99,16 +86,8 @@ namespace AssemblyMgr.Revit.Core
         {
             if (viewDefinition is null || viewDefinition.Type != ViewPortType.ModelOrtho) return null;
 
-            View3D view;
-            // ToDo: consolidate transactions to improve performance
-            using (Transaction t = new Transaction(Doc, "Assembly Manager: Create 3D View"))
-            {
-                t.Start();
-                view = AssemblyViewUtils.Create3DOrthographic(Doc, AssemblyInstance.Id);
-                view.SaveOrientationAndLock();
-
-                t.Commit();
-            }
+            var view = AssemblyViewUtils.Create3DOrthographic(Doc, AssemblyInstance.Id);
+            view.SaveOrientationAndLock();
 
             return new AssemblyMgrView(viewDefinition, view);
         }
@@ -121,20 +100,24 @@ namespace AssemblyMgr.Revit.Core
         public void TagAllPipeElements(AssemblyMgrView assemblyMgrView)
         {
             if (!(assemblyMgrView.Definition is ViewPortModel viewDef)) return;
+            TagAllPipeElements(assemblyMgrView.View, false);
+        }
+        public void TagAllPipeElements(View view, bool IgnoreWelds)
+        {
             //get all elems in view via filtered element collector
-            var fec = new FilteredElementCollector(Doc, assemblyMgrView.View.Id);
+            var fec = new FilteredElementCollector(Doc, view.Id);
             fec.OfCategory(BuiltInCategory.OST_FabricationPipework);
 
-            var tagOffset = 6 / 12.0; // viewDef.TagOffset; // ToDo: custom tag offset per tag type
-            var view = assemblyMgrView.View;
-            
-            
+            // ToDo: custom tag offset per tag type
+            var tagOffset = 6 / 12.0; // viewDef.TagOffset; 
+
+
             //pair these down to just the stuff we're interested in
             // ToDo: 
             // - Straights = location is Curve
             // - Joints & Fittings = everything else
             IEnumerable<Element> elements;
-            if (viewDef.IgnoreWelds)
+            if (IgnoreWelds)
             {
                 elements = fec
                     .Where(x => null != x.LookupParameter("Product Short Description"))
@@ -146,87 +129,62 @@ namespace AssemblyMgr.Revit.Core
                 elements = fec.Select(x => x);
 
             //build out tags
-            using (Transaction t = new Transaction(Doc, "Create Tags"))
+            if (view is View3D view3d && !view3d.IsLocked)
+                view3d.SaveOrientationAndLock();
+
+            foreach (var elem in elements.OfType<FabricationPart>())
             {
-                t.Start();
+                var elemRef = new Reference(elem);
+                var elementCenter = elem.get_BoundingBox(view).GetCenter();
+                var connectors = elem.ConnectorManager.Connectors
+                    .OfType<Connector>()
+                    .Where(x => x.ConnectorType == ConnectorType.End);
 
-                if (view is View3D view3d && !view3d.IsLocked)
-                    view3d.SaveOrientationAndLock();
+                var elementDirection = connectors
+                    .Select(x => x.CoordinateSystem.BasisZ)
+                    .Aggregate((x, y) => x + y);
 
-                foreach (var elem in elements.OfType<FabricationPart>())
-                {
-                    var elemRef = new Reference(elem);
-                    var elementCenter = elem.get_BoundingBox(view).GetCenter();
-                    var connectors = elem.ConnectorManager.Connectors
-                        .OfType<Connector>()
-                        .Where(x => x.ConnectorType == ConnectorType.End);
+                // this should be normal to the element
+                var offsetDiretion = elementDirection.IsAlmostEqualTo(XYZ.Zero)
+                    ? connectors.FirstOrDefault()?.CoordinateSystem.BasisZ.CrossProduct(view.ViewDirection)
+                    : elementDirection.Negate();
 
-                    var elementDirection = connectors
-                        .Select(x => x.CoordinateSystem.BasisZ)
-                        .Aggregate((x, y) => x + y);
+                var tagXYZ = elementCenter + offsetDiretion * tagOffset;
 
-                    //if (elementDirection.IsAlmostEqualTo(XYZ.Zero)) elementDirection = connectors.FirstOrDefault()?.CoordinateSystem.BasisZ;
+                var tagTypes = new FilteredElementCollector(Doc)
+                    .OfCategory(BuiltInCategory.OST_FabricationPipeworkTags)
+                    .OfClass(typeof(FamilySymbol))
+                    .ToElements();
 
-                    // this should be normal to the element
-                    var offsetDiretion = elementDirection.IsAlmostEqualTo(XYZ.Zero) 
-                        ? connectors.FirstOrDefault()?.CoordinateSystem.BasisZ.CrossProduct(view.ViewDirection)
-                        : elementDirection.Negate();
+                var tagType = tagTypes.FirstOrDefault();
 
-                    var tagXYZ = elementCenter + offsetDiretion * tagOffset;
-
-                    //var maxXYZ = elem.get_BoundingBox(view).Max;
-                    //var minXYZ = elem.get_BoundingBox(view).Min;
-                    //var tagXYZ = new XYZ(
-                    //    ((maxXYZ.X + minXYZ.X) / 2.0) + (tagOffset),
-                    //    ((maxXYZ.Y + minXYZ.Y) / 2.0) + (tagOffset),
-                    //    ((maxXYZ.Z + minXYZ.Z) / 2.0) + (tagOffset)
-                    //);
-                    var tag = IndependentTag.Create(Doc, view.Id, elemRef, true/* viewDef.HasTagLeaders*/, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, tagXYZ);
-                    tag.LeaderEndCondition = LeaderEndCondition.Free;
-                    tag.LeaderEnd = elementCenter;
-                    tag.TagHeadPosition = tagXYZ;
-                    //tag.LeaderElbow = tagXYZ;
-
-                    //var direction =
-                    //    tagXYZ.X > elementCenter.X ? XYZ.BasisX.Negate()
-                    //    : tagXYZ.X < elementCenter.X ? XYZ.BasisX
-                    //    : tagXYZ.Y < elementCenter.Y ? XYZ.BasisY
-                    //    : tagXYZ.Y > elementCenter.Y ? XYZ.BasisY.Negate()
-                    //    : XYZ.BasisZ;
-
-                    //tag.TagHeadPosition = tagXYZ + (0.25 * direction);
-                }
-
-                t.Commit();
+                var tag = IndependentTag.Create(Doc, tagType.Id, view.Id, elemRef, true/* viewDef.HasTagLeaders*/, TagOrientation.Horizontal, tagXYZ);
+                tag.LeaderEndCondition = LeaderEndCondition.Free;
+                tag.SetLeaderEnd(elemRef, elementCenter);
+                tag.TagHeadPosition = tagXYZ;
             }
+
         }
 
         private AssemblyMgrView CreateSchedule(ViewPortSchedule viewDefinition)
         {
             if (viewDefinition is null) return null;
 
-            var template = Adapter.GetScheduleTemplate(viewDefinition.ViewTemplate);
-            ViewSchedule billOfMaterials;
-            using (Transaction t = new Transaction(Doc, "Create Tags"))
+            try
             {
-                try
-                {
-                    t.Start();
+                var template = Adapter.GetScheduleTemplate(viewDefinition.ViewTemplate);
+                var billOfMaterials = AssemblyViewUtils.CreateSingleCategorySchedule(
+                    Doc,
+                    AssemblyInstance.Id,
+                    template.Definition.CategoryId,
+                    template.Id,
+                    isAssigned: true);
 
-
-                    billOfMaterials = AssemblyViewUtils.CreateSingleCategorySchedule(
-                        Doc,
-                        AssemblyInstance.Id,
-                        template.Definition.CategoryId,
-                        template.Id,
-                        isAssigned: true);
-                    t.Commit();
                 return new AssemblyMgrView(viewDefinition, billOfMaterials);
-                }
-                catch (Exception ex) {
-                    t.RollBack();
-                    return null;
-                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
@@ -240,27 +198,20 @@ namespace AssemblyMgr.Revit.Core
 
             //assume that all elements are the same category for now
             var categoryId = Doc.GetElement(AssemblyInstance.GetMemberIds().First()).Category.Id;
-            ViewSchedule billOfMaterials;
 
-            using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Bill of Materials"))
-            {
-                t.Start();
-
-                //ExportImage the schedul using the built-in API util
-                billOfMaterials = AssemblyViewUtils
+            //ExportImage the schedul using the built-in API util
+            var billOfMaterials = AssemblyViewUtils
                     .CreateSingleCategorySchedule(Doc, AssemblyInstance.Id, categoryId);
 
-                billOfMaterials.Name = AssemblyInstance.Name + " - Bill of Materials";
-                billOfMaterials.Definition.ClearFields();
+            billOfMaterials.Name = AssemblyInstance.Name + " - Bill of Materials";
+            billOfMaterials.Definition.ClearFields();
 
-                AddColumnsToSchedule(billOfMaterials, viewDefinition);
+            AddColumnsToSchedule(billOfMaterials, viewDefinition);
 
-                if (viewDefinition.IgnoreWelds)
-                    AddScheduleWeldFilter(billOfMaterials);
+            if (viewDefinition.IgnoreWelds)
+                AddScheduleWeldFilter(billOfMaterials);
 
-                BillOfMaterials = billOfMaterials;
-                t.Commit();
-            }
+            BillOfMaterials = billOfMaterials;
 
             return new AssemblyMgrView(viewDefinition, billOfMaterials);
         }
@@ -326,27 +277,15 @@ namespace AssemblyMgr.Revit.Core
         {
             if (viewDefinition == null) return null;
             var orientation = viewDefinition.Type == ViewPortType.ModelElevation
-                ? AssemblyDetailViewOrientation.ElevationFront
-                : AssemblyDetailViewOrientation.HorizontalDetail;
+                ? viewDefinition.Direction.AsAssemblyDetailViewOrientation()
+                : AssemblyDetailViewOrientation.ElevationTop;
 
-            //if (!viewDefinition.ElevationOrientation.TryAsAssemblyDetailViewOrientation(out var orientation))
-            //    return null;
+            var view = AssemblyViewUtils.CreateDetailSection(Doc, AssemblyInstance.Id, orientation);
 
-            var tranactionName = string.Format("Assembly Manager: Create {0} View", orientation.ToString());
-            ViewSection view;
-            using (Transaction t = new Transaction(Doc, tranactionName))
-            {
-                t.Start();
-                view = AssemblyViewUtils.CreateDetailSection(Doc, AssemblyInstance.Id, orientation);
-
-                var adapter = new ViewTemplateController(Doc);
-                var template = adapter.GetModelViewTemplate(viewDefinition.ViewTemplate);
-                if (!(template is null) && template.Id != ElementId.InvalidElementId)
-                    view.ViewTemplateId = template.Id;
-                //new ElementId(490973);
-
-                t.Commit();
-            }
+            var adapter = new ViewTemplateController(Doc);
+            var template = adapter.GetModelViewTemplate(viewDefinition.ViewTemplate);
+            if (!(template is null) && template.Id != ElementId.InvalidElementId)
+                view.ViewTemplateId = template.Id;
 
             return new AssemblyMgrView(viewDefinition, view);
         }
@@ -363,10 +302,10 @@ namespace AssemblyMgr.Revit.Core
         public void DimensionAllElements(ViewSection view)
         {
 
-            //    var fec = new FilteredElementCollector(doc, view.Id);
+            //    var fec = new FilteredElementCollector(_doc, view.Id);
             //    fec.OfCategory(BuiltInCategory.OST_FabricationPipework);
 
-            //    using (Transaction t = new Transaction(doc, "Add Dimension"))
+            //    using (Transaction t = new Transaction(_doc, "Add Dimension"))
             //    {
             //        t.Start();
 
@@ -399,7 +338,7 @@ namespace AssemblyMgr.Revit.Core
             //            //XYZ endPoint = refs.get_Item(1).GlobalPoint;
             //            //Line dimLine = Line.CreateBound(startPoint, endPoint);
 
-            //            doc.ExportImage.NewDimension(view, dimLine, refs);
+            //            _doc.ExportImage.NewDimension(view, dimLine, refs);
             //        }
             //        t.Commit();
             //}

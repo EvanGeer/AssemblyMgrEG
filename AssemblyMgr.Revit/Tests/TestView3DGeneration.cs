@@ -48,8 +48,7 @@ namespace AssemblyMgr.Revit.Tests
                 t.Start();
 
                 var sheetFactory = new SheetFactory(views);
-                views.ForEach(x => sheetFactory.PlaceView(currentView as ViewSheet, x));
-                
+                views.ForEach(x => sheetFactory.PlaceViews(currentView as ViewSheet));
                 
                 XYZ P1 = new XYZ(0,0,0);
                 XYZ P2 = new XYZ(17.0 / 12.0, 11.0 / 12.0, 0);

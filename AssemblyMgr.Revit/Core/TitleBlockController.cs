@@ -16,7 +16,7 @@ namespace AssemblyMgr.Revit.Core
         {
             _doc = document;
             _imagesFolder = new DirectoryInfo(Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Constants.DataFolder.FullName,
                 Constants.ImageCacheSubFolder));
 
             if (!_imagesFolder.Exists) _imagesFolder.Create();
@@ -55,10 +55,10 @@ namespace AssemblyMgr.Revit.Core
                 options.SetViewsAndSheets(new[] { blankSheet.Id });
                 _doc.ExportImage(options);
 
-                //t.RollBack(); // roll back as not to clutter up user's model
-                t.Commit();
+                t.RollBack(); // roll back as not to clutter up user's model
+                //t.Commit();
 
-                var imageFile = new FileInfo(Path.Combine(options.FilePath, sheetName));
+                var imageFile = new FileInfo(Path.Combine(options.FilePath, sheetName.Trim()));
                 if (!imageFile.Exists) return null;
 
                 return imageFile.FullName;
@@ -116,9 +116,9 @@ namespace AssemblyMgr.Revit.Core
             if (forceRefresh) return ExportImage(titleBlock);
 
             // else try to find an existing image first
-            var imageFilePath = Path.Combine(_imagesFolder.FullName, imageFileName);
+            var imageFilePath = Path.Combine(_imagesFolder.FullName, imageFileName.Trim());
             var imageFile = new FileInfo(imageFilePath);
-            if (File.Exists(imageFile.FullName)) return imageFile.FullName;
+            if (imageFile.Exists) return imageFile.FullName;
 
             return ExportImage(titleBlock);
         }

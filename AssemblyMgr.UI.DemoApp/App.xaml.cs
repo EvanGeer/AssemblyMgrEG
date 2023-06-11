@@ -1,14 +1,10 @@
 ﻿using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Core.Serialization;
-using AssemblyMgr.UI.Test;
+using AssemblyMgr.UI.DemoApp.Mocks;
 using AssemblyMgr.UI.ViewModels;
 using System;
-using System.Data;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Windows;
-using System.Xml.Serialization;
 
 namespace AssemblyMgr.UI
 {

@@ -52,25 +52,24 @@ namespace AssemblyMgr.Revit.Extensions
             return new BoundingBoxUV(box.BottomLeft.X, box.BottomLeft.Y, box.TopRight.X, box.TopRight.Y);
         }
 
-        public static bool TryAsAssemblyDetailViewOrientation(this ElevationOrientation orientation, out AssemblyDetailViewOrientation assemblyDetailViewOrientation)
+        public static AssemblyDetailViewOrientation AsAssemblyDetailViewOrientation(this Direction3d orientation)
         {
             switch (orientation)
             {
-                case ElevationOrientation.Left: 
-                    assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationLeft;
-                    return true;
-                case ElevationOrientation.Right:
-                    assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationRight;
-                    return true;
-                case ElevationOrientation.Front: 
-                    assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationFront;
-                    return true;
-                case ElevationOrientation.Back:
-                    assemblyDetailViewOrientation = AssemblyDetailViewOrientation.ElevationBack;
-                    return true;
+                case Direction3d.W: 
+                    return AssemblyDetailViewOrientation.ElevationLeft;
+                case Direction3d.E:
+                    return AssemblyDetailViewOrientation.ElevationRight;
+                case Direction3d.N:
+                    return AssemblyDetailViewOrientation.ElevationFront;
+                case Direction3d.S:
+                    return AssemblyDetailViewOrientation.ElevationBack;
+                case Direction3d.Up:
+                    return AssemblyDetailViewOrientation.ElevationTop;
+                case Direction3d.Down:
+                    return AssemblyDetailViewOrientation.ElevationBottom;
                 default:
-                    assemblyDetailViewOrientation = default;
-                    return false;
+                    return default;
             }
         }
 

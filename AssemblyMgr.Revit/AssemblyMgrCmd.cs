@@ -1,10 +1,13 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
-using AssemblyMgr.Revit.Data;
 using AssemblyMgr.UI;
 using AssemblyMgr.UI.ViewModels;
 using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.Core.Serialization;
+using Settings = AssemblyMgr.Core.Serialization.Settings;
+using System.Collections.Generic;
+using AssemblyMgr.Revit.Data;
 
 namespace AssemblyMgr.Revit.Core
 {
@@ -20,44 +23,60 @@ namespace AssemblyMgr.Revit.Core
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
     public class AssemblyMgrCmd : ExternalCommandBase
     {
+        private AssemblyInstance _assemblyInstance;
         public override Result Execute()
         {
             // build the Assembly from the user selection
-            var assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
-            if (null == assemblyInstance)
+            // ToDo: return a collection of assemblies then we can iterate through those when building sheets
+            _assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
+            if (null == _assemblyInstance)
                 return Result.Cancelled;
 
-            // get input from the user on how to build the Assembly sheet
-            var spoolSheetDefinition = new SpoolSheetDefinition();
-            var revitAdapter = new AssemblyMangerRevitAdapter(assemblyInstance);
+
+            // get the data needed for the form and the command
+            var spoolSheetDefinition = Settings.DeSerialize<SpoolSheetDefinition>(SettingsFile)
+                ?? new SpoolSheetDefinition();
+            var revitAdapter = new AssemblyMangerRevitAdapter(_assemblyInstance);
             var viewModel = new AssemblyMgrVM(spoolSheetDefinition, revitAdapter);
-            //var assemblyDataModel = new AssemblyMgrDataModel(spoolSheetDefinition, assemblyInstance);
+
+
+            // get input from the user on how to build the Assembly sheet
             var form = new AssemblyMgrForm(viewModel);
             form.ShowDialog();
             if (!form.Run)
                 return Result.Cancelled;
 
-            // build the views to go on the sheet
-            var viewFactory = new ViewFactory(assemblyInstance, revitAdapter);
-            var views = viewFactory.CreateViews(spoolSheetDefinition.ViewPorts);
 
-            //var viewFactory = new ViewFactory(assemblyInstance, spoolSheetDefinition, revitAdapter.BomDefintion);
-            //viewFactory.Create3DView();
-            //viewFactory.Create2DViews();
-            //viewFactory.CreateBillOfMaterials();
-            using (var t = new Transaction(Doc, $"Test Place 3 view"))
+            // save the settings
+            spoolSheetDefinition.Serialize(SettingsFile);
+
+            ViewSheet sheet;
+            List<AssemblyMgrView> views;
+
+
+            using (var t = new Transaction(Doc, $"Build Views"))
             {
                 t.Start();
 
+                var viewFactory = new ViewFactory(_assemblyInstance, revitAdapter);
+                views = viewFactory.CreateViews(spoolSheetDefinition.ViewPorts);
 
-                // build the new sheet
-                var sheetFactory = new SheetFactory(views);
-                var titleBlockId = revitAdapter.GetTitleBlock(spoolSheetDefinition.TitleBlock)?.Id;
-                var sheet = sheetFactory.Create(assemblyInstance, titleBlockId);
                 t.Commit();
-                UiDoc.ActiveView = sheet;
             }
 
+            using (var t = new Transaction(Doc, $"Place Views on Sheet"))
+            {
+                t.Start();
+
+                var sheetFactory = new SheetFactory(views);
+                var titleBlockId = revitAdapter.GetTitleBlock(spoolSheetDefinition.TitleBlock)?.Id;
+                sheet = sheetFactory.CreateSheet(_assemblyInstance, titleBlockId);
+                sheetFactory.PlaceViews(sheet);
+
+                t.Commit();
+            }
+            
+            UiDoc.ActiveView = sheet;
 
             return Result.Succeeded;
         }

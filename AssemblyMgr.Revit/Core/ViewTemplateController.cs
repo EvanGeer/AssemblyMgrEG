@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,8 @@ namespace AssemblyMgr.Revit.Core
         {
             _doc = document;
             _modelViewTemplatesByName = getTemplates<View>(BuiltInCategory.OST_Views);
-            _scheduleTemplatesByName = getTemplates<ViewSchedule>(BuiltInCategory.OST_Schedules);
+            _scheduleTemplatesByName = getTemplates<ViewSchedule>(BuiltInCategory.OST_Schedules, 
+                x => x.Definition.CategoryId != ElementId.InvalidElementId); // multi-category schedules do no work in assembly sheets
 
             ModelViewTemplates = _modelViewTemplatesByName.Keys.ToList();
             ScheduleTemplates = _scheduleTemplatesByName.Keys.ToList();
@@ -24,14 +26,14 @@ namespace AssemblyMgr.Revit.Core
 
 
         /// <summary>Gets distinct list of titleblock elements</summary>
-        private Dictionary<string, T> getTemplates<T>(BuiltInCategory category)
+        private Dictionary<string, T> getTemplates<T>(BuiltInCategory category, Func<T, bool> predicate = null)
             where T : View
         {
             var templates = new FilteredElementCollector(_doc)
                .OfCategory(category)
                .ToElements()
                .OfType<T>()
-               .Where(x => x.IsTemplate)
+               .Where(x => x.IsTemplate && (predicate is null || predicate(x)))
                .GroupBy(x => x.Name)
                .ToDictionary(
                    x => x.Key,

@@ -36,11 +36,11 @@ namespace AssemblyMgr.UI.ViewModels
             get => ViewPort.HasDimensions;
             set => this.Notify(PropertyChanged, () => ViewPort.HasDimensions = value);
         }
-        public ElevationOrientation Orientation
-        {
-            get => ViewPort.Orientation;
-            set => this.Notify(PropertyChanged, () => ViewPort.Orientation = value);
-        }
+        //public ElevationOrientation Orientation
+        //{
+        //    get => ViewPort.Orientation;
+        //    set => this.Notify(PropertyChanged, () => ViewPort.Orientation = value);
+        //}
 
         public new event PropertyChangedEventHandler PropertyChanged;
 

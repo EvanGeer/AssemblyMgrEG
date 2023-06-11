@@ -53,17 +53,11 @@ namespace AssemblyMgr.Revit.Core
             //if multiple items are selected and they can be made into an Assembly, build an Assembly
             else if (elemIds.Count > 0)
             {
-                //elemIds = selection.GetElementIds().ToList();
                 categoryId = Doc.GetElement(elemIds.FirstOrDefault()).Category.Id;
                 try
                 {
-                    //using (Transaction t = new Transaction(Doc, "Assembly Manager: Create Assembly"))
-                    //{
-                    //    t.Start();
-                        assembly = AssemblyInstance.Create(Doc, elemIds, categoryId);
-                        //if (t.Commit() == TransactionStatus.Committed)
-                            return assembly;
-                    //}
+                    assembly = AssemblyInstance.Create(Doc, elemIds, categoryId);
+                    return assembly;
                 }
                 catch
                 {
