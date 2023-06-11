@@ -156,7 +156,16 @@ namespace AssemblyMgr.Revit.Core
                     .OfClass(typeof(FamilySymbol))
                     .ToElements();
 
-                var tagType = tagTypes.FirstOrDefault();
+                bool isStraight = elem.Location is LocationCurve;
+                // this is a quick hack... if this were for production, I would do something better. 
+                bool isJoint = connectors.Count() > 1 && 
+                    (connectors.FirstOrDefault().Origin
+                    - connectors.LastOrDefault().Origin).GetLength() < 2.5 / 12.0;
+
+                var tagType = isStraight 
+                    ? tagTypes.FirstOrDefault()
+                    : isJoint ? tagTypes.Skip(1).FirstOrDefault()
+                    : tagTypes.Skip(2).FirstOrDefault();
 
                 var tag = IndependentTag.Create(Doc, tagType.Id, view.Id, elemRef, true/* viewDef.HasTagLeaders*/, TagOrientation.Horizontal, tagXYZ);
                 tag.LeaderEndCondition = LeaderEndCondition.Free;
