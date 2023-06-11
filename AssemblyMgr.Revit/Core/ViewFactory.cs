@@ -58,6 +58,13 @@ namespace AssemblyMgr.Revit.Core
 
             viewsToTag.ForEach(x => TagAllPipeElements(x));
 
+            // ToDo: this feels like it should be in an annotation factory
+            var viewsToDim = assemblyMgrViews
+                .Where(x => x.Definition is ViewPortModel def && def.HasDimensions)
+                .ToList();
+
+            viewsToDim.ForEach(x => DimensionAllElements(x.View));
+
             return assemblyMgrViews;
         }
 
@@ -308,49 +315,49 @@ namespace AssemblyMgr.Revit.Core
         /// some research on my part. 
         /// </remarks>
         /// <param name="view"></param>
-        public void DimensionAllElements(ViewSection view)
+        public void DimensionAllElements(View view)
         {
+            var assemblyElements = AssemblyInstance.GetMemberIds()
+                .Select(x => Doc.GetElement(x))
+                .ToList();
+            var straights = assemblyElements
+                .Where(x => x.Location is LocationCurve)
+                .ToList();
 
-            //    var fec = new FilteredElementCollector(_doc, view.Id);
-            //    fec.OfCategory(BuiltInCategory.OST_FabricationPipework);
+            foreach (var straight in straights)
+            {
+                var line = (straight.Location as LocationCurve).Curve as Line;
+                if (line.Direction.IsAlmostEqualTo(view.ViewDirection)
+                    || line.Direction.IsAlmostEqualTo(view.ViewDirection)) return;
 
-            //    using (Transaction t = new Transaction(_doc, "Add Dimension"))
-            //    {
-            //        t.Start();
+                var geoOptions = new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true,
+                };
+                var geometry = straight.get_Geometry(geoOptions);
+                var allGeo = geometry
+                    .OfType<GeometryInstance>()
+                    .SelectMany(x => x.SymbolGeometry)
+                    .ToList();
 
+                var refArray = new ReferenceArray();
 
-            //        foreach (var elem in fec)
-            //        {
-            //            var part = elem as FabricationPart;
-            //            var loc = part.Location;
-            //            var dims = part.;
-            //            foreach (var dim in dims)
-            //            {
-            //                dim.
-            //            }
+                var lineRef = allGeo.FirstOrDefault(x => x is Line) as Line;
+                refArray.Append(lineRef.GetEndPointReference(0));
+                refArray.Append(lineRef.GetEndPointReference(1));
 
+                var offsetDirection = lineRef.Direction.IsAlmostEqualTo(view.UpDirection)
+                    ? view.RightDirection.Negate()
+                    : view.UpDirection.Negate();
 
-            //            var refs = new ReferenceArray();
-            //            refs.Append(loc.Curve.GetEndPointReference(0));
-            //            refs.Append(loc.Curve.GetEndPointReference(1));
+                var textLine = Line.CreateBound(
+                    offsetDirection + line.GetEndPoint(0),
+                    offsetDirection + line.GetEndPoint(1));
 
-            //            XYZ startPoint = refs.get_Item(0).GlobalPoint;
-            //            XYZ endPoint = refs.get_Item(1).GlobalPoint;
-            //            Line dimLine = Line.CreateBound(startPoint, endPoint);
-
-
-
-            //            //refs.Append(elem.get_Geometry().GetBoundingBox()..GeometryCurve.GetEndPointReference(0));
-            //            //refs.Append(part.GeometryCurve.GetEndPointReference(1));
-
-            //            //XYZ startPoint = refs.get_Item(0).GlobalPoint;
-            //            //XYZ endPoint = refs.get_Item(1).GlobalPoint;
-            //            //Line dimLine = Line.CreateBound(startPoint, endPoint);
-
-            //            _doc.ExportImage.NewDimension(view, dimLine, refs);
-            //        }
-            //        t.Commit();
-            //}
+                Doc.Create.NewDimension(view, textLine, refArray);
+            }
         }
 
     }
