@@ -58,7 +58,7 @@ namespace AssemblyMgr.Revit.DataExtraction
                 t.RollBack(); // roll back as not to clutter up user's model
                 //t.Commit();
 
-                var imageFile = new FileInfo(Path.Combine(options.FilePath, sheetName.Trim()));
+                var imageFile = new FileInfo(Path.Combine(_imagesFolder.FullName, sheetName));
                 if (!imageFile.Exists) return null;
 
                 return imageFile.FullName;
@@ -67,7 +67,7 @@ namespace AssemblyMgr.Revit.DataExtraction
 
         private static string getImageFileName(FamilySymbol familySymbol)
         {
-            return $" - Sheet - {familySymbol.Id} - {familySymbol.Name}.png";
+            return $"TitleBlock - Sheet - {familySymbol.Id} - {familySymbol.Name}.png";
         }
 
         private static ImageExportOptions getImageOptions()
@@ -76,7 +76,7 @@ namespace AssemblyMgr.Revit.DataExtraction
             {
                 ZoomType = ZoomFitType.FitToPage,
                 PixelSize = Constants.SheetImageWidthPixels,
-                FilePath = _imagesFolder.FullName,
+                FilePath = _imagesFolder.FullName + @"\TitleBlock",
                 FitDirection = FitDirectionType.Horizontal,
                 HLRandWFViewsFileType = ImageFileType.PNG,
                 ShadowViewsFileType = ImageFileType.PNG,
