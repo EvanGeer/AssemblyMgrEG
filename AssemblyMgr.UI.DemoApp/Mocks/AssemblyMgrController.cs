@@ -8,18 +8,6 @@ namespace AssemblyMgr.UI.DemoApp.Mocks
 {
     public class AssemblyMgrController : IAssemblyMgrController
     {
-        //public IScheduleController ScheduleController { get; } = new ScheduleController();
-        //public ITitleBlockController TitleBlockController { get; } = new TitleBlockController();
-        public List<BOMFieldDefinition> BOMFields { get; } =
-            new List<BOMFieldDefinition>
-            {
-                new BOMFieldDefinition("Tag"),
-                new BOMFieldDefinition("Description"),
-                new BOMFieldDefinition("Length"),
-                new BOMFieldDefinition("End Prep 1"),
-                new BOMFieldDefinition("End Prep 2"),
-            };
-
         private static Dictionary<string, FileInfo> _titleBlockImages
             = new Dictionary<string, FileInfo>();
 
@@ -44,6 +32,13 @@ namespace AssemblyMgr.UI.DemoApp.Mocks
         {
             "BOM Template",
             "Schedule Template",
+        };
+        public List<string> TagTypes { get; } = new List<string>
+        {
+            "Pipe Tag 1",
+            "Pipe Tag 2",
+            "Joint Tag",
+            "BOM Tag",
         };
 
         private static List<string> getSampleTitleBlocks()

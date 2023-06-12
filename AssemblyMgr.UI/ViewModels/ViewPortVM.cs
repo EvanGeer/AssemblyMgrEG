@@ -26,11 +26,6 @@ namespace AssemblyMgr.UI.ViewModels
             get => Definition.Type;
             set => this.Notify(PropertyChanged, () => Definition.Type = value);
         }
-        public bool IgnoreWelds
-        {
-            get => Definition.IgnoreWelds;
-            set => this.Notify(PropertyChanged, () => Definition.IgnoreWelds = value);
-        }
         public string Title
         {
             get => Definition.Title;
@@ -47,11 +42,6 @@ namespace AssemblyMgr.UI.ViewModels
              && !Controller.ScheduleTemplates.Contains(value)) return;
             Definition.ViewTemplate = value;
         }
-        //public Direction3d Direction
-        //{
-        //    get => Definition.Direction;
-        //    set => this.Notify(PropertyChanged, () => Definition.Direction = value);
-        //}
         public DirectionVM DirectionVM { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

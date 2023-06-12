@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using AssemblyMgr.Revit.Core;
+using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.Revit.DataExtraction;
+using AssemblyMgr.Revit.Creation;
+using Settings = AssemblyMgr.Core.Serialization.Settings;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
-using AssemblyMgr.Revit.Core;
-using AssemblyMgr.Core.DataModel;
-using Settings = AssemblyMgr.Core.Serialization.Settings;
-using Autodesk.Revit.UI.Selection;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using AssemblyMgr.Revit.Data;
+using System.Linq;
 
 namespace AssemblyMgr.Revit.Tests
 {
@@ -36,7 +36,7 @@ namespace AssemblyMgr.Revit.Tests
 
             // get the data needed for the form and the command
             var assemblyInstance = UiDoc.ActiveView.IsAssemblyView
-                ? Doc.GetElement(UiDoc.ActiveView.AssociatedAssemblyInstanceId) 
+                ? Doc.GetElement(UiDoc.ActiveView.AssociatedAssemblyInstanceId)
                     as AssemblyInstance
                 : UiDoc.Selection.GetElementIds()
                     .Select(x => Doc.GetElement(x))
@@ -49,14 +49,14 @@ namespace AssemblyMgr.Revit.Tests
 
             // get the schedules only
             var scheduleDefs = spoolSheetDefinition.ViewPorts
-                .Where(x => x is ViewPortSchedule).ToList();
+                .Where(x => x is ViewPortDefinition_Schedule).ToList();
 
             spoolSheetDefinition.ViewPorts
                 = new ObservableCollection<ViewPortDefinition>(scheduleDefs);
 
             var revitAdapter = new AssemblyMangerRevitAdapter(assemblyInstance);
 
-            List<AssemblyMgrView> views;
+            List<BuiltViewPort> views;
 
 
             using (var t = new Transaction(Doc, $"Build Views"))

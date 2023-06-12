@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net481</TargetFramework>
 		<Configurations>Debug;Release</Configurations>
+		<RootNamespace>AssemblyMgr.Revit</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

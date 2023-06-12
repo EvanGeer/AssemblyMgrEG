@@ -11,8 +11,8 @@ namespace AssemblyMgr.Core.DataModel
         }
 
         [XmlArray()]
-        [XmlArrayItem(Type = typeof(ViewPortModel))]
-        [XmlArrayItem(Type = typeof(ViewPortSchedule))]
+        [XmlArrayItem(Type = typeof(ViewPortDefinition_Model))]
+        [XmlArrayItem(Type = typeof(ViewPortDefinition_Schedule))]
         //[XmlArrayItem(Type = typeof(ViewPortCustomBom))]
         public ObservableCollection<ViewPortDefinition> ViewPorts { get; set; }
             = new ObservableCollection<ViewPortDefinition>();

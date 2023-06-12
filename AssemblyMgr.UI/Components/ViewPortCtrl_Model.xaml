@@ -45,7 +45,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style BasedOn="{StaticResource Common}"
+        <!--<Style BasedOn="{StaticResource Common}"
                TargetType="{x:Type TextBox}">
             <Setter Property="VerticalContentAlignment"
                     Value="Center" />
@@ -55,7 +55,7 @@
                     Value="2" />
             <Setter Property="FontSize"
                     Value="14" />
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <Grid>
         <Grid>
@@ -84,8 +84,7 @@
                     Padding="4"
                     CornerRadius="5"
                     Background="White"
-                    Margin="2"
-                    >
+                    Margin="2">
                 <ComboBox IsEditable="True"
                           BorderThickness="0"
                           IsTextSearchCaseSensitive="False"
@@ -98,7 +97,7 @@
                    Grid.Row="0"
                    Margin="8,0,0,0"
                    Visibility="{Binding ViewPort.DirectionControl.Visibility}"
-                   x:Name="DirectionControlLabel"/>
+                   x:Name="DirectionControlLabel" />
             <Border Grid.Column="2"
                     Grid.Row="1"
                     Grid.RowSpan="4"
@@ -128,31 +127,218 @@
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <ToggleButton Content="&#xE8EC;"
-                              FontFamily="Segoe MDL2 Assets"
-                              Grid.Column="0"
-                              FontSize="20"
-                              Margin="2"
-                              ToolTip="Tags"
-                              IsChecked="{Binding HasTags}" />
-                <ToggleButton Content="&#xE751;"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--<ToggleButton Grid.Row="2"
                               Grid.Column="1"
+                              Content="&#xE751;"
                               FontFamily="Segoe MDL2 Assets"
                               FontSize="20"
                               Margin="2"
                               ToolTip="Tag Leaders"
                               IsChecked="{Binding HasTagLeaders}"
-                              IsEnabled="{Binding HasTags}" />
-                <ToggleButton Content="&#xE8EC;"
+                              IsEnabled="{Binding HasTags}" />-->
+                <Border Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        BorderBrush="{Binding TagSettingsBorderBrush}"
+                        BorderThickness="1"
+                        Padding="8,2,2,4"
+                        CornerRadius="0,5,5,0"
+                        Background="White"
+                        Margin="-6,2,2,2"
+                        IsEnabled="{Binding HasTags}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <!--<Popup IsOpen="{Binding ElementName=ItemsToTagSelector, Path=IsFocused, Mode=OneWay}"
+                               AllowsTransparency="True">
+                            <Border BorderBrush="LightSteelBlue"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Padding="4">
+                                <Grid Background="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <CheckBox Grid.Column="0"
+                                              VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Pipes" />
+                                    <ComboBox Grid.Column="2"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding PipeTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                    <CheckBox Grid.Column="0"
+                                              Grid.Row="1"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Joints" 
+                                               Grid.Row="1"/>
+                                    <ComboBox Grid.Column="2"
+                                              Grid.Row="1"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding JointTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                    <CheckBox Grid.Column="0"
+                                              VerticalAlignment="Center"
+                                              Grid.Row="2" />
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Fittings"
+                                               Grid.Row="2" />
+                                    <ComboBox Grid.Column="2"
+                                              Grid.Row="2"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding FittingTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                </Grid>
+                            </Border>
+                        </Popup>-->
+                        <ComboBox Width="18"
+                                  Height="18"
+                                  IsEditable="True"
+                                  Grid.Column="2"
+                                  BorderThickness="0"
+                                  Margin="2">
+                            <ComboBoxItem Margin="0">
+                                <Grid Background="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <CheckBox Grid.Column="0"
+                                              VerticalAlignment="Center"
+                                              IsChecked="{Binding HasPipeTags}" />
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Pipes" />
+                                    <ComboBox Grid.Column="2"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding PipeTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                    <CheckBox Grid.Column="0"
+                                              Grid.Row="1"
+                                              VerticalAlignment="Center"
+                                              IsChecked="{Binding HasJointTags}"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Joints"
+                                               Grid.Row="1" />
+                                    <ComboBox Grid.Column="2"
+                                              Grid.Row="1"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding JointTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                    <CheckBox Grid.Column="0"
+                                              VerticalAlignment="Center"
+                                              Grid.Row="2" 
+                                              IsChecked="{Binding HasFittingTags}"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="Fittings"
+                                               Grid.Row="2" />
+                                    <ComboBox Grid.Column="2"
+                                              Grid.Row="2"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding FittingTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                </Grid>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <TextBlock x:Name="ItemsToTagSelector"
+                                 Text="{Binding TagSettingsDisplay, Mode=OneWay}"
+                                 IsEnabled="{Binding HasTags}"
+                                 Cursor="Hand"
+                                 VerticalAlignment="Center"
+                                 Foreground="{Binding TagSettingsForeground}"/>
+                        
+                        
+                        <!--<ComboBox Grid.Column="1"
+                                  IsEditable="True"
+                                  BorderThickness="0"
+                                  IsTextSearchCaseSensitive="False"
+                                  IsTextSearchEnabled="True">-->
+                        <!--<ComboBoxItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Pipes" />
+                                    <ComboBox Grid.Column="2"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding PipeTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                </Grid>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Joints" />
+                                    <ComboBox Grid.Column="2"
+                                              SelectedItem="{Binding JointTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                </Grid>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Materials" />
+                                    <ComboBox Grid.Column="2"
+                                              SelectedItem="{Binding FittingTag}"
+                                              ItemsSource="{Binding Controller.TagTypes}" />
+                                </Grid>
+                            </ComboBoxItem>-->
+                        <!--</ComboBox>-->
+                    </Grid>
+                </Border>
+                <ToggleButton Grid.Row="2"
+                              Content="&#xE8EC;"
+                              FontFamily="Segoe MDL2 Assets"
+                              Grid.Column="1"
+                              FontSize="20"
+                              Margin="2,0,2,0"
+                              ToolTip="Tags"
+                              IsChecked="{Binding HasTags}" />
+                <!--<ToggleButton Grid.Row="2"
                               Grid.Column="2"
+                              Content="&#xE8EC;"
                               FontFamily="Segoe MDL2 Assets"
                               FontSize="20"
                               Margin="2"
                               ToolTip="Tag Leaders"
                               IsChecked="{Binding IgnoreWelds}"
-                              IsEnabled="{Binding HasTags}" />
-                <ToggleButton FontFamily="Segoe MDL2 Assets"
-                              Grid.Column="3"
+                              IsEnabled="{Binding HasTags}" />-->
+                <ToggleButton Grid.Row="2"
+                              FontFamily="Segoe MDL2 Assets"
+                              Grid.Column="0"
                               Margin="2"
                               FontSize="14"
                               ToolTip="Dimensions"

@@ -7,7 +7,9 @@ using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Core.Serialization;
 using Settings = AssemblyMgr.Core.Serialization.Settings;
 using System.Collections.Generic;
-using AssemblyMgr.Revit.Data;
+using AssemblyMgr.Revit.Creation;
+using AssemblyMgr.Revit.DataExtraction;
+using System.Linq;
 
 namespace AssemblyMgr.Revit.Core
 {
@@ -51,7 +53,7 @@ namespace AssemblyMgr.Revit.Core
             spoolSheetDefinition.Serialize(SettingsFile);
 
             ViewSheet sheet;
-            List<AssemblyMgrView> views;
+            List<BuiltViewPort> views;
 
 
             using (var t = new Transaction(Doc, $"Build Views"))
@@ -60,6 +62,33 @@ namespace AssemblyMgr.Revit.Core
 
                 var viewFactory = new ViewFactory(_assemblyInstance, revitAdapter);
                 views = viewFactory.CreateViews(spoolSheetDefinition.ViewPorts);
+
+                t.Commit();
+            }
+
+            using (var t = new Transaction(Doc, "Place Annotatoins"))
+            {
+                t.Start();
+
+                // Annotation Factory Setup
+                var fabParts = _assemblyInstance.GetMemberIds()
+                    .Select(x => Doc.GetElement(x))
+                    .OfType<FabricationPart>()
+                    .ToList();
+                var distiller = new ElementDistiller(fabParts);
+                var annotationFactory = new AnnotationFactory(Doc, distiller, revitAdapter.TagTypeController);
+
+                // Tags
+                var viewsToTag = views
+                    .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasTags)
+                    .ToList();
+                viewsToTag.ForEach(x => annotationFactory.CreateTags(x));
+
+                // Dimensions
+                var viewsToDim = views
+                    .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasDimensions)
+                    .ToList();
+                viewsToDim.ForEach(x => annotationFactory.CreatePipeDimensions(x.View));
 
                 t.Commit();
             }

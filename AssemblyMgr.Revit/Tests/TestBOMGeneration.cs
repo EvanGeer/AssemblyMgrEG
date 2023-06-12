@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using AssemblyMgr.Revit.Core;
-using AssemblyMgr.UI.ViewModels;
-using AssemblyMgr.Revit.Data;
+using AssemblyMgr.Revit.Creation;
 
 namespace AssemblyMgr.Revit.Tests
 {

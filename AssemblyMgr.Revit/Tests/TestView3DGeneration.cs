@@ -1,14 +1,11 @@
-﻿using System.Linq;
+﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.Attributes;
-using AssemblyMgr.Revit.Core;
-using AssemblyMgr.Revit.Data;
-using AssemblyMgr.UI.ViewModels;
 using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Core.Geometry;
-using System.Windows.Controls;
-using System.Xml.Linq;
+using AssemblyMgr.Revit.Creation;
+using AssemblyMgr.Revit.Core;
+using AssemblyMgr.Revit.DataExtraction;
 
 namespace AssemblyMgr.Revit.Tests
 {
@@ -28,12 +25,12 @@ namespace AssemblyMgr.Revit.Tests
 
             // get input from the user on how to build the Assembly _sheet
             var spoolSheetDefinition = new SpoolSheetDefinition();
-            spoolSheetDefinition.ViewPorts.Add(new ViewPortModel
+            spoolSheetDefinition.ViewPorts.Add(new ViewPortDefinition_Model
             {
                 Outline = new Box2d((0, 0), (0.5, 0.5)),
                 Type = ViewPortType.ModelOrtho,
             });
-            spoolSheetDefinition.ViewPorts.Add(new ViewPortModel
+            spoolSheetDefinition.ViewPorts.Add(new ViewPortDefinition_Model
             {
                 Outline = new Box2d((0.5, 0.5), (1,1)),
                 Type = ViewPortType.ModelOrtho,

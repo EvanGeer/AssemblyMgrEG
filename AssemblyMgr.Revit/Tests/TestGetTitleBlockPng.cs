@@ -1,4 +1,5 @@
 ﻿using AssemblyMgr.Revit.Core;
+using AssemblyMgr.Revit.DataExtraction;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -16,7 +17,7 @@ namespace AssemblyMgr.Revit.Tests
         {
             var sw = Stopwatch.StartNew();
             var doc = commandData.Application.ActiveUIDocument.Document;
-            var titleBlockController = new TitleBlockController(doc);
+            var titleBlockController = new TitleBlockExtractor(doc);
 
 
             //List<(string Name, ViewSheet BlankSheet)> blankSheets;

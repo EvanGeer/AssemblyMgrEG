@@ -4,8 +4,8 @@ using System.Xml.Serialization;
 
 namespace AssemblyMgr.Core.DataModel
 {
-    [XmlInclude(typeof(ViewPortModel))]
-    [XmlInclude(typeof(ViewPortSchedule))]
+    [XmlInclude(typeof(ViewPortDefinition_Model))]
+    [XmlInclude(typeof(ViewPortDefinition_Schedule))]
     //[XmlInclude(typeof(ViewPortCustomBom))]
     public class ViewPortDefinition : IDirection
     {
@@ -14,7 +14,6 @@ namespace AssemblyMgr.Core.DataModel
         public Box2d Outline { get; set; }
         public ViewPortType Type { get; set; }
         public string Title { get; set; }
-        public bool IgnoreWelds { get; set; }
         public string ViewTemplate { get; set; }
     }
 }

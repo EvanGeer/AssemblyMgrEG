@@ -1,15 +1,13 @@
 ﻿using AssemblyMgr.Core.DataModel;
+using AssemblyMgr.Revit.DataExtraction;
 using AssemblyMgr.Revit.Core;
+using AssemblyMgr.Revit.Creation;
 using Settings = AssemblyMgr.Core.Serialization.Settings;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyMgr.Revit.Tests
 {
@@ -33,7 +31,7 @@ namespace AssemblyMgr.Revit.Tests
 
             // get the schedules only
             var scheduleDefs = spoolSheetDefinition.ViewPorts
-                .Where(x => x is ViewPortSchedule).ToList();
+                .Where(x => x is ViewPortDefinition_Schedule).ToList();
 
             spoolSheetDefinition.ViewPorts
                 = new ObservableCollection<ViewPortDefinition>(scheduleDefs);
@@ -45,7 +43,7 @@ namespace AssemblyMgr.Revit.Tests
                 t.Start();
 
                 var viewFactory = new ViewFactory(assemblyInstance, revitAdapter);
-                viewFactory.TagAllPipeElements(UiDoc.ActiveView, false);
+                //viewFactory.TagAllPipeElements(UiDoc.ActiveView, false);
 
                 t.Commit();
             }

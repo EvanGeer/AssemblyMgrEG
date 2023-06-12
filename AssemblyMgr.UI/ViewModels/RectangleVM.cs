@@ -82,8 +82,8 @@ namespace AssemblyMgr.UI.ViewModels
         {
             bool isSchedule = viewPort.Type == ViewPortType.Schedule;
             bool isModelView = new[] { ViewPortType.ModelElevation, ViewPortType.ModelPlan, ViewPortType.ModelOrtho }.Contains(viewPort.Type);
-            if (isSchedule) ViewPort = new ViewPortVM_Schedule(viewPort as ViewPortSchedule, Controller);
-            if (isModelView) ViewPort = new ViewPortVM_ModelView(viewPort as ViewPortModel, Controller);
+            if (isSchedule) ViewPort = new ViewPortVM_Schedule(viewPort as ViewPortDefinition_Schedule, Controller);
+            if (isModelView) ViewPort = new ViewPortVM_ModelView(viewPort as ViewPortDefinition_Model, Controller);
             Type = viewPort.Type;
             _outline = viewPort.Outline * Constants.SheetImageWidthPixels;
         }

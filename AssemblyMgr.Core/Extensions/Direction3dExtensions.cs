@@ -10,12 +10,12 @@ namespace AssemblyMgr.Core.Extensions
 {
     public static class Direction3dExtensions
     {
-        public static IEnumerable<T> GetFlags<T>(this T mask)
+        public static IEnumerable<T> GetFlags<T>(this T mask, Func<T, bool> predicate = null)
             where T : Enum
         {
             return Enum.GetValues(typeof(T))
                                  .Cast<Enum>()
-                                 .Where(m => mask.HasFlag(m))
+                                 .Where(m => mask.HasFlag(m) && (predicate is null || predicate((T)m)))
                                  .Cast<T>();
         }
 
