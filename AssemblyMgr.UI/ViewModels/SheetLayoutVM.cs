@@ -40,6 +40,7 @@ namespace AssemblyMgr.UI.ViewModels
             TempViewPort = null;
         }
 
+        // ToDo: change this...
         public string DefaultImage => @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
         private float _sheetImageScale1 = 1;
 

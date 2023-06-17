@@ -24,8 +24,16 @@ namespace AssemblyMgr.Revit.DataExtraction
         {
             var tagCategories = new LogicalOrFilter(new List<ElementFilter>
             {
+                new ElementCategoryFilter(BuiltInCategory.OST_Tags),
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeFittingTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessoryTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_PipeInsulationsTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_CableTrayTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_ConduitTags),
                 new ElementCategoryFilter(BuiltInCategory.OST_FabricationPipeworkTags),
-                new ElementCategoryFilter(BuiltInCategory.OST_MultiCategoryTags)
+                new ElementCategoryFilter(BuiltInCategory.OST_GenericModelTags),
+                new ElementCategoryFilter(BuiltInCategory.OST_MultiCategoryTags),
             });
 
             var templates = new FilteredElementCollector(_doc)

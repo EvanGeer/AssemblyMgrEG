@@ -37,11 +37,17 @@ namespace AssemblyMgr.Revit.Creation
             if (assemblyMgrView.View is View3D view3d && !view3d.IsLocked)
                 view3d.SaveOrientationAndLock();
 
-            foreach (var tagSet in viewDef.TagSettings.TagItems.Where(x => x.type != ItemType.None && !string.IsNullOrEmpty(x.tag)))
+            var itemsToTag = viewDef.ItemsToTag
+                .GetFlags(x => x != ItemType.None)
+                .Select(x => (type: x, tagName: viewDef.GetTagName(x)))
+                .Where(x => !string.IsNullOrEmpty(x.tagName))
+                .ToList();
+
+            foreach (var tagSet in itemsToTag)
             {
                 var elementSet = Distiller[tagSet.type];
 
-                var tagType = TagTypeExtractor.GetTagType(tagSet.tag);
+                var tagType = TagTypeExtractor.GetTagType(tagSet.tagName);
 
                 elementSet.ForEach(x => placeTag(x, tagType, tagOffset, assemblyMgrView.View));
             }

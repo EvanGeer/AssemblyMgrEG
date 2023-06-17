@@ -73,7 +73,8 @@ namespace AssemblyMgr.Revit.Creation
         {
             if (viewDefinition is null || viewDefinition.Type != ViewPortType.ModelOrtho) return null;
 
-            var view = AssemblyViewUtils.Create3DOrthographic(Doc, AssemblyInstance.Id);
+            var template = Adapter.GetViewTemplate(viewDefinition.ViewTemplate);
+            var view = AssemblyViewUtils.Create3DOrthographic(Doc, AssemblyInstance.Id, template.Id, true);
             view.SaveOrientationAndLock();
 
             return new BuiltViewPort(viewDefinition, view);

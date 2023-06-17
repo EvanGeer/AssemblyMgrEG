@@ -57,15 +57,15 @@ namespace AssemblyMgr.UI.ViewModels
 
         public string TagSettingsDisplay
             => HasTags 
-            && ItemsToTag != ItemsToTag.None 
-            && ItemsToTag.GetFlags(x => x != ItemsToTag.None).ToList() is List<ItemsToTag> items
-            ? items.Count == 3 ? "All Items" : string.Join(", ", ItemsToTag.GetFlags().Except(new[] {ItemsToTag.None}))
+            && ItemsToTag != ItemType.None 
+            && ItemsToTag.GetFlags(x => x != ItemType.None).ToList() is List<ItemType> items
+            ? items.Count == 3 ? "All Items" : string.Join(", ", ItemsToTag.GetFlags().Except(new[] {ItemType.None}))
             : "None";
         public Brush TagSettingsForeground => HasTags
             ? Brushes.Black : Brushes.LightGray;
         public Brush TagSettingsBorderBrush => HasTags
             ? Brushes.LightSteelBlue : Brushes.LightGray;
-        public ItemsToTag ItemsToTag
+        public ItemType ItemsToTag
         {
             get => ViewPort.ItemsToTag;
             set => this.Notify(PropertyChanged, () => ViewPort.ItemsToTag = value,
@@ -79,24 +79,24 @@ namespace AssemblyMgr.UI.ViewModels
 
         public bool HasPipeTags
         {
-            get => ItemsToTag.HasFlag(ItemsToTag.Pipes);
+            get => ItemsToTag.HasFlag(ItemType.Pipe);
             set => ItemsToTag = value == true
-                ? ItemsToTag | ItemsToTag.Pipes  & ~ItemsToTag.None
-                : ItemsToTag & ~ItemsToTag.Pipes;
+                ? ItemsToTag | ItemType.Pipe  & ~ItemType.None
+                : ItemsToTag & ~ItemType.Pipe;
         }
         public bool HasJointTags
         {
-            get => ItemsToTag.HasFlag(ItemsToTag.Joints);
+            get => ItemsToTag.HasFlag(ItemType.Joint);
             set => ItemsToTag = value == true
-                ? ItemsToTag | ItemsToTag.Joints & ~ItemsToTag.None
-                : ItemsToTag & ~ItemsToTag.Joints;
+                ? ItemsToTag | ItemType.Joint & ~ItemType.None
+                : ItemsToTag & ~ItemType.Joint;
         }
         public bool HasFittingTags
         {
-            get => ItemsToTag.HasFlag(ItemsToTag.Fittings);
+            get => ItemsToTag.HasFlag(ItemType.Fitting);
             set => ItemsToTag = value == true
-                ? ItemsToTag | ItemsToTag.Fittings & ~ItemsToTag.None
-                : ItemsToTag & ~ItemsToTag.Fittings;
+                ? ItemsToTag | ItemType.Fitting & ~ItemType.None
+                : ItemsToTag & ~ItemType.Fitting;
         }
 
         public new event PropertyChangedEventHandler PropertyChanged;

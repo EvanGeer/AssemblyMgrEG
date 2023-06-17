@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using AssemblyMgr.Revit.Creation;
 using AssemblyMgr.Revit.DataExtraction;
 using System.Linq;
+using Autodesk.Revit.DB.Plumbing;
 
 namespace AssemblyMgr.Revit.Core
 {
@@ -79,7 +80,7 @@ namespace AssemblyMgr.Revit.Core
                 // Annotation Factory Setup
                 var elements = _assemblyInstance.GetMemberIds()
                     .Select(x => Doc.GetElement(x))
-                    .Where(x => x is FamilyInstance || x is FabricationPart)
+                    .Where(x => x is FamilyInstance || x is FabricationPart || x is Pipe)
                     .ToList();
                 var distiller = new ElementDistiller(elements);
 

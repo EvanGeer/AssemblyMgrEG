@@ -21,10 +21,10 @@ namespace AssemblyMgr.Revit.Creation
             foreach (var straight in Distiller.Pipes)
             {
                 var line = (straight.Location as LocationCurve).Curve as Line;
-                
+
                 // make sure we can place the dimension in the current view
                 if (line.Direction.IsAlmostEqualTo(view.ViewDirection)
-                    || line.Direction.IsAlmostEqualTo(view.ViewDirection.Negate())) 
+                    || line.Direction.IsAlmostEqualTo(view.ViewDirection.Negate()))
                     continue;
 
                 var refArray = new ReferenceArray();
@@ -36,10 +36,10 @@ namespace AssemblyMgr.Revit.Creation
                 lineRefs.ForEach(x => refArray.Append(x));
 
                 var offsetDirection = line.Direction.CrossProduct(view.ViewDirection).Negate();
-                    /*line.Direction.IsAlmostEqualTo(view.UpDirection)
-                    || line.Direction.IsAlmostEqualTo(view.UpDirection.Negate())
-                        ? view.RightDirection//.Negate()
-                        : view.UpDirection;//.Negate();*/
+                /*line.Direction.IsAlmostEqualTo(view.UpDirection)
+                || line.Direction.IsAlmostEqualTo(view.UpDirection.Negate())
+                    ? view.RightDirection//.Negate()
+                    : view.UpDirection;//.Negate();*/
 
                 //// this line MUST be in the current plane
                 //var newLine = Line.CreateUnbound(
@@ -50,7 +50,11 @@ namespace AssemblyMgr.Revit.Creation
                     offsetDirection + line.GetEndPoint(0),
                     offsetDirection.CrossProduct(view.ViewDirection));
 
-                view.Document.Create.NewDimension(view, textLine, refArray);
+                try
+                {
+                    view.Document.Create.NewDimension(view, textLine, refArray);
+                }
+                catch { }
             }
         }
 

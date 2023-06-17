@@ -12,10 +12,17 @@ namespace AssemblyMgr.Core.DataModel
         public string FittingTag { get; set; }
         public bool HasTags { get; set; }
         public bool HasDimensions { get; set; }
-        public ItemsToTag ItemsToTag { get; set; }
+        public ItemType ItemsToTag { get; set; }
 
-        //public bool HasTagLeaders { get; set; }
-        //public double TagOffset { get; set; }
-        //public ElevationOrientation Orientation { get; set; }
+        public string GetTagName(ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.Pipe: return PipeTag;
+                case ItemType.Fitting: return FittingTag;
+                case ItemType.Joint: return JointTag;
+                default: return null;
+            }
+        }
     }
 }
