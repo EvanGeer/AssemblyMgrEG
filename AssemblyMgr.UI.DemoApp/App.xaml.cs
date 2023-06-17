@@ -28,13 +28,7 @@ namespace AssemblyMgr.UI
             var testSpoolSheetDef = Settings.DeSerialize<SpoolSheetDefinition>(file)
                 ?? new SpoolSheetDefinition();
             var testController = new AssemblyMgrController();
-            var testVM = new AssemblyMgrVM(testSpoolSheetDef, testController)
-            {
-                // ToDo: get these from the temp folder
-                //TitleBlocks = new List<string> { "8.5x11", "11x17", "22x34" },
-
-
-            };
+            var testVM = new AssemblyMgrVM(testSpoolSheetDef, testController);
 
 
             AssemblyMgrForm mw = new AssemblyMgrForm(testVM);
@@ -44,14 +38,6 @@ namespace AssemblyMgr.UI
 
             testSpoolSheetDef.Serialize(file.FullName);
 
-            //using (var writer = new StreamWriter(file.FullName))
-            //{
-            //    var settings = JsonSerializer.Serialize(testSpoolSheetDef);
-            //    writer.Write(settings);
-            //    var forecast = JsonSerializer.Deserialize<SpoolSheetDefinition>(settings);
-            //}
         }
-
-
     }
 }

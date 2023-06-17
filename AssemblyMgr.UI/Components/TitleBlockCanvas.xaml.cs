@@ -72,20 +72,11 @@ namespace AssemblyMgr.UI.Components
         private void SheetCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var img = System.Drawing.Image.FromFile(_viewModel.ViewPorts.DefaultImage);
-            //var imageSize =  img.Width + ", Height: " + img.Height);
 
             _viewModel.ViewPorts.SheetImageScale = (float)(e.NewSize.Width / ((double)img.Width));
         }
 
-
-        private void DeleteCard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // ToDo: move this to ViewModel so that we can also delete it from the settings
-            _viewModel.ViewPorts.Rectangles.Remove((sender as FrameworkElement)?.DataContext as RectangleVM);
-        }
-
-        // ToDo: move this to ViewModel so that we can also delete it from the settings
-        private void DeleteViewPort(RectangleVM viewPort) => _viewModel.ViewPorts.Rectangles.Remove(viewPort);
-
+        private void DeleteViewPort(RectangleVM viewPort) 
+            => _viewModel.ViewPorts.RemoveViewPort(viewPort);
     }
 }

@@ -40,10 +40,6 @@
                            StrokeThickness="4"
                            Visibility="{Binding ViewPorts.TempViewPortVisibility}" />
             </Canvas>
-            <!--<ListBox ItemsSource="{Binding Path=ViewPorts.Rectangles}"
-                     DisplayMemberPath="Type"
-                     Width="100"
-                     HorizontalAlignment="Left" />-->
             <ItemsControl ItemsSource="{Binding Path=ViewPorts.Rectangles, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                           x:Name="SheetCanvas">
                 <ItemsControl.ItemsPanel>
@@ -65,21 +61,11 @@
                                 Value="{Binding PreviewOutline.TopLeft.Y}" />
                         <Setter Property="Canvas.Right"
                                 Value="{Binding PreviewOutline.TopRight.X}" />
-                        <!--<Setter Property="Width" Value="{Binding Width}" />
-                                    <Setter Property="Height" Value="{Binding Height}" />-->
-                        <!--<Setter Property="-->
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <!--<Grid Background="Olive">-->
-                            <!--<Border Background="Purple"
-                                    Padding="0">-->
-                                <!--<TextBlock Text="{Binding PreviewOutline.Height}" />-->
-                                <components:ViewPortCard OnDeleted="DeleteViewPort" />
-                            <!--</Border>-->
-                        <!--</Grid>-->
-                        <!--<ViewPortCard />-->
+                        <components:ViewPortCard OnDeleted="DeleteViewPort" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

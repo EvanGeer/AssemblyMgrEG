@@ -39,6 +39,13 @@ namespace AssemblyMgr.UI.ViewModels
             Rectangles.Add(new RectangleVM(rectangle, SheetImageScale, SpoolSheetDefinition, Controller));
             TempViewPort = null;
         }
+        public void RemoveViewPort(RectangleVM viewPort)
+        {
+            Rectangles.Remove(viewPort);
+
+            var viewPortToRemove = SpoolSheetDefinition.ViewPorts.FirstOrDefault(x => x.Id == viewPort.ViewPort.Definition.Id);
+            SpoolSheetDefinition.ViewPorts.Remove(viewPortToRemove);
+        }
 
         // ToDo: change this...
         public string DefaultImage => @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
