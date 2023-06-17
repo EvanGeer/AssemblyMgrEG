@@ -28,9 +28,15 @@ namespace AssemblyMgr.Revit.Core
         private AssemblyInstance _assemblyInstance;
         public override Result Execute()
         {
-            // build the Assembly from the user selection
-            // ToDo: return a collection of assemblies then we can iterate through those when building sheets
-            _assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
+            using (var t = new Transaction(Doc, "Create Assembly"))
+            {
+                t.Start();
+
+                // build the Assembly from the user selection
+                // ToDo: return a collection of assemblies then we can iterate through those when building sheets
+                _assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
+                t.Commit();
+            }
             if (null == _assemblyInstance)
                 return Result.Cancelled;
 
@@ -71,24 +77,25 @@ namespace AssemblyMgr.Revit.Core
                 t.Start();
 
                 // Annotation Factory Setup
-                var fabParts = _assemblyInstance.GetMemberIds()
+                var elements = _assemblyInstance.GetMemberIds()
                     .Select(x => Doc.GetElement(x))
-                    .OfType<FabricationPart>()
+                    .Where(x => x is FamilyInstance || x is FabricationPart)
                     .ToList();
-                var distiller = new ElementDistiller(fabParts);
-                var annotationFactory = new AnnotationFactory(Doc, distiller, revitAdapter.TagTypeController);
+                var distiller = new ElementDistiller(elements);
 
                 // Tags
+                var tagFactory = new TagFactory(Doc, distiller, revitAdapter.TagTypeController);
                 var viewsToTag = views
                     .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasTags)
                     .ToList();
-                viewsToTag.ForEach(x => annotationFactory.CreateTags(x));
+                viewsToTag.ForEach(x => tagFactory.CreateTags(x));
 
                 // Dimensions
+                var dimFactory = new DimensionFactory(Doc, distiller);
                 var viewsToDim = views
                     .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasDimensions)
                     .ToList();
-                viewsToDim.ForEach(x => annotationFactory.CreatePipeDimensions(x.View));
+                viewsToDim.ForEach(x => dimFactory.CreatePipeDimensions(x.View));
 
                 t.Commit();
             }
