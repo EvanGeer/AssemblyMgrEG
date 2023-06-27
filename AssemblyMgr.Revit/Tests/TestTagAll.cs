@@ -17,38 +17,30 @@ namespace AssemblyMgr.Revit.Tests
         public override Result Execute()
         {
             // get the data needed for the form and the command
-            var assemblyInstance = UiDoc.ActiveView.IsAssemblyView
-                ? Doc.GetElement(UiDoc.ActiveView.AssociatedAssemblyInstanceId)
-                    as AssemblyInstance
-                : UiDoc.Selection.GetElementIds()
+            var selectedElements = UiDoc.Selection.GetElementIds()
                     .Select(x => Doc.GetElement(x))
-                    .OfType<AssemblyInstance>()
-                    .FirstOrDefault();
+                    .ToList();
 
-            var assemblyManager = new AssemblyMgrCmd();
-            var spoolSheetDefinition = Settings.DeSerialize<SpoolSheetDefinition>(assemblyManager.SettingsFile)
-                ?? new SpoolSheetDefinition();
-
-            // get the schedules only
-            var scheduleDefs = spoolSheetDefinition.ViewPorts
-                .Where(x => x is ViewPortDefinition_Schedule).ToList();
-
-            spoolSheetDefinition.ViewPorts
-                = new ObservableCollection<ViewPortDefinition>(scheduleDefs);
-
-            var revitAdapter = new AssemblyMangerRevitAdapter(assemblyInstance);
+            var tagExtractor = new TagTypeExtractor(Doc);
+            var viewDef = new ViewPortDefinition_Model
+            {
+                HasTags = true,
+                FittingTag = tagExtractor.TagTypes.FirstOrDefault(),
+                PipeTag = tagExtractor.TagTypes.FirstOrDefault(),
+                ItemsToTag = ItemType.Fitting | ItemType.Pipe,
+            };
+            var activeView = new BuiltViewPort(viewDef, UiDoc.ActiveView);
 
             using (var t = new Transaction(Doc, $"Build Views"))
             {
                 t.Start();
 
-                var viewFactory = new ViewFactory(assemblyInstance, revitAdapter);
-                //viewFactory.TagAllPipeElements(UiDoc.ActiveView, false);
+                var distiller = new ElementDistiller(selectedElements);
+                var tagFactoty = new TagFactory(Doc, distiller, tagExtractor);
+                tagFactoty.CreateTags(activeView);    
 
                 t.Commit();
             }
-
-
 
             return Result.Succeeded;
         }

@@ -17,19 +17,7 @@ namespace AssemblyMgr.Revit.Tests
     {
         public override Result Execute()
         {
-            //var sel = UiDoc.Selection.GetElementIds().First();
-            //var sched = (ScheduleSheetInstance)Doc.GetElement(sel);
-
-            //using (Transaction t = new Transaction(Doc, "Test Schedule Placement"))
-            //{
-            //    t.Start();
-
-            //    var len = sched.get_BoundingBox(UiDoc.ActiveView).Max.X - sched.get_BoundingBox(UiDoc.ActiveView).Min.X;
-            //    sched.Point = new XYZ(17.0 / 12.0 - len, 11.0 / 12.0, 0);
-
-            //    t.Commit();
-            //}
-            ViewSheet sheet = UiDoc.ActiveView as ViewSheet;
+            var sheet = UiDoc.ActiveView as ViewSheet;
             if (sheet == null)
                 return Result.Cancelled;
 

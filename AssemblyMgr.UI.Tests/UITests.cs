@@ -40,19 +40,23 @@ namespace UnitTests
         {
             Console.WriteLine("Covers " + nameof(ViewModelExtensions.Notify));
             
+            // arrange
             string propertyName = string.Empty;
-
             var viewModel = new TestVM();
             viewModel.PropertyChanged += (sender, e) => propertyName = e.PropertyName;
+
+            // act
             viewModel.StringData = "Some Change";
 
-            Assert.AreEqual(nameof(TestVM.StringData), propertyName);
+            // assert
+            Assert.That(propertyName, Is.EqualTo(nameof(TestVM.StringData)));
         }
         [Test(TestOf = typeof(ViewModelExtensions))]
         public void NotifyPropertyChanged_AlsoNotifies()
         {
             Console.WriteLine("Covers " + nameof(ViewModelExtensions.Notify));
 
+            // arrange
             var changedProperties = new List<string>();
 
             var viewModel = new TestVM();
@@ -64,9 +68,11 @@ namespace UnitTests
                 $"{nameof(TestVM.DependentProp2)}," +
                 $"{nameof(TestVM.StringDataWithDependencies)}";
 
+            // act
             var actual = string.Join(",", changedProperties.OrderBy(x => x));
 
-            Assert.AreEqual(expected, actual);
+            // assert
+            Assert.That(actual,Is.EqualTo(expected));
         }
     }
 }

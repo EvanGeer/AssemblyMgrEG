@@ -1,7 +1,4 @@
-﻿using AssemblyMgr.Core.DataModel;
-using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Numerics;
 
 
@@ -40,9 +37,6 @@ namespace AssemblyMgr.Core.Geometry
         }
 
         public Box2d() { }
-
-
-
 
         //public Box2d InsertBox(float insertedWidth, float insertedHeight, Box2dLocation whereToInsert)
         //{
@@ -118,12 +112,6 @@ namespace AssemblyMgr.Core.Geometry
         //        new Vector2(BottomRight.X - insertedWidth, BottomLeft.Y),
         //        new Vector2(BottomRight.X, BottomRight.Y + insertedHeight));
         //}
-
-        //private void Stretch(Direction3d direction, Vector2 translation)
-        //{
-
-        //}
-
         /// <summary>Scales the box in the specified amount
         /// <para/>i.e. divides the value out of each corner</summary>
         public static Box2d operator /(Box2d box, double value)

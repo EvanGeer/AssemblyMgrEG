@@ -32,24 +32,24 @@ namespace AssemblyMgr.Revit.Tests
             });
             spoolSheetDefinition.ViewPorts.Add(new ViewPortDefinition_Model
             {
-                Outline = new Box2d((0.5, 0.5), (1,1)),
+                Outline = new Box2d((0.5, 0.5), (1, 1)),
                 Type = ViewPortType.ModelOrtho,
             });
             var revitAdapter = new AssemblyMangerRevitAdapter(assemblyInstance);
-
-            var viewFactory = new ViewFactory(assemblyInstance, revitAdapter);
-            var views = viewFactory.CreateViews(spoolSheetDefinition.ViewPorts);
 
             using (var t = new Transaction(Doc, $"Test Place 3 view"))
             {
                 t.Start();
 
+                var viewFactory = new ViewFactory(assemblyInstance, revitAdapter);
+                var views = viewFactory.CreateViews(spoolSheetDefinition.ViewPorts);
+
                 var sheetFactory = new SheetFactory(views);
                 views.ForEach(x => sheetFactory.PlaceViews(currentView as ViewSheet));
-                
-                XYZ P1 = new XYZ(0,0,0);
-                XYZ P2 = new XYZ(17.0 / 12.0, 11.0 / 12.0, 0);
-                Line L1 = Line.CreateBound(P1, P2);
+
+                var P1 = new XYZ(0, 0, 0);
+                var P2 = new XYZ(17.0 / 12.0, 11.0 / 12.0, 0);
+                var L1 = Line.CreateBound(P1, P2);
                 Doc.Create.NewDetailCurve(currentView, L1);
 
                 t.Commit();
