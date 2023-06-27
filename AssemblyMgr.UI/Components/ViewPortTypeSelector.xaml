@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="AssemblyMgr.UI.Components.ViewPortTypeSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AssemblyMgr.UI.Components"
+             mc:Ignorable="d"
+             xmlns:data="clr-namespace:AssemblyMgr.UI.ViewModels"
+             xmlns:core="clr-namespace:AssemblyMgr.Core.DataModel;assembly=AssemblyMgr.Core"
+             xmlns:xtn="clr-namespace:AssemblyMgr.UI.Extensions"
+             d:DataContext="{d:DesignInstance Type=data:RectangleVM}"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid>
+        <ListBox Grid.Row="2"
+                 FontSize="14"
+                 FontWeight="Bold"
+                 Margin="4"
+                 Padding="8"
+                 Background="Transparent"
+                 HorizontalContentAlignment="Center"
+                 VerticalAlignment="Center"
+                 ItemsSource="{Binding Source={xtn:Enumeration {x:Type core:ViewPortType}}}"
+                 DisplayMemberPath="Description"
+                 SelectedValue="{Binding Type}"
+                 SelectedValuePath="Value"
+                 BorderThickness="0" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+	  <TargetFramework>net481</TargetFramework>
+	  <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssemblyMgr.Core\AssemblyMgr.Core.csproj" />
+    <ProjectReference Include="..\AssemblyMgr.UI\AssemblyMgr.UI.csproj" />
+  </ItemGroup>
+
+</Project>
