@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="AssemblyMgr.UI.Components.DirectionCtrl_Compass"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AssemblyMgr.UI.Components"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:DirectionCtrl_Compass}"
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <Grid>
+        <Grid Width="80"
+              Height="80"
+              VerticalAlignment="Top"
+              Margin="2">
+            <Border BorderBrush="LightSteelBlue"
+                    Opacity=".5"
+                    BorderThickness="5"
+                    CornerRadius="50"
+                    Margin="10" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="ToggleButton">
+                        <Setter Property="FontSize"
+                                Value="14" />
+                        <Setter Property="FontWeight"
+                                Value="Bold" />
+                        <!--<Setter Property="BorderBrush"
+                                    Value="SlateGray" />
+                            <Setter Property="BorderThickness"
+                                    Value="1" />-->
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                        <Setter Property="VerticalAlignment"
+                                Value="Center" />
+                        <Setter Property="VerticalContentAlignment"
+                                Value="Center" />
+                        <Setter Property="Padding"
+                                Value="0" />
+                        <Setter Property="Width"
+                                Value="25" />
+                        <Setter Property="Height"
+                                Value="25" />
+                        <!--<Setter Property="Padding"
+                                    Value="0" />
+                            <Setter Property="Margin"
+                                    Value="0,-2,0,0" />-->
+                        <!--<Setter Property="Background"
+                                    Value="White" />-->
+                        <Setter Property="BorderBrush"
+                                Value="White" />
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"
+                                        Value="50" />
+                                <Setter Property="BorderThickness"
+                                        Value="0" />
+                            </Style>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="False">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                                <Setter Property="BorderBrush"
+                                        Value="Transparent" />
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <ToggleButton Content="N"
+                              Grid.Row="0"
+                              Grid.Column="1"
+                              IsChecked="{Binding N}"/>
+                <ToggleButton Content="S"
+                              Grid.Row="2"
+                              Grid.Column="1"
+                              FontSize="15"
+                              IsChecked="{Binding S}" />
+                <ToggleButton Content="E"
+                              Grid.Row="1"
+                              Grid.Column="2"
+                              FontSize="16"
+                              IsChecked="{Binding E}" />
+                <ToggleButton Content="W"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              IsChecked="{Binding W}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

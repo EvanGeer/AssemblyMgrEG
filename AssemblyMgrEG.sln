@@ -1,41 +1,86 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrRevit", "AssemblyMgrRevit.csproj", "{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core", "AssemblyMgr.Core\AssemblyMgr.Core.csproj", "{D87B2433-8999-4963-9703-EC41D36ADE72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI", "AssemblyMgr.UI\AssemblyMgr.UI.csproj", "{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrUI", "AssemblyManagerUI\AssemblyMgrUI.csproj", "{1079F884-8455-4762-BB65-B9BED40C16BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI.DemoApp", "AssemblyMgr.UI.DemoApp\AssemblyMgr.UI.DemoApp.csproj", "{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMgrCore", "..\AssemblyManagerCore\AssemblyMgrCore.csproj", "{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Core.Tests", "AssemblyMgr.Core.Tests\AssemblyMgr.Core.Tests.csproj", "{791D988B-F122-4E5C-8793-C38D884B0CA1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.UI.Tests", "AssemblyMgr.UI.Tests\AssemblyMgr.UI.Tests.csproj", "{E523264D-67A1-4400-9E15-9039B0E71BC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Revit.2024", "AssemblyMgr.Revit\AssemblyMgr.Revit.2024.csproj", "{9ACF6C72-D523-4821-878E-D65483021CBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Revit.2023", "AssemblyMgr.Revit\AssemblyMgr.Revit.2023.csproj", "{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMgr.Revit.2022", "AssemblyMgr.Revit\AssemblyMgr.Revit.2022.csproj", "{15232E71-95AE-45A0-9914-FC903E33ACBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Revit", "Revit", "{1F2C8FCA-F27D-4CED-A1D4-13DB8C9B4811}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		2021|Any CPU = 2021|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A3C0404-4A7A-4E8C-80C8-677A304FEF4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32F8EA71-6051-41AE-9AA1-F22AC7758DE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1079F884-8455-4762-BB65-B9BED40C16BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF7F45A1-BFE4-4E65-98E5-4A03BD6DF6B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.2021|Any CPU.ActiveCfg = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.2021|Any CPU.Build.0 = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D87B2433-8999-4963-9703-EC41D36ADE72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.2021|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.2021|Any CPU.Build.0 = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0058CB-0DE2-454D-8EAD-0CEFCF9DBE91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.2021|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.2021|Any CPU.Build.0 = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB9039D-46B5-41FF-A9DE-1DB0C5A2805C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.2021|Any CPU.ActiveCfg = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.2021|Any CPU.Build.0 = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791D988B-F122-4E5C-8793-C38D884B0CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.2021|Any CPU.ActiveCfg = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.2021|Any CPU.Build.0 = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E523264D-67A1-4400-9E15-9039B0E71BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACF6C72-D523-4821-878E-D65483021CBB}.2021|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACF6C72-D523-4821-878E-D65483021CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACF6C72-D523-4821-878E-D65483021CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACF6C72-D523-4821-878E-D65483021CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACF6C72-D523-4821-878E-D65483021CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}.2021|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15232E71-95AE-45A0-9914-FC903E33ACBF}.2021|Any CPU.ActiveCfg = Debug|Any CPU
+		{15232E71-95AE-45A0-9914-FC903E33ACBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15232E71-95AE-45A0-9914-FC903E33ACBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15232E71-95AE-45A0-9914-FC903E33ACBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15232E71-95AE-45A0-9914-FC903E33ACBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9ACF6C72-D523-4821-878E-D65483021CBB} = {1F2C8FCA-F27D-4CED-A1D4-13DB8C9B4811}
+		{3CDABA3B-D9C2-49B8-87A5-483EB0D62C25} = {1F2C8FCA-F27D-4CED-A1D4-13DB8C9B4811}
+		{15232E71-95AE-45A0-9914-FC903E33ACBF} = {1F2C8FCA-F27D-4CED-A1D4-13DB8C9B4811}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15671C7D-E152-45EC-B7E3-5335163BC268}
