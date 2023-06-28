@@ -4,25 +4,20 @@ using Autodesk.Revit.Attributes;
 using AssemblyMgr.UI;
 using AssemblyMgr.UI.ViewModels;
 using AssemblyMgr.Core.DataModel;
-using AssemblyMgr.Core.Serialization;
-using Settings = AssemblyMgr.Core.Serialization.Settings;
+using Settings = AssemblyMgr.Core.Settings.Settings;
 using System.Collections.Generic;
 using AssemblyMgr.Revit.Creation;
 using AssemblyMgr.Revit.DataExtraction;
 using System.Linq;
 using Autodesk.Revit.DB.Plumbing;
+using AssemblyMgr.Core.Settings;
 
 namespace AssemblyMgr.Revit.Core
 {
     /// <summary>
-    /// Main logic for interacting with Revit.Core:
+    /// Main procedural logic for interacting with Revit.Core:
     /// Builds out views and sheets for new or selected Assembly
     /// </summary>
-    /// <remarks>
-    /// My typical approach is to have this IExternalCommand serve as an outline
-    /// to the application. I try to keep this sparse but informative to help
-    /// readability. 
-    /// </remarks>
     [Transaction(TransactionMode.Manual), Regeneration(RegenerationOption.Manual)]
     public class AssemblyMgrCmd : ExternalCommandBase
     {
@@ -34,7 +29,7 @@ namespace AssemblyMgr.Revit.Core
                 t.Start();
 
                 // build the Assembly from the user selection
-                // ToDo: return a collection of assemblies then we can iterate through those when building sheets
+                // ToDo: return a collection of assemblies so then we can iterate through those when building sheets
                 _assemblyInstance = AssemblyInstanceFactory.CreateBySelection(UiDoc);
                 t.Commit();
             }
@@ -78,25 +73,13 @@ namespace AssemblyMgr.Revit.Core
                 t.Start();
 
                 // Annotation Factory Setup
-                var elements = _assemblyInstance.GetMemberIds()
-                    .Select(x => Doc.GetElement(x))
-                    .Where(x => x is FamilyInstance || x is FabricationPart || x is Pipe)
-                    .ToList();
-                var distiller = new ElementDistiller(elements);
+                var elementDistiller = getElementDistiller();
 
                 // Tags
-                var tagFactory = new TagFactory(Doc, distiller, revitAdapter.TagTypeController);
-                var viewsToTag = views
-                    .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasTags)
-                    .ToList();
-                viewsToTag.ForEach(x => tagFactory.CreateTags(x));
+                placeTags(revitAdapter, views, elementDistiller);
 
                 // Dimensions
-                var dimFactory = new DimensionFactory(Doc, distiller);
-                var viewsToDim = views
-                    .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasDimensions)
-                    .ToList();
-                viewsToDim.ForEach(x => dimFactory.CreatePipeDimensions(x.View));
+                placeDimensions(views, elementDistiller);
 
                 t.Commit();
             }
@@ -105,17 +88,52 @@ namespace AssemblyMgr.Revit.Core
             {
                 t.Start();
 
-                var sheetFactory = new SheetFactory(views);
-                var titleBlockId = revitAdapter.GetTitleBlock(spoolSheetDefinition.TitleBlock)?.Id;
-                sheet = sheetFactory.CreateSheet(_assemblyInstance, titleBlockId);
-                sheetFactory.PlaceViews(sheet);
+                sheet = buildSheet(spoolSheetDefinition, revitAdapter, views);
 
                 t.Commit();
             }
-            
+
             UiDoc.ActiveView = sheet;
 
             return Result.Succeeded;
+        }
+
+        private ViewSheet buildSheet(SpoolSheetDefinition spoolSheetDefinition, AssemblyMangerRevitAdapter revitAdapter, List<BuiltViewPort> views)
+        {
+            ViewSheet sheet;
+            var sheetFactory = new SheetFactory(views);
+            var titleBlockId = revitAdapter.GetTitleBlock(spoolSheetDefinition.TitleBlock)?.Id;
+            sheet = sheetFactory.CreateSheet(_assemblyInstance, titleBlockId);
+            sheetFactory.PlaceViews(sheet);
+            return sheet;
+        }
+
+        private void placeDimensions(List<BuiltViewPort> views, ElementDistiller distiller)
+        {
+            var dimFactory = new DimensionFactory(Doc, distiller);
+            var viewsToDim = views
+                .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasDimensions)
+                .ToList();
+            viewsToDim.ForEach(x => dimFactory.CreatePipeDimensions(x.View));
+        }
+
+        private void placeTags(AssemblyMangerRevitAdapter revitAdapter, List<BuiltViewPort> views, ElementDistiller distiller)
+        {
+            var tagFactory = new TagFactory(Doc, distiller, revitAdapter.TagTypeController);
+            var viewsToTag = views
+                .Where(x => x.Definition is ViewPortDefinition_Model def && def.HasTags)
+                .ToList();
+            viewsToTag.ForEach(x => tagFactory.CreateTags(x));
+        }
+
+        private ElementDistiller getElementDistiller()
+        {
+            var elements = _assemblyInstance.GetMemberIds()
+                .Select(x => Doc.GetElement(x))
+                .Where(x => x is FamilyInstance || x is FabricationPart || x is Pipe)
+                .ToList();
+            var distiller = new ElementDistiller(elements);
+            return distiller;
         }
     }
 }

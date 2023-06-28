@@ -1,7 +1,4 @@
-﻿using AssemblyMgr.Core.Geometry;
-using System;
-
-namespace AssemblyMgr.Core.DataModel
+﻿namespace AssemblyMgr.Core.DataModel
 {
     public class ViewPortDefinition_Model : ViewPortDefinition
     {

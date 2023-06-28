@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-namespace AssemblyMgr.Core.Serialization
+namespace AssemblyMgr.Core.Settings
 {
     public static class Settings
     {
@@ -19,7 +19,7 @@ namespace AssemblyMgr.Core.Serialization
         }
 
         public static T DeSerialize<T>(string filename)
-            where T : ISettings 
+            where T : ISettings
             => DeSerialize<T>(new FileInfo(filename));
         public static T DeSerialize<T>(FileInfo file)
             where T : ISettings
@@ -35,7 +35,7 @@ namespace AssemblyMgr.Core.Serialization
                     return deserialized;
                 };
             }
-            catch 
+            catch
             {
                 return default;
             }

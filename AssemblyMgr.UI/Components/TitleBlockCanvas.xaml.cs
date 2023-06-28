@@ -21,34 +21,31 @@ namespace AssemblyMgr.UI.Components
         private void setViewModel(object sender, DependencyPropertyChangedEventArgs e)
         {
             _viewModel = this.DataContext as AssemblyMgrVM;
-            //this.SheetCanvas.ItemsSource = _viewModel.ViewPorts.Rectangles;
         }
 
         private AssemblyMgrVM _viewModel;
         bool isAddingRectangle = false;
         private Point _startPoint;
-        //private Box2d _currentbBox;
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!(e.Source is Image)) return;
             _startPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
             isAddingRectangle = true;
-            //this._viewModel.TempViewPort.
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isAddingRectangle || e.MouseDevice.LeftButton != MouseButtonState.Pressed) return;
             var currentPoint = normalizeToCanvas(e.GetPosition(SheetCanvas));
-            //currentPoint.Y = SheetCanvas.ActualHeight - currentPoint.Y;
+
             var box = new Box2d((_startPoint.X, _startPoint.Y), (currentPoint.X, currentPoint.Y));
             _viewModel.ViewPorts.TempViewPort = (box);
         }
 
         private Point normalizeToCanvas(Point origin)
         {
-            // convert bottom left origin
-            // ToDo: switch back to top left origin
+            // ToDo: switch back to top left origin,
+            // this will fix issues when the canvas is too small
             var bl_origin = new Point(origin.X, SheetCanvas.ActualHeight - origin.Y);
 
             return bl_origin;
@@ -64,8 +61,7 @@ namespace AssemblyMgr.UI.Components
             var deScaled = new Box2d(newRectangle.BottomLeft / _viewModel.ViewPorts.SheetImageScale,
                 newRectangle.TopRight / _viewModel.ViewPorts.SheetImageScale);
             _viewModel.ViewPorts.AddViewPort(deScaled);
-            //_viewModel.ViewPorts.Rectangles.Add(new RectangleVM(deScaled, _viewModel.ViewPorts.SheetImageScale, _viewModel.ViewPort));
-            //_viewModel.ViewPorts.TempViewPort = null;
+
             isAddingRectangle = false;
         }
 

@@ -1,4 +1,4 @@
-﻿using AssemblyMgr.Core.Serialization;
+﻿using AssemblyMgr.Core.Settings;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 

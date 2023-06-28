@@ -1,4 +1,3 @@
-using AssemblyMgr.Core.DataModel;
 using System.Collections.Generic;
 
 public interface IAssemblyMgrController

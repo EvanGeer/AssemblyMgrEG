@@ -2,7 +2,7 @@
 using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Revit.DataExtraction;
 using AssemblyMgr.Revit.Creation;
-using Settings = AssemblyMgr.Core.Serialization.Settings;
+using Settings = AssemblyMgr.Core.Settings.Settings;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;

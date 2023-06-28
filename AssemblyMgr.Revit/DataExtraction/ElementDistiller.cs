@@ -1,13 +1,8 @@
 ﻿using AssemblyMgr.Core.DataModel;
 using AssemblyMgr.Revit.Extensions;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Plumbing;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace AssemblyMgr.Revit.DataExtraction
 {
@@ -82,29 +77,6 @@ namespace AssemblyMgr.Revit.DataExtraction
             return _centerlineRefs[element.Id];
         }
 
-
-        //private List<GeometryObject> getGeometry(Element element)
-        //{
-        //    return
-        //        element is FabricationPart part
-        //        ? getFabPartGeometry(part)
-
-        //        : element is Pipe element
-        //        ? getGeometry(element)
-
-        //        : new List<GeometryObject>();
-        //}
-
-        //private List<GeometryObject> getFabPartGeometry(FabricationPart element)
-        //{
-        //    var geometry = element.get_Geometry(_geometryOptions);
-        //    var allGeo = geometry
-        //        .OfType<GeometryInstance>()
-        //        .SelectMany(x => x.SymbolGeometry)
-        //        .ToList();
-
-        //    return allGeo;
-        //}
 
         private bool isCenterline(GeometryObject geometryElement, Element element)
         {

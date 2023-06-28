@@ -1,5 +1,5 @@
 ﻿using AssemblyMgr.Core.DataModel;
-using AssemblyMgr.Core.Serialization;
+using AssemblyMgr.Core.Settings;
 using AssemblyMgr.UI.DemoApp.Mocks;
 using AssemblyMgr.UI.ViewModels;
 using System;
@@ -16,7 +16,7 @@ namespace AssemblyMgr.UI
         public static DirectoryInfo StorageLocation
             = new DirectoryInfo(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                $@"AssemblyMgr.UI.Demo\titleBlockImageCache\"));
+                $@"AssemblyMgr.UI.Demo\"));
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -31,7 +31,7 @@ namespace AssemblyMgr.UI
             var testVM = new AssemblyMgrVM(testSpoolSheetDef, testController);
 
 
-            AssemblyMgrForm mw = new AssemblyMgrForm(testVM);
+            var mw = new AssemblyMgrForm(testVM);
             mw.ShowDialog();
 
 

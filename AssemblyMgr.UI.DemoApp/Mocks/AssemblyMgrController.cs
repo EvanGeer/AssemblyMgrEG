@@ -1,5 +1,4 @@
-﻿using AssemblyMgr.Core.DataModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,13 +10,11 @@ namespace AssemblyMgr.UI.DemoApp.Mocks
         private static Dictionary<string, FileInfo> _titleBlockImages
             = new Dictionary<string, FileInfo>();
 
-        private const string _defaultPath = @"C:\$\Personal\images\TitleBlock - Sheet - 2562563 - 11x17 Titleblock.png";
-
         public string GetTitleBlockImage(string name)
         {
-            if (string.IsNullOrEmpty(name) || !_titleBlockImages.ContainsKey(name)) return _defaultPath;
+            if (string.IsNullOrEmpty(name) || !_titleBlockImages.ContainsKey(name)) return null;
 
-            return _titleBlockImages[name]?.FullName ?? _defaultPath;
+            return _titleBlockImages[name]?.FullName;
         }
 
         public List<string> TitleBlocks { get; } = getSampleTitleBlocks();
@@ -44,10 +41,8 @@ namespace AssemblyMgr.UI.DemoApp.Mocks
         private static List<string> getSampleTitleBlocks()
         {
             // ToDo: Change this path to a sample data folder in repo
-            var titleBlockImageFolder = @"C:\$\Personal\images";
-            var files = new DirectoryInfo(titleBlockImageFolder)
-                    .GetFiles()
-                    .Where(x => x.Extension.Equals(".png", StringComparison.InvariantCultureIgnoreCase));
+            var titleBlockImageFolder = App.StorageLocation;
+            var files = getFiles(titleBlockImageFolder);
 
             _titleBlockImages = files
                 .Select(x => new
@@ -61,6 +56,29 @@ namespace AssemblyMgr.UI.DemoApp.Mocks
                 );
 
             return _titleBlockImages.Keys.ToList();
+        }
+
+        private static IEnumerable<FileInfo> getFiles(DirectoryInfo titleBlockImageFolder)
+        {
+            var imageDirectory = new DirectoryInfo(titleBlockImageFolder.FullName);
+
+            var files = getImageFilesFromFolder(imageDirectory);
+
+            if (files.Count > 0) return files;
+
+            Properties.Resources.E1_30x42_Horizontal.Save(Path.Combine(imageDirectory.FullName, "E1 30x42 Horizontal.png"));
+            Properties.Resources.B_11_x_17_Horizontal.Save(Path.Combine(imageDirectory.FullName, "B 11x17 Horizontal.png"));
+            Properties.Resources.A0_metric.Save(Path.Combine(imageDirectory.FullName, "A0 Metric.png"));
+
+            return getImageFilesFromFolder(imageDirectory);
+        }
+
+        private static List<FileInfo> getImageFilesFromFolder(DirectoryInfo imageDirectory)
+        {
+            return imageDirectory
+                    .GetFiles()
+                    .Where(x => x.Extension.Equals(".png", StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
         }
 
         public string RefreshImage(string titleBlock)

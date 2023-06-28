@@ -17,6 +17,12 @@ namespace AssemblyMgr.UI.Components
     /// </summary>
     public partial class ViewPortCard : UserControl
     {
+        private RectangleVM _viewModel;
+        private Box2d _resizeBox = null;
+        private Box2dLocation _oppositeCorner = Box2dLocation.None;
+        private Box2dLocation _originalCorner = Box2dLocation.None;
+        private Vector2 _startingMouse = Vector2.Zero;
+
         public ViewPortCard()
         {
             InitializeComponent();
@@ -30,7 +36,7 @@ namespace AssemblyMgr.UI.Components
             //this.Width = _viewModel.PreviewOutline.Width;
         }
 
-        private RectangleVM _viewModel;
+
 
 
 
@@ -55,11 +61,6 @@ namespace AssemblyMgr.UI.Components
             _viewModel.Type = ViewPortType.None;
         }
 
-
-        private Box2d _resizeBox = null;
-        private Box2dLocation _oppositeCorner = Box2dLocation.None;
-        private Box2dLocation _originalCorner = Box2dLocation.None;
-        private Vector2 _startingMouse = Vector2.Zero;
 
         private void BottomLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
